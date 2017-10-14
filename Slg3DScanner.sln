@@ -5,6 +5,7 @@ VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Slg3DScanner", "Slg3DScanner\Slg3DScanner.vcxproj", "{5ED4D0C6-F8B7-4F50-B313-4F5742CAF40C}"
 	ProjectSection(ProjectDependencies) = postProject
+		{894CDD6D-C013-4809-97FA-12373C82213B} = {894CDD6D-C013-4809-97FA-12373C82213B}
 		{C2EE99ED-2C37-4E02-92AC-8DBCB6546B2D} = {C2EE99ED-2C37-4E02-92AC-8DBCB6546B2D}
 	EndProjectSection
 EndProject

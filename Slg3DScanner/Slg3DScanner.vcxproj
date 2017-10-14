@@ -103,7 +103,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>Slg3DScannerPCH.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>Slg3DScannerPCH.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -136,7 +136,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>Slg3DScannerPCH.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>Slg3DScannerPCH.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
