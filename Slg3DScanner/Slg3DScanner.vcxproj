@@ -147,12 +147,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Slg3DScannerApplication.cpp" />
     <ClCompile Include="Slg3DScannerPCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Slg3DScannerApplication.h" />
     <ClInclude Include="Slg3DScannerConfig.h" />
     <ClInclude Include="Slg3DScannerPCH.h" />
   </ItemGroup>
