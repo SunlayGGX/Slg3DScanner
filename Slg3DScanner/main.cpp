@@ -2,6 +2,8 @@
 
 #include "Slg3DScannerConfig.h"
 
+#include "WindowsPop.h"
+
 
 int main(int argc, char** argv) try
 {
@@ -9,6 +11,7 @@ int main(int argc, char** argv) try
 }
 catch(const std::exception& e)
 {
+    Slg3DScanner::WindowsPop::popErrorWindow(e.what());
     return static_cast<int>(Slg3DScanner::ApplicationResult::STANDARD_ERROR);
 }
 catch(...)
