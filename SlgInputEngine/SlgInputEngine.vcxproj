@@ -22,7 +22,7 @@
     <ClCompile Include="Gamepad.cpp" />
     <ClCompile Include="GamepadController.cpp" />
     <ClCompile Include="InputEngine.cpp" />
-    <ClCompile Include="InputEngineInstaller.cpp" />
+    <ClCompile Include="InputEngineMediator.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="KeyboardController.cpp" />
     <ClCompile Include="SlgInputEnginePCH.cpp">

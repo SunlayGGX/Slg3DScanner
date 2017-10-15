@@ -1,8 +1,5 @@
 #include "WindowManager.h"
 
-//#include "GlobalEngine.h"
-//#include "RenderEngine.h"
-
 #include "resource.h"
 
 using namespace Slg3DScanner;
@@ -65,8 +62,21 @@ void WindowManager::initialize()
 
     HINSTANCE dllInstance = GetModuleHandle(nullptr);
 
-    LoadString(dllInstance, IDS_APP_TITLE, szTitle, MAX_TITLE_COUNT);
+    LoadString(dllInstance, IDS_TITLE, szTitle, MAX_TITLE_COUNT);
+    std::wstring validator = szTitle;
+    if(validator.empty())
+    {
+        constexpr const TCHAR defaultTitle[] = L"SlgApplication";
+        memcpy(szTitle, defaultTitle, sizeof(defaultTitle));
+    }
+
     LoadString(dllInstance, IDR_SLG3DSCANNER, m_windowClass, MAX_TITLE_COUNT);
+    validator = m_windowClass;
+    if(validator.empty())
+    {
+        constexpr const TCHAR defaultClass[] = L"SlgApplication";
+        memcpy(m_windowClass, defaultClass, sizeof(defaultClass));
+    }
 
     {
         WNDCLASSEX wcex;
@@ -164,17 +174,24 @@ HACCEL WindowManager::getWindowAccelerationTable() const
 void WindowManager::bindQuitCallback(QuitDelegate callback)
 {
     std::lock_guard<std::mutex> autoLocker{ m_callbackMutex };
-    m_quitCallback = callback;
+    m_quitCallback = ((callback != nullptr) ? callback : []() {});
 }
 
 void WindowManager::bindFinishInitializeCallback(FinishInitializeDelegate callback, bool callNow)
 {
     std::lock_guard<std::mutex> autoLocker{ m_callbackMutex };
-    m_finishInitializeCallback = callback;
-
-    if(callNow && m_windowVisuHandle != nullptr && m_finishInitializeCallback != nullptr)
+    if(callback != nullptr)
     {
-        m_finishInitializeCallback(m_windowVisuHandle);
+        m_finishInitializeCallback = callback;
+
+        if(callNow && m_windowVisuHandle != nullptr)
+        {
+            m_finishInitializeCallback(m_windowVisuHandle);
+        }
+    }
+    else
+    {
+        m_finishInitializeCallback = [](HWND) {};
     }
 }
 

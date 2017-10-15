@@ -9,4 +9,9 @@ namespace Slg3DScanner
         STANDARD_ERROR = 99,
         UNKNOWN_ERROR = 100,
     };
+
+    enum class Config : int
+    {
+        APPLICATION_FPS = 60
+    };
 }

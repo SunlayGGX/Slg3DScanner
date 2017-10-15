@@ -3,6 +3,8 @@
 #include "GamepadController.h"
 #include "KeyboardController.h"
 
+#include "LoggerCommand.h"
+
 using namespace Slg3DScanner;
 
 InputEngine::InputEngine() :
@@ -30,7 +32,7 @@ void InputEngine::update()
 {
     if(!m_gamepadController->update())
     {
-        //TODO: Log
+
     }
 
     m_keyboardController->update();

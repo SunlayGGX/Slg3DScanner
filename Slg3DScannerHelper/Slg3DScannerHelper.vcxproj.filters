@@ -71,9 +71,6 @@
     <ClCompile Include="Slg3DScannerHelperPCH.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="SlgSingleton.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="WindowsPop.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
