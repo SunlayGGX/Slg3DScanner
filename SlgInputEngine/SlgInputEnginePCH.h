@@ -5,7 +5,7 @@
 
 /*Standard*/
 #include <memory>
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 #include <vector>
 #include <mutex>
@@ -14,7 +14,6 @@
 
 
 /*Direct X*/
-#include <DirectXMath.h>
 #include <D3D11.h>
 #include <Xinput.h>
 #include <dinput.h>
