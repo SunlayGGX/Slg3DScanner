@@ -63,6 +63,9 @@
     <ClInclude Include="WindowsPop.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="SlgSingletonGlobalAllocator.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Slg3DScannerHelperPCH.cpp">

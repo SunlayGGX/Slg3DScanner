@@ -30,6 +30,7 @@
     <ClInclude Include="SizeAccumulator.h" />
     <ClInclude Include="Slg3DScannerHelperPCH.h" />
     <ClInclude Include="SlgSingleton.h" />
+    <ClInclude Include="SlgSingletonGlobalAllocator.h" />
     <ClInclude Include="STDForwardDeclaration.h" />
     <ClInclude Include="Uncopyable.h" />
     <ClInclude Include="UniqueDX.h" />
