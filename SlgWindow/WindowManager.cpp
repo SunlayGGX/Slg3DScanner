@@ -15,15 +15,6 @@ namespace Slg3DScanner
         PAINTSTRUCT ps;
         HDC hdc;
 
-#ifndef _DEBUG
-        //Disable the window close button
-        EnableMenuItem(
-            GetSystemMenu(hWnd, FALSE),
-            SC_CLOSE,
-            MF_BYCOMMAND | MF_DISABLED | MF_GRAYED
-        );
-#endif
-
         switch(message)
         {
         case WM_PAINT:
@@ -32,7 +23,7 @@ namespace Slg3DScanner
             break;
 
         case WM_DESTROY:
-            //GlobalEngine::instance().quit();
+            WindowManager::instance().callQuitCallback();
             break;
 
         case WM_COMMAND:
@@ -42,7 +33,7 @@ namespace Slg3DScanner
             switch(wmId)
             {
             case IDCLOSE:
-                //GlobalEngine::instance().quit();
+                WindowManager::instance().callQuitCallback();
                 break;
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
@@ -58,7 +49,9 @@ namespace Slg3DScanner
 }
 
 
-WindowManager::WindowManager()
+WindowManager::WindowManager() :
+    m_quitCallback{ []() {} },
+    m_finishInitializeCallback{ [](HWND) {} }
 {
 }
 
@@ -113,15 +106,9 @@ void WindowManager::initialize()
     {
         m_accelerationTable = LoadAccelerators(dllInstance, MAKEINTRESOURCE(IDR_ACCELERATOR1));
 
-        //RenderEngine::instance().setWindowsHandleInstance(m_windowVisuHandle);
+        this->callFinishInitializeCallback();
 
-        ShowCursor(
-#ifdef _DEBUG
-            true
-#else
-            false
-#endif
-        );
+        ShowCursor(true);
         ShowWindow(m_windowVisuHandle, SW_SHOWNORMAL);
         UpdateWindow(m_windowVisuHandle);
     }
@@ -133,6 +120,7 @@ void WindowManager::initialize()
 
 void WindowManager::destroy()
 {
+    this->unbindCallback();
     DestroyWindow(m_windowVisuHandle);
     PostQuitMessage(0);
 }
@@ -171,4 +159,40 @@ const TCHAR* WindowManager::getWindowTitleName() const
 HACCEL WindowManager::getWindowAccelerationTable() const
 {
     return m_accelerationTable;
+}
+
+void WindowManager::bindQuitCallback(QuitDelegate callback)
+{
+    std::lock_guard<std::mutex> autoLocker{ m_callbackMutex };
+    m_quitCallback = callback;
+}
+
+void WindowManager::bindFinishInitializeCallback(FinishInitializeDelegate callback, bool callNow)
+{
+    std::lock_guard<std::mutex> autoLocker{ m_callbackMutex };
+    m_finishInitializeCallback = callback;
+
+    if(callNow && m_windowVisuHandle != nullptr && m_finishInitializeCallback != nullptr)
+    {
+        m_finishInitializeCallback(m_windowVisuHandle);
+    }
+}
+
+void WindowManager::callQuitCallback()
+{
+    std::lock_guard<std::mutex> autoLocker{ m_callbackMutex };
+    m_quitCallback();
+}
+
+void WindowManager::callFinishInitializeCallback()
+{
+    std::lock_guard<std::mutex> autoLocker{ m_callbackMutex };
+    m_finishInitializeCallback(m_windowVisuHandle);
+}
+
+void WindowManager::unbindCallback()
+{
+    std::lock_guard<std::mutex> autoLocker{ m_callbackMutex };
+    m_quitCallback = []() {};
+    m_finishInitializeCallback = [](HWND) {};
 }

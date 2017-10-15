@@ -23,6 +23,7 @@
 #include "Slg3DScannerHelperPCH.h"
 #include "LoggerPCH.h"
 #include "SlgInputEnginePCH.h"
+#include "SlgWindowPCH.h"
 
 
 //Lib inclusion
@@ -30,8 +31,10 @@
 #   pragma comment(lib, "Slg3DScannerHelper_d.lib")
 #   pragma comment(lib, "SlgLogger_d.lib")
 #   pragma comment(lib, "SlgInputEngine_d.lib")
+#   pragma comment(lib, "SlgWindow_d.lib")
 #else
 #   pragma comment(lib, "Slg3DScannerHelper.lib")
 #   pragma comment(lib, "SlgLogger.lib")
 #   pragma comment(lib, "SlgInputEngine.lib")
+#   pragma comment(lib, "SlgWindow.lib")
 #endif
