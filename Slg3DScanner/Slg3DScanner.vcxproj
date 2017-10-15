@@ -153,12 +153,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SlgEngineCoreBinder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Slg3DScannerApplication.h" />
     <ClInclude Include="Slg3DScannerConfig.h" />
     <ClInclude Include="Slg3DScannerEngineComponentInstaller.h" />
     <ClInclude Include="Slg3DScannerPCH.h" />
+    <ClInclude Include="SlgEngineCoreBinder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
