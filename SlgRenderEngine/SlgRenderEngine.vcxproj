@@ -97,7 +97,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>SlgRenderEnginePCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;$(SLG_DEVEL)/Slg3DScanner/SlgDllManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>SlgRenderEnginePCH.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
@@ -144,7 +144,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>SlgRenderEnginePCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;$(SLG_DEVEL)/Slg3DScanner/SlgDllManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>SlgRenderEnginePCH.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
