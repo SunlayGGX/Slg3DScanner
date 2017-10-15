@@ -30,7 +30,7 @@ namespace Slg3DScanner
         LogMessageArray* m_frontBuffer;
         LogMessageArray* m_backBuffer;
 
-        std::mutex m_loggerMutex;
+        mutable std::mutex m_loggerMutex;
 
         std::chrono::time_point<std::chrono::steady_clock> m_loggingTimeBegin;
         char m_dateTime[DATE_TIME_SIZE_FORMAT];
@@ -61,6 +61,8 @@ namespace Slg3DScanner
         void setLogLevelFilter(LoggerLevel level);
         LoggerLevel getLogLevelFilter() const;
 
+        std::mutex& retrieveLogMutex() const;
+
 
     private:
         void update();
@@ -68,6 +70,11 @@ namespace Slg3DScanner
         std::string parseLogMessageTime(const LogMessage& logMessage) const;
 
         void internalSwapBuffer();
+
+
+    public:
+        static void bindToExistant(LoggerEngine* instance);
+
 
     public:
         inline static LoggerEngine& instance()

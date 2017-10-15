@@ -73,6 +73,19 @@ void LoggerEngine::destroy()
     m_run = false;
 }
 
+void LoggerEngine::bindToExistant(LoggerEngine* instance)
+{
+    if(s_instance != instance)
+    {
+        if(s_instance != nullptr && s_instance->m_run)
+        {
+            s_instance->destroy();
+        }
+
+        s_instance = instance;
+    }
+}
+
 void LoggerEngine::update()
 {
     time_t rawtime;
@@ -104,20 +117,29 @@ void LoggerEngine::update()
 
 void LoggerEngine::logOnFile(std::string message, LoggerLevel level)
 {
-    std::lock_guard<std::mutex> autoLocker{ m_loggerMutex };
-    m_frontBuffer->emplace_back(std::move(message), level, Slg3DScanner::LoggerType::FILE);
+    if(m_run)
+    {
+        std::lock_guard<std::mutex> autoLocker{ this->retrieveLogMutex() };
+        m_frontBuffer->emplace_back(std::move(message), level, Slg3DScanner::LoggerType::FILE);
+    }
 }
 
 void LoggerEngine::logOnVSOutput(std::string message, LoggerLevel level)
 {
-    std::lock_guard<std::mutex> autoLocker{ m_loggerMutex };
-    m_frontBuffer->emplace_back(std::move(message), level, Slg3DScanner::LoggerType::VISUAL_STUDIO_OUTPUT);
+    if(m_run)
+    {
+        std::lock_guard<std::mutex> autoLocker{ this->retrieveLogMutex() };
+        m_frontBuffer->emplace_back(std::move(message), level, Slg3DScanner::LoggerType::VISUAL_STUDIO_OUTPUT);
+    }
 }
 
 void LoggerEngine::logOnConsoleOutput(std::string message, LoggerLevel level)
 {
-    std::lock_guard<std::mutex> autoLocker{ m_loggerMutex };
-    m_frontBuffer->emplace_back(std::move(message), level, Slg3DScanner::LoggerType::CONSOLE);
+    if(m_run)
+    {
+        std::lock_guard<std::mutex> autoLocker{ this->retrieveLogMutex() };
+        m_frontBuffer->emplace_back(std::move(message), level, Slg3DScanner::LoggerType::CONSOLE);
+    }
 }
 
 void LoggerEngine::setLogLevelFilter(LoggerLevel level)
@@ -130,9 +152,14 @@ LoggerLevel LoggerEngine::getLogLevelFilter() const
     return m_logLevelFilter;
 }
 
+std::mutex& LoggerEngine::retrieveLogMutex() const
+{
+    return m_loggerMutex;
+}
+
 void LoggerEngine::internalSwapBuffer()
 {
-    std::lock_guard<std::mutex> autoLocker{ m_loggerMutex };
+    std::lock_guard<std::mutex> autoLocker{ this->retrieveLogMutex() };
     std::swap(m_frontBuffer, m_backBuffer);
 }
 
