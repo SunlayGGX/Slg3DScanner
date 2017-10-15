@@ -19,6 +19,7 @@
 #include <atomic>
 #include <stdexcept>
 #include <cassert>
+#include <cstdint>
 
 
 //Lib inclusion
