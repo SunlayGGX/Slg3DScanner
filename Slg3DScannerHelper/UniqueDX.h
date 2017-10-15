@@ -1,7 +1,7 @@
 #pragma once
 
 #include "DirectXUtilitary.h"
-#include "CRTPUncopyable.h"
+#include "Uncopyable.h"
 #include "CRTPHierarchy.h"
 
 
@@ -9,7 +9,7 @@ namespace Slg3DScanner
 {
     template<class DXPtr>
     class UniqueDX : 
-        private Uncopyable<UniqueDX<DXPtr>>,
+        private Uncopyable,
         private CRTPNotEqual<UniqueDX<DXPtr>>
     {
     private:
