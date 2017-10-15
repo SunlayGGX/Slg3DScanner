@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Slg3DScannerApplication.cpp" />
+    <ClCompile Include="Slg3DScannerEngineComponentInstaller.cpp" />
     <ClCompile Include="Slg3DScannerPCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -156,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="Slg3DScannerApplication.h" />
     <ClInclude Include="Slg3DScannerConfig.h" />
+    <ClInclude Include="Slg3DScannerEngineComponentInstaller.h" />
     <ClInclude Include="Slg3DScannerPCH.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

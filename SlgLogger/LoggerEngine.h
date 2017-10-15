@@ -7,8 +7,14 @@
 
 namespace Slg3DScanner
 {
+    template<class SingletonType> class SlgSingletonAllocatorHelper;
+
     class LoggerEngine
     {
+    private:
+        friend class SlgSingletonAllocatorHelper<LoggerEngine>;
+
+
     public:
         enum
         {
