@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="AutoSchedulerResolutionModifier.h" />
     <ClInclude Include="BindToExistantHelper.h" />
+    <ClInclude Include="Component.h" />
     <ClInclude Include="CRTPHierarchy.h" />
     <ClInclude Include="DirectXUtilitary.h" />
     <ClInclude Include="DllManager.h" />
@@ -42,6 +43,7 @@
     <ClInclude Include="WindowsPop.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="DllManager.cpp" />
     <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="Slg3DScannerHelperPCH.cpp">
