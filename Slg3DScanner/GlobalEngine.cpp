@@ -10,6 +10,10 @@
 
 #include "CameraParameters.h"
 
+#include "DefaultObjectCreator.h"
+
+#include "IMesh.h"
+
 using namespace Slg3DScanner;
 
 
@@ -105,7 +109,30 @@ void GlobalEngine::startRendering(HWND windowVisuHandle)
 
     renderMgr.createCamera(cameraParameter);
 
+    this->arrangeObjectInSceneWorld();
+
     this->internalStartRenderThread();
+}
+
+void GlobalEngine::arrangeObjectInSceneWorld()
+{
+    RenderEngineManager::instance().setMainCameraMatViewManually(
+        DirectX::XMVectorSet(0.f, 0.f, -10.f, 1.f),
+        DirectX::XMVectorSet(0.f, 0.f, 0.f, 1.f),
+        DirectX::XMVectorSet(0.f, 1.f, 0.f, 1.f)
+    );
+
+    auto cube = DefaultObjectCreator::createDefaultCubeMesh();
+    cube->getMeshParams().m_TransposedMatWorld = DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslation(-2.f, 2.f, -2.f)) * cube->getMeshParams().m_TransposedMatWorld;
+
+    auto cube2 = DefaultObjectCreator::createDefaultCubeMesh();
+    cube2->getMeshParams().m_TransposedMatWorld = DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslation(-2.f, -2.f, -2.f)) * cube2->getMeshParams().m_TransposedMatWorld;
+
+    auto cube3 = DefaultObjectCreator::createDefaultCubeMesh();
+    cube3->getMeshParams().m_TransposedMatWorld = DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslation(2.f, 2.f, -2.f)) * cube3->getMeshParams().m_TransposedMatWorld;
+
+    auto cube4 = DefaultObjectCreator::createDefaultCubeMesh();
+    cube4->getMeshParams().m_TransposedMatWorld = DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslation(2.f, -2.f, -2.f)) * cube4->getMeshParams().m_TransposedMatWorld;
 }
 
 void GlobalEngine::internalStartRenderThread() const
