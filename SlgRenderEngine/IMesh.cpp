@@ -24,7 +24,7 @@ IMesh::~IMesh()
     );
 }
 
-const PreInitializeCBufferParameterFromMeshInstance& IMesh::getMeshParams() const noexcept
+PreInitializeCBufferParameterFromMeshInstance& IMesh::getMeshParams() noexcept
 {
     return m_meshParams;
 }
@@ -41,7 +41,22 @@ void IMesh::addMaterial(MaterialInitializer&& materialInit)
     m_materialArray.emplace_back(std::move(materialInit));
 }
 
+void IMesh::registerComponent()
+{
+
+}
+
+void IMesh::unregisterComponent()
+{
+
+}
+
 void IMesh::destroy()
+{
+
+}
+
+void IMesh::update(float deltaTime)
 {
 
 }

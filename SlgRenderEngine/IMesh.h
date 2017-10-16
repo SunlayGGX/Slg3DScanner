@@ -67,14 +67,21 @@ namespace Slg3DScanner
 
 
     public:
-        const PreInitializeCBufferParameterFromMeshInstance& getMeshParams() const noexcept;
+        PreInitializeCBufferParameterFromMeshInstance& getMeshParams() noexcept;
 
         virtual void addMaterial(const MaterialInitializer& materialInit);
         virtual void addMaterial(MaterialInitializer&& materialInit);
 
 
+    protected:
+        virtual void registerComponent() override;
+        virtual void unregisterComponent() override;
+
+
     public:
-        virtual void destroy();
+        virtual void update(float deltaTime) override;
+
+        virtual void destroy() override;
 
         virtual void draw(ID3D11DeviceContext* immediateContext, const PreInitializeCBufferParameterFromRendererSceneManager& preInitShadingCBuffer) = 0;
     };
