@@ -23,10 +23,10 @@ namespace Slg3DScanner
     class Material
     {
     private:
-        std::shared_ptr<class VertexShader> m_VertexShader;
-        std::shared_ptr<class PixelShader> m_PixelShader;
+        std::shared_ptr<class VertexShader> m_vertexShader;
+        std::shared_ptr<class PixelShader> m_pixelShader;
 
-        ID3D11Buffer* m_ConstantBuffer;
+        ID3D11Buffer* m_constantBuffer;
 
 
     public:
