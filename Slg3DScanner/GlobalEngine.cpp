@@ -3,6 +3,7 @@
 #include "InputEngineMediator.h"
 #include "SlgWindowMediator.h"
 #include "LoggerEngine.h"
+#include "TimeManager.h"
 
 #include "Slg3DScannerConfig.h"
 
@@ -31,12 +32,15 @@ void GlobalEngine::initialize()
     m_run = true;
 
     this->startInputAndWindowsThread();
+
+    TimeManager::instance().initialize();
 }
 
 void GlobalEngine::destroy()
 {
     this->quit();
 
+    TimeManager::instance().destroy();
     //RenderEngine::instance().destroy();
 }
 
@@ -77,9 +81,9 @@ void GlobalEngine::startInputAndWindowsThread() const
 
         while(run)
         {
-            std::this_thread::sleep_for(std::chrono::milliseconds{ 1000 / static_cast<int>(Slg3DScanner::Config::APPLICATION_FPS)/*MoonRPG::WINDOWS_THREAD_UPDATE_RATE_IN_MILLISECONDS*/ });
             inputMgrMediator.update();
             windowMgrMediator.update();
+            TimeManager::instance().waitEndOfFrame();
         }
     }}.detach();
 }
