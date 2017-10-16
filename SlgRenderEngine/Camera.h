@@ -5,19 +5,12 @@
 
 #include "Component.h"
 
+#include "CameraParameters.h"
+
 namespace Slg3DScanner
 {
     class RenderEngineManager;
     class RenderSceneManager;
-
-    struct CameraParameters
-    {
-        float fovYAngle;
-        float aspectRatio;
-        float nearPlane;
-        float farPlane;
-    };
-
 
     class Camera : 
         public Component,

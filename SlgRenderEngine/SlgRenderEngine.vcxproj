@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraParameters.h" />
     <ClInclude Include="DXDispositif.h" />
     <ClInclude Include="DXHardwareDeviceInfo.h" />
     <ClInclude Include="GlobalDef.h" />
@@ -27,6 +28,7 @@
     <ClInclude Include="IShader.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="PixelShader.h" />
+    <ClInclude Include="RenderConfig.h" />
     <ClInclude Include="RenderEngineManager.h" />
     <ClInclude Include="RenderSceneManager.h" />
     <ClInclude Include="ShaderConstantBuffer.h" />
