@@ -11,6 +11,7 @@
 #include <mutex>
 #include <thread>
 #include <atomic>
+#include <cassert>
 
 
 /*Direct X*/
@@ -19,7 +20,12 @@
 #include <dinput.h>
 
 
+//My own
+#include "Slg3DScannerHelperPCH.h"
+#include "LoggerPCH.h"
 
+
+//lib inclusion
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "d3d11.lib")

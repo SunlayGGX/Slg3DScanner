@@ -12,6 +12,11 @@
 #include <cassert>
 
 
+//My own
+#include "Slg3DScannerHelperPCH.h"
+#include "LoggerPCH.h"
+
+
 //Lib inclusion
 #ifdef _DEBUG
 #   pragma comment(lib, "Slg3DScannerHelper_d.lib")
