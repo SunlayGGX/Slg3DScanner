@@ -6,7 +6,7 @@ using namespace Slg3DScanner;
 
 
 Camera::Camera(const CameraParameters& parameters) :
-    m_Position{ 0.f, 0.f, 0.f, 0.f },
+    m_Position{ 0.f, 0.f, 0.f, 1.f },
     m_MatView{ DirectX::XMMatrixIdentity() },
     m_isRegistered{ false }
 {
@@ -29,6 +29,11 @@ void Camera::setMatView(const DirectX::XMMATRIX& matView)
     m_MatView = matView;
 
     this->updateTransposedMatViewProj();
+}
+
+void Camera::setPosition(const DirectX::XMVECTOR& newPosition)
+{
+    m_Position = newPosition;
 }
 
 void Camera::updateTransposedMatViewProj()

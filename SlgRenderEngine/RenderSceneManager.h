@@ -39,6 +39,7 @@ namespace Slg3DScanner
 
         DirectX::XMVECTOR getMainCameraPosition() const;
         DirectX::XMMATRIX getMainCameraTransposedMatViewProj() const;
+        void setMainCameraMatViewManually(const DirectX::XMVECTOR& eyePosition, const DirectX::XMVECTOR& focusDirection, const DirectX::XMVECTOR& upDirection);
 
 
     private:
@@ -63,9 +64,9 @@ namespace Slg3DScanner
 
             std::size_t indexFound = this->internalFindIndexOfMeshByName(initializer.name);
 
-            if(indexFound == m_MeshArray.size()) //not found, we create it
+            if(indexFound == m_meshArray.size()) //not found, we create it
             {
-                m_MeshArray.emplace_back(std::make_shared<MeshType>(initializer));
+                m_meshArray.emplace_back(std::make_shared<MeshType>(initializer));
             }
 
             return m_meshArray[indexFound];

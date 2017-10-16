@@ -50,6 +50,7 @@ namespace Slg3DScanner
 
         void setCameraParameters(const CameraParameters& parameter);
         void setMatView(const DirectX::XMMATRIX& matView);
+        void setPosition(const DirectX::XMVECTOR& newPosition);
 
         virtual bool isRegistered() const override;
 

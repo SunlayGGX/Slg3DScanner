@@ -57,3 +57,8 @@ void RenderEngineManager::createCamera(const CameraParameters& cameraParameters)
 {
     RenderSceneManager::instance().createCamera(cameraParameters);
 }
+
+void RenderEngineManager::setMainCameraMatViewManually(const DirectX::XMVECTOR& eyePosition, const DirectX::XMVECTOR& focusDirection, const DirectX::XMVECTOR& upDirection)
+{
+    RenderSceneManager::instance().setMainCameraMatViewManually(eyePosition, focusDirection, upDirection);
+}

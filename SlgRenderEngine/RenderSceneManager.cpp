@@ -21,6 +21,8 @@ RenderSceneManager::RenderSceneManager()
 
 RenderSceneManager::~RenderSceneManager()
 {
+    //prevent crash when destroying RenderSceneManager before exiting render thread
+    std::lock_guard<std::mutex> autoLocker{ m_mutex };
 }
 
 void RenderSceneManager::initialize()
@@ -129,6 +131,20 @@ DirectX::XMMATRIX RenderSceneManager::getMainCameraTransposedMatViewProj() const
     }
 
     return DirectX::XMMatrixIdentity();
+}
+
+void RenderSceneManager::setMainCameraMatViewManually(const DirectX::XMVECTOR& eyePosition, const DirectX::XMVECTOR& focusDirection, const DirectX::XMVECTOR& upDirection)
+{
+    std::lock_guard<std::mutex> autoLocker{ m_mutex };
+    if(m_currentPlayerCamera)
+    {
+        m_currentPlayerCamera->setPosition(eyePosition);
+        m_currentPlayerCamera->setMatView(DirectX::XMMatrixLookAtRH(
+            eyePosition,
+            focusDirection,
+            upDirection
+        ));
+    }
 }
 
 IMeshRef RenderSceneManager::findMeshByName(const std::string& meshName) const
