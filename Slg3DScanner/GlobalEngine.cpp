@@ -8,6 +8,8 @@
 
 #include "Slg3DScannerConfig.h"
 
+#include "CameraParameters.h"
+
 using namespace Slg3DScanner;
 
 
@@ -91,8 +93,17 @@ void GlobalEngine::startInputAndWindowsThread() const
 
 void GlobalEngine::startRendering(HWND windowVisuHandle)
 {
-    RenderEngineManager::instance().initializeDevice(windowVisuHandle);
-    RenderEngineManager::instance().initialize();
+    RenderEngineManager& renderMgr = RenderEngineManager::instance();
+
+    renderMgr.initializeDevice(windowVisuHandle);
+    renderMgr.initialize();
+    
+    auto& dxDevice = renderMgr.getDevice();
+
+    CameraParameters cameraParameter;
+    cameraParameter.aspectRatio = dxDevice.getScreenWidth() / dxDevice.getScreenHeight();
+
+    renderMgr.createCamera(cameraParameter);
 
     this->internalStartRenderThread();
 }
