@@ -15,48 +15,51 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Gamepad.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Slg3DScannerPCH.cpp">
+    <ClCompile Include="GamepadController.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Slg3DScannerApplication.cpp">
+    <ClCompile Include="InputEngine.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Slg3DScannerEngineComponentInstaller.cpp">
+    <ClCompile Include="Keyboard.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="SlgEngineCoreBinder.cpp">
+    <ClCompile Include="KeyboardController.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="GlobalEngine.cpp">
+    <ClCompile Include="SlgInputEnginePCH.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="DefaultObjectCreator.cpp">
+    <ClCompile Include="InputEngineMediator.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Slg3DScannerPCH.h">
+    <ClInclude Include="Gamepad.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Slg3DScannerConfig.h">
+    <ClInclude Include="GamepadController.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Slg3DScannerApplication.h">
+    <ClInclude Include="InputEngine.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Slg3DScannerEngineComponentInstaller.h">
+    <ClInclude Include="Keyboard.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="SlgEngineCoreBinder.h">
+    <ClInclude Include="KeyboardController.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalEngine.h">
+    <ClInclude Include="KeyboardElement.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="DefaultObjectCreator.h">
+    <ClInclude Include="SlgInputEnginePCH.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="InputEngineMediator.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

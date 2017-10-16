@@ -15,48 +15,45 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Logger.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Slg3DScannerPCH.cpp">
+    <ClCompile Include="LoggerCommand.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Slg3DScannerApplication.cpp">
+    <ClCompile Include="LoggerEngine.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Slg3DScannerEngineComponentInstaller.cpp">
+    <ClCompile Include="LoggerPCH.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="SlgEngineCoreBinder.cpp">
+    <ClCompile Include="LogMessage.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="GlobalEngine.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="DefaultObjectCreator.cpp">
+    <ClCompile Include="LoggerBind.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Slg3DScannerPCH.h">
+    <ClInclude Include="Logger.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Slg3DScannerConfig.h">
+    <ClInclude Include="LoggerCommand.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Slg3DScannerApplication.h">
+    <ClInclude Include="LoggerEngine.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Slg3DScannerEngineComponentInstaller.h">
+    <ClInclude Include="LoggerEnum.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="SlgEngineCoreBinder.h">
+    <ClInclude Include="LoggerPCH.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalEngine.h">
+    <ClInclude Include="LogMessage.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="DefaultObjectCreator.h">
+    <ClInclude Include="LoggerBind.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
