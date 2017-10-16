@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BindToExistantHelper.h" />
     <ClInclude Include="CRTPHierarchy.h" />
     <ClInclude Include="DirectXUtilitary.h" />
     <ClInclude Include="DllManager.h" />
