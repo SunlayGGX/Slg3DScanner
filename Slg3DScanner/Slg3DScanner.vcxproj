@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClCompile Include="GlobalEngine.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="DefaultObjectCreator.cpp" />
     <ClCompile Include="Slg3DScannerApplication.cpp" />
     <ClCompile Include="Slg3DScannerEngineComponentInstaller.cpp" />
     <ClCompile Include="Slg3DScannerPCH.cpp">
@@ -158,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GlobalEngine.h" />
+    <ClInclude Include="DefaultObjectCreator.h" />
     <ClInclude Include="Slg3DScannerApplication.h" />
     <ClInclude Include="Slg3DScannerConfig.h" />
     <ClInclude Include="Slg3DScannerEngineComponentInstaller.h" />
