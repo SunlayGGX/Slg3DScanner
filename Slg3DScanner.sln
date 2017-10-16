@@ -34,6 +34,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SlgRenderEngine", "SlgRende
 		{C2EE99ED-2C37-4E02-92AC-8DBCB6546B2D} = {C2EE99ED-2C37-4E02-92AC-8DBCB6546B2D}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SlgCustomExtension", "SlgCustomExtension\SlgCustomExtension.vcxproj", "{3DDB6701-CAAE-4245-AE16-FA6821A22A9B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{894CDD6D-C013-4809-97FA-12373C82213B} = {894CDD6D-C013-4809-97FA-12373C82213B}
+		{C2EE99ED-2C37-4E02-92AC-8DBCB6546B2D} = {C2EE99ED-2C37-4E02-92AC-8DBCB6546B2D}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -64,6 +70,10 @@ Global
 		{EDAA6F60-CEF6-4BFA-9433-D6F0ED8402E1}.Debug|x64.Build.0 = Debug|x64
 		{EDAA6F60-CEF6-4BFA-9433-D6F0ED8402E1}.Release|x64.ActiveCfg = Release|x64
 		{EDAA6F60-CEF6-4BFA-9433-D6F0ED8402E1}.Release|x64.Build.0 = Release|x64
+		{3DDB6701-CAAE-4245-AE16-FA6821A22A9B}.Debug|x64.ActiveCfg = Debug|x64
+		{3DDB6701-CAAE-4245-AE16-FA6821A22A9B}.Debug|x64.Build.0 = Debug|x64
+		{3DDB6701-CAAE-4245-AE16-FA6821A22A9B}.Release|x64.ActiveCfg = Release|x64
+		{3DDB6701-CAAE-4245-AE16-FA6821A22A9B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
