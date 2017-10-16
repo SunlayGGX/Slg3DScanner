@@ -66,6 +66,9 @@
     <ClInclude Include="Scheduler.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>Fichiers d%27en-tête\ManagerHelper</Filter>
+    </ClInclude>
     <ClInclude Include="DllManager.h">
       <Filter>Fichiers d%27en-tête\ManagerHelper</Filter>
     </ClInclude>
@@ -82,6 +85,9 @@
     </ClCompile>
     <ClCompile Include="Scheduler.cpp">
       <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>Fichiers sources\ManagerHelper</Filter>
     </ClCompile>
     <ClCompile Include="DllManager.cpp">
       <Filter>Fichiers sources\ManagerHelper</Filter>
