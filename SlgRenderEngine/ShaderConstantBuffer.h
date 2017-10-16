@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RenderConfig.h"
 
 namespace Slg3DScanner
 {
@@ -30,17 +31,17 @@ namespace Slg3DScanner
         DirectX::XMVECTOR m_CameraPos;
         
         DirectX::XMVECTOR m_LightVect;
-        DirectX::XMVECTOR m_LightAmbient;
-        DirectX::XMVECTOR m_LightDiffuse;
-        DirectX::XMVECTOR m_LightSpecular;
+        DirectX::XMVECTOR m_LightAmbient = DefaultRenderCoefficientParameters::DEFAULT_LIGHT_AMBIENT_COEFFICIENT;
+        DirectX::XMVECTOR m_LightDiffuse = DefaultRenderCoefficientParameters::DEFAULT_LIGHT_DIFFUSE_COEFFICIENT;
+        DirectX::XMVECTOR m_LightSpecular = DefaultRenderCoefficientParameters::DEFAULT_LIGHT_SPECULAR_COEFFICIENT;
     };
 
     struct PreInitializeCBufferParameterFromMeshInstance
     {
-        DirectX::XMMATRIX m_TransposedMatWorld;
-        DirectX::XMVECTOR m_DiffuseAmbient;
-        DirectX::XMVECTOR m_DiffuseDiffuse;
-        DirectX::XMVECTOR m_DiffuseSpecular;
+        DirectX::XMMATRIX m_TransposedMatWorld = DefaultRenderCoefficientParameters::DEFAULT_MAT_WORLD_AT_CREATION;
+        DirectX::XMVECTOR m_DiffuseAmbient = DefaultRenderCoefficientParameters::DEFAULT_MESH_AMBIENT_COEFFICIENT;
+        DirectX::XMVECTOR m_DiffuseDiffuse = DefaultRenderCoefficientParameters::DEFAULT_MESH_DIFFUSE_COEFFICIENT;
+        DirectX::XMVECTOR m_DiffuseSpecular = DefaultRenderCoefficientParameters::DEFAULT_MESH_SPECULAR_COEFFICIENT;
     };
 
     struct ForwardShadingConstantBufferParameter
@@ -50,9 +51,9 @@ namespace Slg3DScanner
         DirectX::XMVECTOR m_CameraPos;
 
         DirectX::XMVECTOR m_LightVect;
-        DirectX::XMVECTOR m_LightAmbient;
-        DirectX::XMVECTOR m_LightDiffuse;
-        DirectX::XMVECTOR m_LightSpecular;
+        DirectX::XMVECTOR m_LightAmbient = DefaultRenderCoefficientParameters::DEFAULT_LIGHT_AMBIENT_COEFFICIENT;
+        DirectX::XMVECTOR m_LightDiffuse = DefaultRenderCoefficientParameters::DEFAULT_LIGHT_DIFFUSE_COEFFICIENT;
+        DirectX::XMVECTOR m_LightSpecular = DefaultRenderCoefficientParameters::DEFAULT_LIGHT_SPECULAR_COEFFICIENT;
 
         PreInitializeCBufferParameterFromMeshInstance m_paramsComingFromMeshInstance;
     };
