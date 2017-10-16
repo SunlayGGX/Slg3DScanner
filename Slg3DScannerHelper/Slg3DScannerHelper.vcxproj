@@ -28,6 +28,7 @@
     <ClInclude Include="LookPtr.h" />
     <ClInclude Include="NamedObject.h" />
     <ClInclude Include="NonInstanciable.h" />
+    <ClInclude Include="Scheduler.h" />
     <ClInclude Include="SizeAccumulator.h" />
     <ClInclude Include="Slg3DScannerHelperPCH.h" />
     <ClInclude Include="SlgSingleton.h" />
@@ -40,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DllManager.cpp" />
+    <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="Slg3DScannerHelperPCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
