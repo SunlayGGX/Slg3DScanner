@@ -6,6 +6,9 @@
 #include "InputEngine.h"
 #include "WindowManager.h"
 #include "GlobalEngine.h"
+#include "RenderEngineManager.h"
+#include "RenderSceneManager.h"
+#include "ShaderManager.h"
 
 #include "SlgEngineCoreBinder.h"
 
@@ -19,6 +22,9 @@ namespace Slg3DScanner
         DllManager,
         InputEngine,
         WindowManager,
+        RenderEngineManager,
+        RenderSceneManager,
+        ShaderManager,
 
         GlobalEngine,
         SlgEngineCoreBinder //must remain the last. It's role is to bind everyone together.
