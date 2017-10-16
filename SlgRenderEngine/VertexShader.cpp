@@ -1,5 +1,7 @@
 #include "VertexShader.h"
 
+#include "ShaderDebugDefineMacro.h"
+
 #include "DirectXUtilitary.h"
 #include "UniqueDX.h"
 
@@ -34,22 +36,46 @@ void VertexShader::compile(CompileDelegate compileDelegate, const D3D11_INPUT_EL
 {
     UniqueDX<ID3DBlob> vsBlob;
     
-    DXTry(compileDelegate(
-        this->getName().c_str(),
-        m_Macro,
-        D3D_COMPILE_STANDARD_FILE_INCLUDE,
-        this->getFuncName().c_str(),
-        "vs_4_1",
-#ifdef _DEBUG
-        D3DCOMPILE_DEBUG | D3DCOMPILE_ENABLE_STRICTNESS
+#ifndef SHADER_COMPILE_DEBUG_DETAIL
+    DXTry(
 #else
-        D3DCOMPILE_OPTIMIZATION_LEVEL3 | D3DCOMPILE_SKIP_VALIDATION
+    UniqueDX<ID3DBlob> detailErrorBlob;
+
+    auto result = 
 #endif
-        ,
-        0,
-        &vsBlob.get(),
+        compileDelegate(
+            this->getName().c_str(),
+            m_Macro,
+            D3D_COMPILE_STANDARD_FILE_INCLUDE,
+            this->getFuncName().c_str(),
+            "vs_4_1",
+#ifdef _DEBUG
+            D3DCOMPILE_DEBUG | D3DCOMPILE_ENABLE_STRICTNESS
+#else
+            D3DCOMPILE_OPTIMIZATION_LEVEL3 | D3DCOMPILE_SKIP_VALIDATION
+#endif
+            ,
+            0,
+            &vsBlob.get(),
+#ifdef SHADER_COMPILE_DEBUG_DETAIL
+            &detailErrorBlob.get()
+        );
+#else
         nullptr
     ));
+#endif
+    
+#ifdef SHADER_COMPILE_DEBUG_DETAIL
+    if(!FAILED(result))
+    {
+        LoggerCommand::logOnConsole("Shader compilation OK", Slg3DScanner::LoggerLevel::LEVEL_DEBUG);
+    }
+    else
+    {
+        LoggerCommand::logOnConsole(std::string{ static_cast<LPCSTR>(detailErrorBlob.get()->GetBufferPointer()) }, Slg3DScanner::LoggerLevel::LEVEL_ERROR);
+        return;
+    }
+#endif
 
     ID3D11Device* dxDevice = RenderEngineManager::instance().getDevice().getD3DDevice();
 

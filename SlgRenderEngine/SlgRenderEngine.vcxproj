@@ -33,6 +33,7 @@
     <ClInclude Include="RenderEngineManager.h" />
     <ClInclude Include="RenderSceneManager.h" />
     <ClInclude Include="ShaderConstantBuffer.h" />
+    <ClInclude Include="ShaderDebugDefineMacro.h" />
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="SlgRenderEnginePCH.h" />
     <ClInclude Include="Vertex.h" />
