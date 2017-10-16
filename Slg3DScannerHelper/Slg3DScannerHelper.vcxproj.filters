@@ -87,6 +87,9 @@
     <ClInclude Include="BindToExistantHelper.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="NameManager.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Slg3DScannerHelperPCH.cpp">
@@ -106,6 +109,9 @@
     </ClCompile>
     <ClCompile Include="DllManager.cpp">
       <Filter>Fichiers sources\ManagerHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="NameManager.cpp">
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

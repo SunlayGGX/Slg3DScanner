@@ -1,6 +1,7 @@
 #include "SlgSingletonGlobalAllocator.h"
 
 #include "LoggerEngine.h"
+#include "NameManager.h"
 #include "DllManager.h"
 #include "TimeManager.h"
 #include "InputEngine.h"
@@ -18,6 +19,7 @@ namespace Slg3DScanner
 {
     using SlgSingletonContainerAllocatorAlias = SlgSingletonGlobalAllocator<
         LoggerEngine,
+        NameManager,
         TimeManager,
         DllManager,
         InputEngine,
