@@ -3,6 +3,7 @@
 #include "InputEngineMediator.h"
 #include "SlgWindowMediator.h"
 #include "LoggerEngine.h"
+#include "RenderEngineManager.h"
 #include "TimeManager.h"
 
 #include "Slg3DScannerConfig.h"
@@ -85,6 +86,31 @@ void GlobalEngine::startInputAndWindowsThread() const
             windowMgrMediator.update();
             TimeManager::instance().waitEndOfFrame();
         }
+    }}.detach();
+}
+
+void GlobalEngine::startRendering(HWND windowVisuHandle)
+{
+    RenderEngineManager::instance().initializeDevice(windowVisuHandle);
+    RenderEngineManager::instance().initialize();
+
+    this->internalStartRenderThread();
+}
+
+void GlobalEngine::internalStartRenderThread() const
+{
+    std::thread
+    {
+        [&run = this->m_run]()
+    {
+        RenderEngineManager& renderMgr = RenderEngineManager::instance();
+        while(run)
+        {
+            renderMgr.update();
+            TimeManager::instance().waitEndOfFrame();
+        }
+
+        renderMgr.destroy();
     }}.detach();
 }
 

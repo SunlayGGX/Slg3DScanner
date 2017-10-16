@@ -25,9 +25,12 @@ namespace Slg3DScanner
 
         bool isFullyInitialized() const;
 
+        void startRendering(HWND windowVisuHandle);
+
 
     private:
         void startInputAndWindowsThread() const;
+        void internalStartRenderThread() const;
     };
 }
 
