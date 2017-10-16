@@ -44,6 +44,7 @@ namespace Slg3DScanner
 private:                                                    \
     friend SlgSingleton<Type>;                              \
     friend SlgSingletonAllocatorHelper<Type>;               \
+    friend struct BindToExistantSlgSingletonHelper;         \
 private:                                                    \
     Type();                                                 \
     ~Type();                                                \
