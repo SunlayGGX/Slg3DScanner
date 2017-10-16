@@ -15,7 +15,7 @@ namespace Slg3DScanner
 
         WINDOWS_THREAD_UPDATE_RATE_IN_MILLISECONDS = 250,
 
-        //IS_FULL_SCREEN = false
+        WINDOWS_CONFIG_MODALITY = static_cast<BOOL>(Slg3DScanner::WindowsMode::WINDOWED)
     };
 
     enum class WantedResolution
