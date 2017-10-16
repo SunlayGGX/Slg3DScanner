@@ -27,9 +27,6 @@
     <ClInclude Include="FacetteAttribute.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalDef.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="LookPtr.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>

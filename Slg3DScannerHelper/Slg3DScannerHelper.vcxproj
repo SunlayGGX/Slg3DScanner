@@ -24,7 +24,6 @@
     <ClInclude Include="DllManager.h" />
     <ClInclude Include="EngineConfig.h" />
     <ClInclude Include="FacetteAttribute.h" />
-    <ClInclude Include="GlobalDef.h" />
     <ClInclude Include="LookPtr.h" />
     <ClInclude Include="NamedObject.h" />
     <ClInclude Include="NonInstanciable.h" />
