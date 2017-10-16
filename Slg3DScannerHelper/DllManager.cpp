@@ -201,9 +201,6 @@ namespace Slg3DScanner
 using namespace Slg3DScanner;
 
 
-DllManager* DllManager::s_instance = nullptr;
-
-
 DllManager::DllManager() :
     m_dllMgrPImpl{ std::make_unique<DllManagerPImpl>() }
 {
@@ -252,22 +249,4 @@ void DllManager::unloadSlgEngineDll(const std::string& dllName)
 #else
     m_dllMgrPImpl->unloadDll(dllName + ".dll");
 #endif
-}
-
-DllManager& DllManager::instance()
-{
-    return *s_instance;
-}
-
-void DllManager::bindToExistant(DllManager* instance)
-{
-    if(s_instance != instance)
-    {
-        if(s_instance != nullptr)
-        {
-            s_instance->destroy();
-        }
-
-        s_instance = instance;
-    }
 }

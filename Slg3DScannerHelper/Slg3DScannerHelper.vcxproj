@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="CRTPHierarchy.h" />
     <ClInclude Include="DirectXUtilitary.h" />
+    <ClInclude Include="DllManager.h" />
     <ClInclude Include="EngineConfig.h" />
     <ClInclude Include="FacetteAttribute.h" />
     <ClInclude Include="GlobalDef.h" />
@@ -38,6 +39,7 @@
     <ClInclude Include="WindowsPop.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DllManager.cpp" />
     <ClCompile Include="Slg3DScannerHelperPCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>

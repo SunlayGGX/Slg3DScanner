@@ -1,17 +1,14 @@
 #pragma once
 
+#include "SlgSingleton.h"
+
 namespace Slg3DScanner
 {
     template<class Singleton> class SlgSingletonAllocatorHelper;
 
-    class DllManager
+    class DllManager : private Slg3DScanner::SlgSingleton<DllManager>
     {
-    private:
-        friend class SlgSingletonAllocatorHelper<DllManager>;
-
-
-    private:
-        static DllManager* s_instance;
+        SLGENGINE_GENERATE_CODE_FROM_SlgSingleton(DllManager);
 
 
     private:
@@ -19,20 +16,9 @@ namespace Slg3DScanner
         std::mutex m_mutex;
 
 
-    private:
-        DllManager();
-        ~DllManager();
-
-
     public:
-        static DllManager& instance();
-
-        static void bindToExistant(DllManager* instance);
-
-
-    public:
-        void initialize();
-        void destroy();
+        virtual void initialize() override;
+        virtual void destroy() override;
 
         //Load an external Dll. External means not a SlgEngine dll. Specify the exact name of what you want to load
         HMODULE loadExternDll(const std::string& dllName);

@@ -66,6 +66,9 @@
     <ClInclude Include="SlgSingletonGlobalAllocator.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="DllManager.h">
+      <Filter>Fichiers d%27en-tête\ManagerHelper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Slg3DScannerHelperPCH.cpp">
@@ -73,6 +76,9 @@
     </ClCompile>
     <ClCompile Include="WindowsPop.cpp">
       <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="DllManager.cpp">
+      <Filter>Fichiers sources\ManagerHelper</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
