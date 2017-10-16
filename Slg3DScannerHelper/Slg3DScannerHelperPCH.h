@@ -13,3 +13,12 @@
 #include <stdexcept>
 #include <cassert>
 #include <cstddef>
+#include <thread>
+#include <mutex>
+#include <chrono>
+#include <atomic>
+#include <timeapi.h>
+
+
+//Lib inclusion
+#pragma comment(lib, "Winmm.lib")
