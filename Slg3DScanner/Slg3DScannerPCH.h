@@ -25,6 +25,7 @@
 #include "SlgInputEnginePCH.h"
 #include "SlgWindowPCH.h"
 #include "SlgRenderEnginePCH.h"
+#include "SlgRessourcePCH.h"
 
 
 //Lib inclusion
@@ -34,10 +35,12 @@
 #   pragma comment(lib, "SlgInputEngine_d.lib")
 #   pragma comment(lib, "SlgWindow_d.lib")
 #   pragma comment(lib, "SlgRenderEngine_d.lib")
+#   pragma comment(lib, "SlgRessource_d.lib")
 #else
 #   pragma comment(lib, "Slg3DScannerHelper.lib")
 #   pragma comment(lib, "SlgLogger.lib")
 #   pragma comment(lib, "SlgInputEngine.lib")
 #   pragma comment(lib, "SlgWindow.lib")
 #   pragma comment(lib, "SlgRenderEngine.lib")
+#   pragma comment(lib, "SlgRessource.lib")
 #endif
