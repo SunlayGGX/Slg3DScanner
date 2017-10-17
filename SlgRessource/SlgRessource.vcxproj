@@ -10,9 +10,14 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="SlgBinRessource.h" />
+    <ClInclude Include="SlgRessourceManager.h" />
     <ClInclude Include="SlgRessourcePCH.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="SlgBinRessource.cpp" />
+    <ClCompile Include="SlgRessourceManager.cpp" />
     <ClCompile Include="SlgRessourcePCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
