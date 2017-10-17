@@ -1,10 +1,12 @@
 #pragma once
 
-
 //Standard
 #include <string>
 #include <memory>
 #include <vector>
+#include <thread>
+#include <mutex>
+#include <atomic>
 #include <stdexcept>
 #include <cassert>
 
@@ -22,4 +24,3 @@
 #   pragma comment(lib, "Slg3DScannerHelper.lib")
 #   pragma comment(lib, "SlgLogger.lib")
 #endif
-
