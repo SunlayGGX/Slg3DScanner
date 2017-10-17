@@ -15,6 +15,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
+    <ClInclude Include="SlgRessourcePCH.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClCompile Include="SlgRessourcePCH.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
