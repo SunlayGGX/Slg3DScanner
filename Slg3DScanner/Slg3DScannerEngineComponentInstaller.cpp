@@ -7,6 +7,7 @@
 #include "InputEngine.h"
 #include "WindowManager.h"
 #include "GlobalEngine.h"
+#include "SlgRessourceManager.h"
 #include "RenderEngineManager.h"
 #include "RenderSceneManager.h"
 #include "ShaderManager.h"
@@ -22,6 +23,7 @@ namespace Slg3DScanner
         NameManager,
         TimeManager,
         DllManager,
+        RessourceManager,
         InputEngine,
         WindowManager,
         RenderEngineManager,
