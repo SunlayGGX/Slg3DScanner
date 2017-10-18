@@ -5,12 +5,13 @@
 #include "FacetteAttribute.h"
 
 #include "ShaderConstantBuffer.h"
-#include "IMaterial.h"
 
 
 namespace Slg3DScanner
 {
     struct PreInitializeCBufferParameterFromRendererSceneManager;
+    struct MaterialInitializer;
+    class IMaterial;
     class RenderSceneManager;
 
     struct IMeshInitializer
