@@ -39,6 +39,9 @@ namespace Slg3DScanner
         CubeMesh(const CubeMeshInitializer& cubeMeshInitializer);
         ~CubeMesh();
 
+        virtual void addMaterial(const MaterialInitializer& materialInit) override;
+        virtual void addMaterial(MaterialInitializer&& materialInit) override;
+
         virtual void draw(ID3D11DeviceContext* immediateContext, const PreInitializeCBufferParameterFromRendererSceneManager& preInitShadingCBuffer) override;
     };
 }

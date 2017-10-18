@@ -4,6 +4,7 @@
 
 #include "RenderEngineManager.h"
 
+#include "Material.h"
 #include "Vertex.h"
 
 
@@ -145,6 +146,18 @@ CubeMesh::~CubeMesh()
 {
 }
 
+void CubeMesh::addMaterial(const MaterialInitializer& materialInit)
+{
+    std::lock_guard<std::mutex> autoLocker{ m_mutex };
+    m_materialArray.emplace_back(std::make_shared<Material>(materialInit));
+}
+
+void CubeMesh::addMaterial(MaterialInitializer&& materialInit)
+{
+    std::lock_guard<std::mutex> autoLocker{ m_mutex };
+    m_materialArray.emplace_back(std::make_shared<Material>(std::move(materialInit)));
+}
+
 void CubeMesh::draw(ID3D11DeviceContext* immediateContext, const PreInitializeCBufferParameterFromRendererSceneManager& preInitShadingCBuffer)
 {
     UINT stride = sizeof(VertexType);
@@ -170,7 +183,7 @@ void CubeMesh::draw(ID3D11DeviceContext* immediateContext, const PreInitializeCB
     auto endIter = m_materialArray.end();
     for(auto iter = m_materialArray.begin(); iter != endIter; ++iter)
     {
-        iter->prepareDraw(immediateContext, renderCBufferParameter);
+        std::static_pointer_cast<Material>(*iter)->prepareDraw(immediateContext, renderCBufferParameter);
 
         immediateContext->DrawIndexed(CubeMesh::INDEX_COUNT, 0, 0);
     }

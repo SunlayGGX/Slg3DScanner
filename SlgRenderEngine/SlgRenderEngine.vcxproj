@@ -16,19 +16,13 @@
     <ClInclude Include="CubeMesh.h" />
     <ClInclude Include="DXDispositif.h" />
     <ClInclude Include="DXHardwareDeviceInfo.h" />
-    <ClInclude Include="GlobalDef.h" />
-    <ClInclude Include="IMesh.h" />
-    <ClInclude Include="IShader.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="PixelShader.h" />
-    <ClInclude Include="RenderConfig.h" />
     <ClInclude Include="RenderEngineManager.h" />
     <ClInclude Include="RenderSceneManager.h" />
-    <ClInclude Include="ShaderConstantBuffer.h" />
     <ClInclude Include="ShaderDebugDefineMacro.h" />
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="SlgRenderEnginePCH.h" />
-    <ClInclude Include="Vertex.h" />
     <ClInclude Include="VertexShader.h" />
   </ItemGroup>
   <ItemGroup>
@@ -36,8 +30,6 @@
     <ClCompile Include="CubeMesh.cpp" />
     <ClCompile Include="DXDispositif.cpp" />
     <ClCompile Include="DXHardwareDeviceInfo.cpp" />
-    <ClCompile Include="IMesh.cpp" />
-    <ClCompile Include="IShader.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="RenderEngineManager.cpp" />
@@ -96,7 +88,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>SlgRenderEnginePCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;$(SLG_DEVEL)/Slg3DScanner/SlgDllManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;$(SLG_DEVEL)/Slg3DScanner/SlgDllManager;$(SLG_DEVEL)/Slg3DScanner/SlgRenderBase;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>SlgRenderEnginePCH.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
@@ -115,7 +107,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>SlgRenderEnginePCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;$(SLG_DEVEL)/Slg3DScanner/SlgDllManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;$(SLG_DEVEL)/Slg3DScanner/SlgDllManager;$(SLG_DEVEL)/Slg3DScanner/SlgRenderBase;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>SlgRenderEnginePCH.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>

@@ -1,26 +1,13 @@
 #pragma once
 
+#include "IMaterial.h"
+
 
 namespace Slg3DScanner
 {
     struct ForwardShadingConstantBufferParameter;
-    struct MaterialInitializer
-    {
-        /* Vertex Shader */
-        std::wstring m_VSFileName;
-        std::string m_VSFuncName;
-
-
-        /* Pixel Shader */
-        std::wstring m_PSFileName;
-        std::string m_PSFuncName;
-
-        const D3D11_INPUT_ELEMENT_DESC* m_Desc; 
-        UINT m_ElemCount;
-    };
-
-
-    class Material
+    
+    class Material : public IMaterial
     {
     private:
         std::shared_ptr<class VertexShader> m_vertexShader;
@@ -34,7 +21,7 @@ namespace Slg3DScanner
         Material(MaterialInitializer&& initializer);
         ~Material();
 
-        void prepareDraw(ID3D11DeviceContext* immediateContext, const ForwardShadingConstantBufferParameter& renderCBufferParameter);
+        void prepareDraw(ID3D11DeviceContext* immediateContext, const ForwardShadingConstantBufferParameter& renderCBufferParameter) override;
 
 
     private:
