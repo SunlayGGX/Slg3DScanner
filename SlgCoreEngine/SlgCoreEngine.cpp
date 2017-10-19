@@ -26,7 +26,6 @@ void SlgCoreEngine::destroy()
 void SlgCoreEngine::runTest()
 {
     TesterManager::instance().startTestsQueue<
-        SLG_TEST_ORDER(DrawCubes),
         SLG_TEST_ORDER(LoadPointCloud)
     >();
 }
