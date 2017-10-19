@@ -4,9 +4,9 @@
 
 using namespace Slg3DScanner;
 
-bool KeyboardElement::getKey(const char key) const
+bool KeyboardElement::getKey(const unsigned char key) const
 {
-    return (m_array[key >> 6] >> (key % 64)) & 0x1;
+    return (m_array[key / 64] >> (key % 64)) & 0x1;
 }
 
 Keyboard::Keyboard()
