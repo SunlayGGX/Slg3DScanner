@@ -11,11 +11,22 @@ namespace Slg3DScanner
         SLGENGINE_GENERATE_CODE_FROM_SlgSingleton(GlobalEngine);
 
 
+    private:
+        enum
+        {
+            RENDER_INITIALIZED,
+
+            FULL_INITIALIZED
+        };
+
+
     public:
         std::atomic<bool> m_run;
 
+        std::atomic<uint8_t> m_allInitialized;
 
 
+    public:
         void run();
 
         void quit();

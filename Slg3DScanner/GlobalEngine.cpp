@@ -1,5 +1,7 @@
 #include "GlobalEngine.h"
 
+#include "BitHelper.h"
+
 #include "InputEngineMediator.h"
 #include "SlgWindowMediator.h"
 #include "LoggerEngine.h"
@@ -104,6 +106,7 @@ void GlobalEngine::startRendering(HWND windowVisuHandle)
     
     auto& dxDevice = renderMgr.getDevice();
 
+    m_allInitialized |= BitMask<GlobalEngine::RENDER_INITIALIZED>::value;
     CameraParameters cameraParameter;
     cameraParameter.aspectRatio = dxDevice.getScreenWidth() / dxDevice.getScreenHeight();
 
@@ -154,6 +157,5 @@ void GlobalEngine::internalStartRenderThread() const
 
 bool GlobalEngine::isFullyInitialized() const
 {
-    return true;
-        //RenderEngine::instance().isInitialized();
+    return m_allInitialized == BitFill<GlobalEngine::FULL_INITIALIZED>::value;
 }
