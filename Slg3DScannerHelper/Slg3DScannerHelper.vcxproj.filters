@@ -90,6 +90,9 @@
     <ClInclude Include="NameManager.h">
       <Filter>Fichiers d%27en-tête\ManagerHelper</Filter>
     </ClInclude>
+    <ClInclude Include="BitHelper.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Slg3DScannerHelperPCH.cpp">

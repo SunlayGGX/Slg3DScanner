@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="AutoSchedulerResolutionModifier.h" />
     <ClInclude Include="BindToExistantHelper.h" />
+    <ClInclude Include="BitHelper.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="CRTPHierarchy.h" />
     <ClInclude Include="DirectXUtilitary.h" />
