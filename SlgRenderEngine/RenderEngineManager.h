@@ -31,6 +31,7 @@ namespace Slg3DScanner
     public:
         void createCamera(const CameraParameters& cameraParameters);
         void setMainCameraMatViewManually(const DirectX::XMVECTOR& eyePosition, const DirectX::XMVECTOR& focusDirection, const DirectX::XMVECTOR& upDirection);
+        void getMainCameraMatViewManually(DirectX::XMVECTOR& outEyePosition, DirectX::XMVECTOR& outFocusDirection, DirectX::XMVECTOR& outUpDirection) const;
 
 
     public:

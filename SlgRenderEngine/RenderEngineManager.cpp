@@ -62,3 +62,8 @@ void RenderEngineManager::setMainCameraMatViewManually(const DirectX::XMVECTOR& 
 {
     RenderSceneManager::instance().setMainCameraMatViewManually(eyePosition, focusDirection, upDirection);
 }
+
+void RenderEngineManager::getMainCameraMatViewManually(DirectX::XMVECTOR& outEyePosition, DirectX::XMVECTOR& outFocusDirection, DirectX::XMVECTOR& outUpDirection) const
+{
+    RenderSceneManager::instance().getMainCameraMatViewManually(outEyePosition, outFocusDirection, outUpDirection);
+}

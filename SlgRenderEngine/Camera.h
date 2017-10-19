@@ -25,6 +25,8 @@ namespace Slg3DScanner
         CameraParameters m_Parameters;
 
         DirectX::XMVECTOR m_Position;
+        DirectX::XMVECTOR m_Direction;
+        DirectX::XMVECTOR m_Up;
 
         DirectX::XMMATRIX m_MatView;
         DirectX::XMMATRIX m_MatProj;
@@ -41,6 +43,8 @@ namespace Slg3DScanner
 
     public:
         DECLARE_SIMPLE_GET_REFERENCE_ACCESSOR(DirectX::XMVECTOR, Position);
+        DECLARE_SIMPLE_GET_REFERENCE_ACCESSOR(DirectX::XMVECTOR, Direction);
+        DECLARE_SIMPLE_GET_REFERENCE_ACCESSOR(DirectX::XMVECTOR, Up);
         DECLARE_SIMPLE_GET_REFERENCE_ACCESSOR(DirectX::XMMATRIX, MatView);
         DECLARE_SIMPLE_GET_REFERENCE_ACCESSOR(DirectX::XMMATRIX, MatProj);
         DECLARE_SIMPLE_GET_REFERENCE_ACCESSOR(CameraParameters, Parameters);
@@ -51,6 +55,8 @@ namespace Slg3DScanner
         void setCameraParameters(const CameraParameters& parameter);
         void setMatView(const DirectX::XMMATRIX& matView);
         void setPosition(const DirectX::XMVECTOR& newPosition);
+        void setDirection(const DirectX::XMVECTOR& newPosition);
+        void setUp(const DirectX::XMVECTOR& newPosition);
 
         virtual bool isRegistered() const override;
 
