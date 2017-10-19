@@ -38,7 +38,32 @@ void InputEngine::update()
     m_keyboardController->update();
 }
 
+Gamepad InputEngine::getCurrentGamepadState() const
+{
+    return m_gamepadController->getFirstGamepad();
+}
+
 void InputEngine::createKeyboard(HWND windowsInstance)
 {
     m_keyboardController->createKeyboard(windowsInstance);
+}
+
+KeyboardElement InputEngine::getCurrentKeyboardState() const
+{
+    return m_keyboardController->getCurrentKeyboardState();
+}
+
+KeyboardElement InputEngine::getKeyboardChangedState() const
+{
+    return m_keyboardController->getKeyboardChangedState();
+}
+
+KeyboardElement InputEngine::getKeyboardUpState() const
+{
+    return m_keyboardController->getKeyboardUpState();
+}
+
+KeyboardElement InputEngine::getKeyboardDownState() const
+{
+    return m_keyboardController->getKeyboardDownState();
 }

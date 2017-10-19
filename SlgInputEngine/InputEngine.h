@@ -2,6 +2,10 @@
 
 #include "SlgSingleton.h"
 
+#include "KeyboardElement.h"
+#include "Gamepad.h"
+
+
 namespace Slg3DScanner
 {
     class InputEngine : public Slg3DScanner::SlgSingleton<InputEngine>
@@ -19,5 +23,12 @@ namespace Slg3DScanner
         void update();
 
         void createKeyboard(HWND windowsInstance);
+
+        Gamepad getCurrentGamepadState() const;
+
+        KeyboardElement getCurrentKeyboardState() const;
+        KeyboardElement getKeyboardChangedState() const;
+        KeyboardElement getKeyboardUpState() const;
+        KeyboardElement getKeyboardDownState() const;
     };
 }
