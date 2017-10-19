@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraParameters.h" />
+    <ClInclude Include="CloudMesh.h" />
     <ClInclude Include="CubeMesh.h" />
     <ClInclude Include="DXDispositif.h" />
     <ClInclude Include="DXHardwareDeviceInfo.h" />
@@ -28,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CloudMesh.cpp" />
     <ClCompile Include="CubeMesh.cpp" />
     <ClCompile Include="DXDispositif.cpp" />
     <ClCompile Include="DXHardwareDeviceInfo.cpp" />
