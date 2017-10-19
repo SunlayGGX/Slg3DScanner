@@ -12,11 +12,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SlgBinRessource.h" />
+    <ClInclude Include="SlgCloudReadWrite.h" />
     <ClInclude Include="SlgRessourceManager.h" />
     <ClInclude Include="SlgRessourcePCH.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SlgBinRessource.cpp" />
+    <ClCompile Include="SlgCloudReadWrite.cpp" />
     <ClCompile Include="SlgRessourceManager.cpp" />
     <ClCompile Include="SlgRessourcePCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
