@@ -20,5 +20,7 @@ catch(const std::exception& e)
 }
 catch(...)
 {
+    Slg3DScanner::WindowsPop::popErrorWindow(SLG_NORMALIZE_EXCEPTION_MESSAGE("Unknown error"));
+
     return static_cast<int>(Slg3DScanner::ApplicationResult::UNKNOWN_ERROR);
 }
