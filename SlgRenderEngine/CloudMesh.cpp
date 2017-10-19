@@ -87,9 +87,9 @@ void CloudMesh::readCloudFile()
 {
     m_initialized = false;
 
-    std::async(
-        [this]() 
+    std::thread
     {
+        [this]() {
         m_cloud = Slg3DScanner::readPointCloudfromFile(m_cloudFileName, m_vertexCount);
         if(m_vertexCount == 0)
         {
@@ -97,5 +97,5 @@ void CloudMesh::readCloudFile()
         }
 
         m_initialized = true;
-    });
+    } }.detach();
 }
