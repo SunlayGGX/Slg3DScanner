@@ -11,13 +11,16 @@
 
 #include "Slg3DScannerConfig.h"
 
+#include "ITask.h"
+#include "InputTask.h"
+
 using namespace Slg3DScanner;
 
 
 GlobalEngine::GlobalEngine() :
     m_run{ false }
 {
-
+    m_taskMap[TaskOrder::INPUT] = std::make_unique<InputTask>();
 }
 
 GlobalEngine::~GlobalEngine()
@@ -39,11 +42,15 @@ void GlobalEngine::initialize()
 
     TimeManager::instance().initialize();
     SlgCoreEngine::instance().initialize();
+
+    this->internalInitializeAllTasks();
 }
 
 void GlobalEngine::destroy()
 {
     this->quit();
+
+    this->internalDestroyAllTasks();
 
     TimeManager::instance().destroy();
     SlgCoreEngine::instance().destroy();
@@ -60,15 +67,15 @@ void GlobalEngine::run()
 
     SlgCoreEngine::instance().runTest();
 
+    auto endTaskIter = m_taskMap.end();
     while(m_run)
     {
-        /*TODO : Update the Game Loop*/
+        for(auto iter = m_taskMap.begin(); iter != endTaskIter; ++iter)
+        {
+            iter->second->update();
+        }
 
-        //RenderEngine::instance().update();
-
-        //Bad, but until we have a proper TimeManager, this will do the job...
-        //TODO : Call a proper method from a Time Manager or Synchronize with VSync from RenderEngine swap chain present (present1 method) or so
-        std::this_thread::sleep_for(updateTime);
+        TimeManager::instance().waitEndOfFrame();
     }
 }
 
@@ -127,4 +134,22 @@ void GlobalEngine::internalStartRenderThread() const
 bool GlobalEngine::isFullyInitialized() const
 {
     return m_allInitialized == BitFill<GlobalEngine::FULL_INITIALIZED>::value;
+}
+
+void GlobalEngine::internalInitializeAllTasks()
+{
+    auto endTaskIter = m_taskMap.end();
+    for(auto iter = m_taskMap.begin(); iter != endTaskIter; ++iter)
+    {
+        iter->second->initialize();
+    }
+}
+
+void GlobalEngine::internalDestroyAllTasks()
+{
+    auto endTaskIter = m_taskMap.end();
+    for(auto iter = m_taskMap.begin(); iter != endTaskIter; ++iter)
+    {
+        iter->second->destroy();
+    }
 }

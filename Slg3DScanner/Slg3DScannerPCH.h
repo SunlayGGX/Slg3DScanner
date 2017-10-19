@@ -11,6 +11,7 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <map>
 #include <thread>
 #include <mutex>
 #include <atomic>

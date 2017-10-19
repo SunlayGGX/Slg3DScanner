@@ -5,6 +5,8 @@
 
 namespace Slg3DScanner
 {
+    class ITask;
+
     class GlobalEngine : private Slg3DScanner::SlgSingleton<GlobalEngine>
     {
     private:
@@ -19,9 +21,16 @@ namespace Slg3DScanner
             FULL_INITIALIZED
         };
 
+        enum TaskOrder
+        {
+            INPUT
+        };
+
 
     public:
         std::atomic<bool> m_run;
+
+        std::map<TaskOrder, std::unique_ptr<ITask>> m_taskMap;
 
         std::atomic<uint8_t> m_allInitialized;
 
@@ -39,6 +48,9 @@ namespace Slg3DScanner
     private:
         void startInputAndWindowsThread() const;
         void internalStartRenderThread() const;
+
+        void internalInitializeAllTasks();
+        void internalDestroyAllTasks();
     };
 }
 
