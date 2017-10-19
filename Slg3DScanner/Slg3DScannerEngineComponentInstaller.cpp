@@ -11,6 +11,8 @@
 #include "RenderEngineManager.h"
 #include "RenderSceneManager.h"
 #include "ShaderManager.h"
+#include "SlgCoreEngine.h"
+#include "TesterManager.h"
 
 #include "SlgEngineCoreBinder.h"
 
@@ -23,12 +25,14 @@ namespace Slg3DScanner
         NameManager,
         TimeManager,
         DllManager,
+        SlgCoreEngine,
         RessourceManager,
         InputEngine,
         WindowManager,
         RenderEngineManager,
         RenderSceneManager,
         ShaderManager,
+        TesterManager,
 
         GlobalEngine,
         SlgEngineCoreBinder //must remain the last. It's role is to bind everyone together.

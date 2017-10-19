@@ -36,10 +36,6 @@ namespace Slg3DScanner
         void startRendering(HWND windowVisuHandle);
 
 
-    public:
-        void arrangeObjectInSceneWorld();
-
-
     private:
         void startInputAndWindowsThread() const;
         void internalStartRenderThread() const;
