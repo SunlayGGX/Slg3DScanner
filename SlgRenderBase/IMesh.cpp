@@ -27,6 +27,13 @@ PreInitializeCBufferParameterFromMeshInstance& IMesh::getMeshParams() noexcept
     return m_meshParams;
 }
 
+void IMesh::setBuffers(ID3D11DeviceContext* immediateContext, UINT stride, UINT offset)
+{
+    immediateContext->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
+
+    immediateContext->IASetIndexBuffer(m_indexBuffer, DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
+}
+
 void IMesh::registerComponent()
 {
 

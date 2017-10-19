@@ -1,20 +1,20 @@
 #pragma once
 
-#include "IMesh.h"
+#include "Mesh.h"
 
 namespace Slg3DScanner
 {
     struct SimpleVertex;
     struct PreInitializeCBufferParameterFromRendererSceneManager;
 
-    struct CubeMeshInitializer : public IMeshInitializer
+    struct CubeMeshInitializer : public MeshInitializer
     {
         float xScale = 1.f; 
         float yScale = 1.f; 
         float zScale = 1.f;
     };
 
-    class CubeMesh : public IMesh
+    class CubeMesh : public Mesh
     {
     public:
         using VertexType = SimpleVertex;
@@ -38,9 +38,6 @@ namespace Slg3DScanner
     public:
         CubeMesh(const CubeMeshInitializer& cubeMeshInitializer);
         ~CubeMesh();
-
-        virtual void addMaterial(const MaterialInitializer& materialInit) override;
-        virtual void addMaterial(MaterialInitializer&& materialInit) override;
 
         virtual void draw(ID3D11DeviceContext* immediateContext, const PreInitializeCBufferParameterFromRendererSceneManager& preInitShadingCBuffer) override;
     };

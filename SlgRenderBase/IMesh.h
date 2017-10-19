@@ -57,8 +57,6 @@ namespace Slg3DScanner
 
         PreInitializeCBufferParameterFromMeshInstance m_meshParams;
 
-        std::vector<std::shared_ptr<IMaterial>> m_materialArray;
-
         mutable std::mutex m_mutex;
 
 
@@ -77,6 +75,10 @@ namespace Slg3DScanner
     protected:
         virtual void registerComponent() override;
         virtual void unregisterComponent() override;
+
+
+    protected:
+        virtual void setBuffers(ID3D11DeviceContext* immediateContext, UINT stride, UINT offset);
 
 
     public:

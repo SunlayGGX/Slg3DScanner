@@ -13,7 +13,7 @@ using namespace Slg3DScanner;
 
 CubeMesh::CubeMesh(const CubeMeshInitializer& cubeMeshInitializer) :
     NamedObject{ cubeMeshInitializer.name },
-    IMesh{ cubeMeshInitializer }
+    Mesh{ cubeMeshInitializer }
 {
     ID3D11Device* device = RenderEngineManager::instance().getDevice().getD3DDevice();
 
@@ -140,33 +140,16 @@ CubeMesh::CubeMesh(const CubeMeshInitializer& cubeMeshInitializer) :
     initData.pSysMem = indexBuffer;
 
     DXTry(device->CreateBuffer(&bufferDesc, &initData, &m_indexBuffer));
+
+    this->setBuffers(RenderEngineManager::instance().getDevice().getImmediateContext(), sizeof(VertexType), 0);
 }
 
 CubeMesh::~CubeMesh()
 {
 }
 
-void CubeMesh::addMaterial(const MaterialInitializer& materialInit)
-{
-    std::lock_guard<std::mutex> autoLocker{ m_mutex };
-    m_materialArray.emplace_back(std::make_shared<Material>(materialInit));
-}
-
-void CubeMesh::addMaterial(MaterialInitializer&& materialInit)
-{
-    std::lock_guard<std::mutex> autoLocker{ m_mutex };
-    m_materialArray.emplace_back(std::make_shared<Material>(std::move(materialInit)));
-}
-
 void CubeMesh::draw(ID3D11DeviceContext* immediateContext, const PreInitializeCBufferParameterFromRendererSceneManager& preInitShadingCBuffer)
 {
-    UINT stride = sizeof(VertexType);
-    UINT offset = 0;
-
-    immediateContext->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
-
-    immediateContext->IASetIndexBuffer(m_indexBuffer, DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
-
     ForwardShadingConstantBufferParameter renderCBufferParameter;
 
     ConstantBufferParameterHelper::transfer(preInitShadingCBuffer, renderCBufferParameter);
@@ -183,7 +166,7 @@ void CubeMesh::draw(ID3D11DeviceContext* immediateContext, const PreInitializeCB
     auto endIter = m_materialArray.end();
     for(auto iter = m_materialArray.begin(); iter != endIter; ++iter)
     {
-        std::static_pointer_cast<Material>(*iter)->prepareDraw(immediateContext, renderCBufferParameter);
+        iter->prepareDraw(immediateContext, renderCBufferParameter);
 
         immediateContext->DrawIndexed(CubeMesh::INDEX_COUNT, 0, 0);
     }
