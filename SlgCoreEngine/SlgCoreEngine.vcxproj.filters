@@ -44,10 +44,13 @@
     <ClCompile Include="TesterManager.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="TestImpl1.cpp">
+    <ClCompile Include="DefaultObjectCreator.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="DefaultObjectCreator.cpp">
+    <ClCompile Include="TestDrawCubes.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="TestPointCloud.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

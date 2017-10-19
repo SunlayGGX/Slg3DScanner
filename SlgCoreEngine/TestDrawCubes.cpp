@@ -52,8 +52,3 @@ void TesterManager::test(SLG_TEST_ORDER_MAKE(DrawCubes))
 
     SLG_PRINT_END_TEST(DrawCubes);
 }
-
-void TesterManager::test(SLG_TEST_ORDER_MAKE(LoadPointCloud))
-{
-    
-}
