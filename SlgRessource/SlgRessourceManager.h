@@ -13,9 +13,5 @@ namespace Slg3DScanner
     private:
 
 
-
-    public:
-        virtual void initialize() override;
-        virtual void destroy() override;
     };
 }
