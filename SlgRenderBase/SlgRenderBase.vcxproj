@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CloudVertex.h" />
     <ClInclude Include="GlobalDef.h" />
     <ClInclude Include="IMaterial.h" />
     <ClInclude Include="IMesh.h" />
