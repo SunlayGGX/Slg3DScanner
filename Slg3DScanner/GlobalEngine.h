@@ -15,9 +15,6 @@ namespace Slg3DScanner
         std::atomic<bool> m_run;
 
 
-    public:
-        virtual void initialize() override;
-        virtual void destroy() override;
 
         void run();
 

@@ -45,8 +45,11 @@ private:                                                    \
     friend SlgSingleton<Type>;                              \
     friend SlgSingletonAllocatorHelper<Type>;               \
     friend struct BindToExistantSlgSingletonHelper;         \
+public:                                                     \
+    using SlgSingleton<Type>::instance;                     \
 private:                                                    \
     Type();                                                 \
     ~Type();                                                \
 public:                                                     \
-    using SlgSingleton<Type>::instance
+    void initialize() override;                             \
+    void destroy() override

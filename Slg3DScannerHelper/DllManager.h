@@ -17,9 +17,6 @@ namespace Slg3DScanner
 
 
     public:
-        virtual void initialize() override;
-        virtual void destroy() override;
-
         //Load an external Dll. External means not a SlgEngine dll. Specify the exact name of what you want to load
         HMODULE loadExternDll(const std::string& dllName);
 

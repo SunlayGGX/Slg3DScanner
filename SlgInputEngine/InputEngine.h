@@ -16,9 +16,6 @@ namespace Slg3DScanner
 
 
     public:
-        virtual void initialize() override;
-        virtual void destroy() override;
-
         void update();
 
         void createKeyboard(HWND windowsInstance);

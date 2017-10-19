@@ -21,11 +21,6 @@ namespace Slg3DScanner
 
 
     public:
-        virtual void initialize() override;
-        virtual void destroy() override;
-
-
-    public:
         NameType createUniqueName(const NameType& root);
         CountType getCurrentNameRootCount(const NameType& root);
         bool rootNameIsPresent(const NameType& root) const;

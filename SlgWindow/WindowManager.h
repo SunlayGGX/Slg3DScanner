@@ -34,9 +34,6 @@ namespace Slg3DScanner
 
 
     public:
-        virtual void initialize() override;
-        virtual void destroy() override;
-
         void update();
 
         HWND getWindowHandle() const;
