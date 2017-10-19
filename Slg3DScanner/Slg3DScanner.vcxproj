@@ -58,7 +58,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>Slg3DScannerPCH.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>Slg3DScannerPCH.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;$(SLG_DEVEL)/Slg3DScanner/SlgInputEngine;$(SLG_DEVEL)/Slg3DScanner/SlgWindow;$(SLG_DEVEL)/Slg3DScanner/SlgRenderEngine;$(SLG_DEVEL)/Slg3DScanner/SlgRessource;$(SLG_DEVEL)/Slg3DScanner/SlgRenderBase;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;$(SLG_DEVEL)/Slg3DScanner/SlgInputEngine;$(SLG_DEVEL)/Slg3DScanner/SlgWindow;$(SLG_DEVEL)/Slg3DScanner/SlgRenderEngine;$(SLG_DEVEL)/Slg3DScanner/SlgRessource;$(SLG_DEVEL)/Slg3DScanner/SlgRenderBase;$(SLG_DEVEL)/Slg3DScanner/SlgCoreEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -75,7 +75,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>Slg3DScannerPCH.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>Slg3DScannerPCH.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;$(SLG_DEVEL)/Slg3DScanner/SlgInputEngine;$(SLG_DEVEL)/Slg3DScanner/SlgWindow;$(SLG_DEVEL)/Slg3DScanner/SlgRenderEngine;$(SLG_DEVEL)/Slg3DScanner/SlgRessource;$(SLG_DEVEL)/Slg3DScanner/SlgRenderBase;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;$(SLG_DEVEL)/Slg3DScanner/SlgInputEngine;$(SLG_DEVEL)/Slg3DScanner/SlgWindow;$(SLG_DEVEL)/Slg3DScanner/SlgRenderEngine;$(SLG_DEVEL)/Slg3DScanner/SlgRessource;$(SLG_DEVEL)/Slg3DScanner/SlgRenderBase;$(SLG_DEVEL)/Slg3DScanner/SlgCoreEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
