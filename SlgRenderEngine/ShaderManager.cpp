@@ -21,7 +21,7 @@ void ShaderManager::initialize()
 
     if(m_compileDelegate == nullptr)
     {
-        throw std::exception{ "Error when getting D3DCompileFromFileDelegate" };
+        throw std::exception{ SLG_NORMALIZE_EXCEPTION_MESSAGE("Error when getting D3DCompileFromFileDelegate") };
     }
 }
 

@@ -21,5 +21,9 @@
 #include <timeapi.h>
 
 
+//My own
+#include "UtilsMacros.h" //I cheat a little. Those macros must be known everywhere on the engine
+
+
 //Lib inclusion
 #pragma comment(lib, "Winmm.lib")
