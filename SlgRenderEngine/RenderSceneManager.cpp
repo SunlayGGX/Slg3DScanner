@@ -141,7 +141,7 @@ void RenderSceneManager::setMainCameraMatViewManually(const DirectX::XMVECTOR& e
         m_currentPlayerCamera->setPosition(eyePosition);
         m_currentPlayerCamera->setDirection(focusDirection);
         m_currentPlayerCamera->setUp(upDirection);
-        m_currentPlayerCamera->setMatView(DirectX::XMMatrixLookAtRH(
+        m_currentPlayerCamera->setMatView(DirectX::XMMatrixLookToRH(
             eyePosition,
             focusDirection,
             upDirection

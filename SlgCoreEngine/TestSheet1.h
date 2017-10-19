@@ -4,7 +4,7 @@
 
 SLG_BEGIN_TEST_ORDER_DEFINITION(DrawCubes)
     const DirectX::XMVECTOR cameraPosition = { 0.f, 0.f, -10.f, 1.f };
-    const DirectX::XMVECTOR cameraDirection = { 0.f, 0.f, 0.f, 1.f };
+    const DirectX::XMVECTOR cameraDirection = { 0.f, 0.f, 1.f, 1.f };
     const DirectX::XMVECTOR cameraUp = { 0.f, 1.f, 0.f, 0.f };
 
     const DirectX::XMFLOAT3 cube1Position = { -2.f, 2.f, -2.f };
@@ -16,7 +16,7 @@ SLG_END_TEST_ORDER_DEFINITION
 
 SLG_BEGIN_TEST_ORDER_DEFINITION(LoadPointCloud)
     const DirectX::XMVECTOR cameraPosition = { 0.f, 0.f, -10.f, 1.f };
-    const DirectX::XMVECTOR cameraDirection = { 0.f, 0.f, 0.f, 1.f };
+    const DirectX::XMVECTOR cameraDirection = { 0.f, 0.f, 1.f, 1.f };
     const DirectX::XMVECTOR cameraUp = { 0.f, 1.f, 0.f, 0.f };
 
     const std::string pointCloudFilePath = "../SlgData/PointCloud/positionImage.slgBinPos";
