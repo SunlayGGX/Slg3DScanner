@@ -37,6 +37,7 @@ namespace Slg3DScanner
     public:
         void setCloudFile(const std::string &cloudFileName);
         void readCloudFile();
+        void internalSendDataToGraphicCard();
 
 
     private:

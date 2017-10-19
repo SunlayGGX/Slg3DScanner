@@ -2,6 +2,9 @@
 #include "CloudMesh.h"
 
 #include "SlgCloudReadWrite.h"
+#include "DirectXUtilitary.h"
+
+#include "RenderEngineManager.h"
 
 #include "CloudVertex.h"
 
@@ -96,6 +99,45 @@ void CloudMesh::readCloudFile()
             throw std::exception{ SLG_NORMALIZE_EXCEPTION_MESSAGE("No point cloud created") };
         }
 
+        this->internalSendDataToGraphicCard();
+
         m_initialized = true;
     } }.detach();
+}
+
+void CloudMesh::internalSendDataToGraphicCard()
+{
+    ID3D11Device* device = RenderEngineManager::instance().getDevice().getD3DDevice();
+
+    D3D11_BUFFER_DESC bufferDesc;
+    D3D11_SUBRESOURCE_DATA initData;
+
+    DXZeroMemory(
+        bufferDesc,
+        initData
+    );
+    
+    bufferDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
+    bufferDesc.ByteWidth = m_vertexCount * sizeof(VertexType);
+    bufferDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
+    bufferDesc.CPUAccessFlags = 0;
+
+    initData.pSysMem = m_cloud.get();
+
+    DXTry(device->CreateBuffer(&bufferDesc, &initData, &m_vertexBuffer));
+
+    std::unique_ptr<UINT[]> indexBuffer = std::make_unique<UINT[]>(m_vertexCount);
+    for(unsigned int iter = 0; iter != m_vertexCount; ++iter)
+    {
+        indexBuffer[iter] = iter;
+    }
+
+    bufferDesc.ByteWidth = m_vertexCount * sizeof(UINT);
+    bufferDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
+
+    initData.pSysMem = indexBuffer.get();
+
+    DXTry(device->CreateBuffer(&bufferDesc, &initData, &m_indexBuffer));
+
+    this->setBuffers(RenderEngineManager::instance().getDevice().getImmediateContext(), sizeof(VertexType), 0);
 }
