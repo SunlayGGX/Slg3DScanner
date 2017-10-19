@@ -6,48 +6,59 @@
 
 using namespace Slg3DScanner;
 
-SlgBinRessource::SlgBinRessource()
+SlgBinRessource::SlgBinRessource(const SlgBinRessource& other)
 {
-
+    std::unique_ptr<char[]> responsiblePtr = std::make_unique<char[]>(other.size());
+    memcpy(responsiblePtr.get(), other.data(), other.size());
+    m_dataBuffer = responsiblePtr.release();
+    m_size = other.size();
 }
 
-SlgBinRessource::SlgBinRessource(const SlgBinRessource& other) = default;
-
-SlgBinRessource::SlgBinRessource(SlgBinRessource&& other) :
-    m_dataBuffer{ std::move(other.m_dataBuffer) }
+SlgBinRessource::SlgBinRessource(SlgBinRessource&& other) noexcept :
+    m_dataBuffer{ other.m_dataBuffer },
+    m_size{ other.m_size }
 {
-
+    other.m_dataBuffer = nullptr;
 }
 
-SlgBinRessource::~SlgBinRessource() = default;
+SlgBinRessource::~SlgBinRessource()
+{
+    delete[] m_dataBuffer;
+}
 
-const std::vector<char>& SlgBinRessource::getData() const noexcept
+char* SlgBinRessource::data() const noexcept
 {
     return m_dataBuffer;
 }
 
+std::size_t SlgBinRessource::size() const noexcept
+{
+    return m_size;
+}
+
 bool SlgBinRessource::isLoaded() const noexcept
 {
-    return !m_dataBuffer.empty();
+    return m_dataBuffer != nullptr;
 }
 
 bool SlgBinRessource::load(const std::string& path)
 {
+    this->freeRessource();
+
     if(!path.empty())
     {
         std::ifstream file{ path.c_str(), std::ios::binary };
         if(file)
         {
-            m_dataBuffer.clear();
-            m_dataBuffer.reserve(std::experimental::filesystem::file_size(path));
+            this->internalAllocate(std::experimental::filesystem::file_size(path));
 
             std::copy(
-                std::istreambuf_iterator<char>{file}, 
-                std::istreambuf_iterator<char>{}, 
-                std::back_inserter(m_dataBuffer)
+                std::istreambuf_iterator<char>{ file },
+                std::istreambuf_iterator<char>{},
+                m_dataBuffer
             );
 
-            return !m_dataBuffer.empty();
+            return this->isLoaded();
         }
     }
 
@@ -56,11 +67,11 @@ bool SlgBinRessource::load(const std::string& path)
 
 bool SlgBinRessource::write(const std::string& path)
 {
-    if(!path.empty())
+    if(!path.empty() && this->isLoaded())
     {
         std::copy(
-            std::begin(m_dataBuffer), 
-            std::end(m_dataBuffer), 
+            m_dataBuffer, 
+            m_dataBuffer + m_size, 
             std::ostreambuf_iterator<char>{std::ofstream{ path , std::ios::binary }}
         );
 
@@ -70,25 +81,33 @@ bool SlgBinRessource::write(const std::string& path)
     return false;
 }
 
-void SlgBinRessource::freeRessource()
+void SlgBinRessource::internalAllocate(const std::size_t newSize)
 {
-    m_dataBuffer = std::vector<char>{};
+    m_dataBuffer = new char[newSize];
+    m_size = newSize;
+}
+
+void SlgBinRessource::freeRessource() noexcept
+{
+    delete[] m_dataBuffer;
+    m_dataBuffer = nullptr;
+    m_size = 0;
 }
 
 void SlgBinRessource::swap(SlgBinRessource& other) noexcept
 {
     std::swap(this->m_dataBuffer, other.m_dataBuffer);
+    std::swap(this->m_size, other.m_size);
 }
 
-SlgBinRessource& SlgBinRessource::operator=(const SlgBinRessource& other) = default;
+SlgBinRessource& SlgBinRessource::operator=(const SlgBinRessource& other)
+{
+    this->swap(SlgBinRessource{ other });
+    return *this;
+}
 
 SlgBinRessource& SlgBinRessource::operator=(SlgBinRessource&& other)
 {
     this->swap(SlgBinRessource{ std::move(other) });
     return *this;
-}
-
-bool SlgBinRessource::operator==(const SlgBinRessource& other) const
-{
-    return this->m_dataBuffer == other.m_dataBuffer;
 }
