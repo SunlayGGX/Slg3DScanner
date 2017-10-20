@@ -26,6 +26,9 @@
     <ClInclude Include="InstallerPCH.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="SlgDevEnvBind.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
     <ClInclude Include="InstallerLogUtils.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
