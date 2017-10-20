@@ -11,10 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EnvironmentVariableManip.h" />
     <ClInclude Include="FolderFinder.h" />
     <ClInclude Include="ToolHelperPCH.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EnvironmentVariableManip.cpp" />
     <ClCompile Include="FolderFinder.cpp" />
     <ClCompile Include="ToolHelperPCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
