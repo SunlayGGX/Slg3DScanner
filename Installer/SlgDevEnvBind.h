@@ -48,12 +48,4 @@ namespace Slg3DScanner
     }
 }
 
-//make the function name to call based on modality
-#define GET_LINK_ENVIR_METHOD(MODALITY) &Slg3DScanner::SlgTools::EnvironmentVariableManip::set##MODALITY##EnvironmentVariable
-#define GET_UNLINK_ENVIR_METHOD(MODALITY) &Slg3DScanner::SlgTools::EnvironmentVariableManip::remove##MODALITY##EnvironmentVariable
-
-//modality
-#define USER User
-#define SYSTEM System
-
 #define SLG_ENVIRONMENT_VARIABLE_BIND(modality, environmentVariableName, folderName) GET_LINK_ENVIR_METHOD(modality), GET_UNLINK_ENVIR_METHOD(modality), std::string{ environmentVariableName }, std::string{ folderName }
