@@ -85,10 +85,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="IgnoreParser.h" />
     <ClInclude Include="Slg3DScannerInstallGathererLogUtils.h" />
     <ClInclude Include="Slg3DScannerInstallGathererPCH.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="IgnoreParser.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Slg3DScannerInstallGathererPCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
