@@ -1,6 +1,9 @@
 #pragma once
 
 
+//Standard
+#include <iostream>
+
 
 //My own
 #include "ToolHelperPCH.h"

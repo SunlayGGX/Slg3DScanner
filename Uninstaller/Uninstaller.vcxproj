@@ -92,6 +92,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SlgDevEnvUnbind.h" />
+    <ClInclude Include="UninstallerLogUtils.h" />
     <ClInclude Include="UninstallerPCH.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
