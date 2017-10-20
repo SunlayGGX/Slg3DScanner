@@ -11,6 +11,6 @@ namespace Slg3DScanner
     public:
         constexpr KeyboardElement() = default;
 
-        bool getKey(const char key) const;
+        bool getKey(const unsigned char key) const;
     };
 }

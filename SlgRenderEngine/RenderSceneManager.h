@@ -27,9 +27,6 @@ namespace Slg3DScanner
 
 
     public:
-        virtual void initialize() override;
-        virtual void destroy() override;
-
         void update();
 
 
@@ -40,6 +37,7 @@ namespace Slg3DScanner
         DirectX::XMVECTOR getMainCameraPosition() const;
         DirectX::XMMATRIX getMainCameraTransposedMatViewProj() const;
         void setMainCameraMatViewManually(const DirectX::XMVECTOR& eyePosition, const DirectX::XMVECTOR& focusDirection, const DirectX::XMVECTOR& upDirection);
+        void getMainCameraMatViewManually(DirectX::XMVECTOR& outEyePosition, DirectX::XMVECTOR& outFocusDirection, DirectX::XMVECTOR& outUpDirection) const;
 
 
     private:

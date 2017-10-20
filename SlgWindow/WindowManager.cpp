@@ -124,7 +124,7 @@ void WindowManager::initialize()
     }
     else
     {
-        throw std::exception{ "Window not created correctly!" };
+        throw std::exception{ SLG_NORMALIZE_EXCEPTION_MESSAGE("Window not created correctly!") };
     }
 }
 

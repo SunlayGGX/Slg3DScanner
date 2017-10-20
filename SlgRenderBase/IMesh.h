@@ -5,12 +5,13 @@
 #include "FacetteAttribute.h"
 
 #include "ShaderConstantBuffer.h"
-#include "Material.h"
 
 
 namespace Slg3DScanner
 {
     struct PreInitializeCBufferParameterFromRendererSceneManager;
+    struct MaterialInitializer;
+    class IMaterial;
     class RenderSceneManager;
 
     struct IMeshInitializer
@@ -56,8 +57,6 @@ namespace Slg3DScanner
 
         PreInitializeCBufferParameterFromMeshInstance m_meshParams;
 
-        std::vector<Material> m_materialArray;
-
         mutable std::mutex m_mutex;
 
 
@@ -69,13 +68,17 @@ namespace Slg3DScanner
     public:
         PreInitializeCBufferParameterFromMeshInstance& getMeshParams() noexcept;
 
-        virtual void addMaterial(const MaterialInitializer& materialInit);
-        virtual void addMaterial(MaterialInitializer&& materialInit);
+        virtual void addMaterial(const MaterialInitializer& materialInit) = 0;
+        virtual void addMaterial(MaterialInitializer&& materialInit) = 0;
 
 
     protected:
         virtual void registerComponent() override;
         virtual void unregisterComponent() override;
+
+
+    protected:
+        virtual void setBuffers(ID3D11DeviceContext* immediateContext, UINT stride, UINT offset);
 
 
     public:

@@ -1,18 +1,18 @@
 #include "GlobalEngine.h"
 
+#include "BitHelper.h"
+
 #include "InputEngineMediator.h"
 #include "SlgWindowMediator.h"
 #include "LoggerEngine.h"
 #include "RenderEngineManager.h"
 #include "TimeManager.h"
+#include "SlgCoreEngine.h"
 
 #include "Slg3DScannerConfig.h"
 
-#include "CameraParameters.h"
-
-#include "DefaultObjectCreator.h"
-
-#include "IMesh.h"
+#include "ITask.h"
+#include "InputTask.h"
 
 using namespace Slg3DScanner;
 
@@ -20,7 +20,7 @@ using namespace Slg3DScanner;
 GlobalEngine::GlobalEngine() :
     m_run{ false }
 {
-
+    m_taskMap[TaskOrder::INPUT] = std::make_unique<InputTask>();
 }
 
 GlobalEngine::~GlobalEngine()
@@ -41,14 +41,19 @@ void GlobalEngine::initialize()
     this->startInputAndWindowsThread();
 
     TimeManager::instance().initialize();
+    SlgCoreEngine::instance().initialize();
+
+    this->internalInitializeAllTasks();
 }
 
 void GlobalEngine::destroy()
 {
     this->quit();
 
+    this->internalDestroyAllTasks();
+
     TimeManager::instance().destroy();
-    //RenderEngine::instance().destroy();
+    SlgCoreEngine::instance().destroy();
 }
 
 void GlobalEngine::run()
@@ -60,15 +65,17 @@ void GlobalEngine::run()
         std::this_thread::sleep_for(updateTime);
     }
 
+    SlgCoreEngine::instance().runTest();
+
+    auto endTaskIter = m_taskMap.end();
     while(m_run)
     {
-        /*TODO : Update the Game Loop*/
+        for(auto iter = m_taskMap.begin(); iter != endTaskIter; ++iter)
+        {
+            iter->second->update();
+        }
 
-        //RenderEngine::instance().update();
-
-        //Bad, but until we have a proper TimeManager, this will do the job...
-        //TODO : Call a proper method from a Time Manager or Synchronize with VSync from RenderEngine swap chain present (present1 method) or so
-        std::this_thread::sleep_for(updateTime);
+        TimeManager::instance().waitEndOfFrame();
     }
 }
 
@@ -101,38 +108,10 @@ void GlobalEngine::startRendering(HWND windowVisuHandle)
 
     renderMgr.initializeDevice(windowVisuHandle);
     renderMgr.initialize();
-    
-    auto& dxDevice = renderMgr.getDevice();
 
-    CameraParameters cameraParameter;
-    cameraParameter.aspectRatio = dxDevice.getScreenWidth() / dxDevice.getScreenHeight();
-
-    renderMgr.createCamera(cameraParameter);
-
-    this->arrangeObjectInSceneWorld();
+    m_allInitialized |= BitMask<GlobalEngine::RENDER_INITIALIZED>::value;
 
     this->internalStartRenderThread();
-}
-
-void GlobalEngine::arrangeObjectInSceneWorld()
-{
-    RenderEngineManager::instance().setMainCameraMatViewManually(
-        DirectX::XMVectorSet(0.f, 0.f, -10.f, 1.f),
-        DirectX::XMVectorSet(0.f, 0.f, 0.f, 1.f),
-        DirectX::XMVectorSet(0.f, 1.f, 0.f, 1.f)
-    );
-
-    auto cube = DefaultObjectCreator::createDefaultCubeMesh();
-    cube->getMeshParams().m_TransposedMatWorld = DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslation(-2.f, 2.f, -2.f)) * cube->getMeshParams().m_TransposedMatWorld;
-
-    auto cube2 = DefaultObjectCreator::createDefaultCubeMesh();
-    cube2->getMeshParams().m_TransposedMatWorld = DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslation(-2.f, -2.f, -2.f)) * cube2->getMeshParams().m_TransposedMatWorld;
-
-    auto cube3 = DefaultObjectCreator::createDefaultCubeMesh();
-    cube3->getMeshParams().m_TransposedMatWorld = DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslation(2.f, 2.f, -2.f)) * cube3->getMeshParams().m_TransposedMatWorld;
-
-    auto cube4 = DefaultObjectCreator::createDefaultCubeMesh();
-    cube4->getMeshParams().m_TransposedMatWorld = DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslation(2.f, -2.f, -2.f)) * cube4->getMeshParams().m_TransposedMatWorld;
 }
 
 void GlobalEngine::internalStartRenderThread() const
@@ -154,6 +133,23 @@ void GlobalEngine::internalStartRenderThread() const
 
 bool GlobalEngine::isFullyInitialized() const
 {
-    return true;
-        //RenderEngine::instance().isInitialized();
+    return m_allInitialized == BitFill<GlobalEngine::FULL_INITIALIZED>::value;
+}
+
+void GlobalEngine::internalInitializeAllTasks()
+{
+    auto endTaskIter = m_taskMap.end();
+    for(auto iter = m_taskMap.begin(); iter != endTaskIter; ++iter)
+    {
+        iter->second->initialize();
+    }
+}
+
+void GlobalEngine::internalDestroyAllTasks()
+{
+    auto endTaskIter = m_taskMap.end();
+    for(auto iter = m_taskMap.begin(); iter != endTaskIter; ++iter)
+    {
+        iter->second->destroy();
+    }
 }

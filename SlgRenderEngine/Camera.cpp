@@ -36,6 +36,16 @@ void Camera::setPosition(const DirectX::XMVECTOR& newPosition)
     m_Position = newPosition;
 }
 
+void Camera::setDirection(const DirectX::XMVECTOR& newDirection)
+{
+    m_Direction = newDirection;
+}
+
+void Camera::setUp(const DirectX::XMVECTOR& newUp)
+{
+    m_Up = newUp;
+}
+
 void Camera::updateTransposedMatViewProj()
 {
     m_TransposedMatViewProj = DirectX::XMMatrixTranspose(m_MatView * m_MatProj);

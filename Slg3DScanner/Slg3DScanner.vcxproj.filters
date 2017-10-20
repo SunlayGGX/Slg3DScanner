@@ -33,7 +33,7 @@
     <ClCompile Include="GlobalEngine.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="DefaultObjectCreator.cpp">
+    <ClCompile Include="InputTask.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,7 +56,10 @@
     <ClInclude Include="GlobalEngine.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="DefaultObjectCreator.h">
+    <ClInclude Include="ITask.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="InputTask.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

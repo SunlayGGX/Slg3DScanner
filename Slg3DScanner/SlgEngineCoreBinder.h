@@ -9,12 +9,6 @@ namespace Slg3DScanner
     */
     class SlgEngineCoreBinder : private Slg3DScanner::SlgSingleton<SlgEngineCoreBinder>
     {
-    private:
         SLGENGINE_GENERATE_CODE_FROM_SlgSingleton(SlgEngineCoreBinder);
-
-
-    public:
-        virtual void initialize() override;
-        virtual void destroy() override;
     };
 }

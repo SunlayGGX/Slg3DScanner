@@ -5,20 +5,37 @@
 
 namespace Slg3DScanner
 {
+    class ITask;
+
     class GlobalEngine : private Slg3DScanner::SlgSingleton<GlobalEngine>
     {
     private:
         SLGENGINE_GENERATE_CODE_FROM_SlgSingleton(GlobalEngine);
 
 
+    private:
+        enum
+        {
+            RENDER_INITIALIZED,
+
+            FULL_INITIALIZED
+        };
+
+        enum TaskOrder
+        {
+            INPUT
+        };
+
+
     public:
         std::atomic<bool> m_run;
 
+        std::map<TaskOrder, std::unique_ptr<ITask>> m_taskMap;
+
+        std::atomic<uint8_t> m_allInitialized;
+
 
     public:
-        virtual void initialize() override;
-        virtual void destroy() override;
-
         void run();
 
         void quit();
@@ -28,13 +45,12 @@ namespace Slg3DScanner
         void startRendering(HWND windowVisuHandle);
 
 
-    public:
-        void arrangeObjectInSceneWorld();
-
-
     private:
         void startInputAndWindowsThread() const;
         void internalStartRenderThread() const;
+
+        void internalInitializeAllTasks();
+        void internalDestroyAllTasks();
     };
 }
 

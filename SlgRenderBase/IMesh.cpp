@@ -1,7 +1,5 @@
 #include "IMesh.h"
 
-#include "RenderSceneManager.h"
-
 #include "DirectXUtilitary.h"
 
 using namespace Slg3DScanner;
@@ -29,16 +27,11 @@ PreInitializeCBufferParameterFromMeshInstance& IMesh::getMeshParams() noexcept
     return m_meshParams;
 }
 
-void IMesh::addMaterial(const MaterialInitializer& materialInit)
+void IMesh::setBuffers(ID3D11DeviceContext* immediateContext, UINT stride, UINT offset)
 {
-    std::lock_guard<std::mutex> autoLocker{ m_mutex };
-    m_materialArray.emplace_back(materialInit);
-}
+    immediateContext->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
 
-void IMesh::addMaterial(MaterialInitializer&& materialInit)
-{
-    std::lock_guard<std::mutex> autoLocker{ m_mutex };
-    m_materialArray.emplace_back(std::move(materialInit));
+    immediateContext->IASetIndexBuffer(m_indexBuffer, DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
 }
 
 void IMesh::registerComponent()

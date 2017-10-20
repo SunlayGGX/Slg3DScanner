@@ -5,6 +5,7 @@
 
 #include "IMesh.h"
 #include "CubeMesh.h"
+#include "CloudMesh.h"
 
 #include "Vertex.h"
 #include "Material.h"
@@ -31,4 +32,27 @@ IMeshRef DefaultObjectCreator::createDefaultCubeMesh()
     cube->addMaterial(materialInitializer);
 
     return std::move(cube);
+}
+
+IMeshRef DefaultObjectCreator::createDefaultPointCloud(const std::string &pathFileName)
+{
+    CloudMeshInitializer meshInitializer;
+    meshInitializer.name = NameManager::instance().createUniqueName("CloudMesh");
+    meshInitializer.m_cloudFileName = pathFileName;
+
+    IMeshRef cloud = RenderSceneManager::instance().createMeshOfType<CloudMesh>(meshInitializer);
+
+    MaterialInitializer materialInitializer;
+    materialInitializer.m_VSFileName = L"Shader/MiniPhong.hlsl";
+    materialInitializer.m_PSFileName = materialInitializer.m_VSFileName;
+
+    materialInitializer.m_VSFuncName = "mainVS";
+    materialInitializer.m_PSFuncName = "mainPS";
+
+    materialInitializer.m_Desc = Slg3DScanner::SimpleVertex::s_Layout;
+    materialInitializer.m_ElemCount = ARRAYSIZE(Slg3DScanner::SimpleVertex::s_Layout);
+
+    cloud->addMaterial(materialInitializer);
+
+    return std::move(cloud);
 }

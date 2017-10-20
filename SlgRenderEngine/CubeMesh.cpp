@@ -4,6 +4,7 @@
 
 #include "RenderEngineManager.h"
 
+#include "Material.h"
 #include "Vertex.h"
 
 
@@ -12,7 +13,7 @@ using namespace Slg3DScanner;
 
 CubeMesh::CubeMesh(const CubeMeshInitializer& cubeMeshInitializer) :
     NamedObject{ cubeMeshInitializer.name },
-    IMesh{ cubeMeshInitializer }
+    Mesh{ cubeMeshInitializer }
 {
     ID3D11Device* device = RenderEngineManager::instance().getDevice().getD3DDevice();
 
@@ -139,6 +140,8 @@ CubeMesh::CubeMesh(const CubeMeshInitializer& cubeMeshInitializer) :
     initData.pSysMem = indexBuffer;
 
     DXTry(device->CreateBuffer(&bufferDesc, &initData, &m_indexBuffer));
+
+    this->setBuffers(RenderEngineManager::instance().getDevice().getImmediateContext(), sizeof(VertexType), 0);
 }
 
 CubeMesh::~CubeMesh()
@@ -147,13 +150,6 @@ CubeMesh::~CubeMesh()
 
 void CubeMesh::draw(ID3D11DeviceContext* immediateContext, const PreInitializeCBufferParameterFromRendererSceneManager& preInitShadingCBuffer)
 {
-    UINT stride = sizeof(VertexType);
-    UINT offset = 0;
-
-    immediateContext->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
-
-    immediateContext->IASetIndexBuffer(m_indexBuffer, DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
-
     ForwardShadingConstantBufferParameter renderCBufferParameter;
 
     ConstantBufferParameterHelper::transfer(preInitShadingCBuffer, renderCBufferParameter);

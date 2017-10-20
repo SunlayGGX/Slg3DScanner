@@ -139,11 +139,24 @@ void RenderSceneManager::setMainCameraMatViewManually(const DirectX::XMVECTOR& e
     if(m_currentPlayerCamera)
     {
         m_currentPlayerCamera->setPosition(eyePosition);
-        m_currentPlayerCamera->setMatView(DirectX::XMMatrixLookAtRH(
+        m_currentPlayerCamera->setDirection(focusDirection);
+        m_currentPlayerCamera->setUp(upDirection);
+        m_currentPlayerCamera->setMatView(DirectX::XMMatrixLookToRH(
             eyePosition,
             focusDirection,
             upDirection
         ));
+    }
+}
+
+void RenderSceneManager::getMainCameraMatViewManually(DirectX::XMVECTOR& outEyePosition, DirectX::XMVECTOR& outFocusDirection, DirectX::XMVECTOR& outUpDirection) const
+{
+    std::lock_guard<std::mutex> autoLocker{ m_mutex };
+    if(m_currentPlayerCamera)
+    {
+        outEyePosition = m_currentPlayerCamera->getPosition();
+        outFocusDirection = m_currentPlayerCamera->getDirection();
+        outUpDirection = m_currentPlayerCamera->getUp();
     }
 }
 
