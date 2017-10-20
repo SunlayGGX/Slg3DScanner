@@ -6,4 +6,6 @@
 
 //Standard
 #include <string>
+#include <stdexcept>
+#include <cassert>
 
