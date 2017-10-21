@@ -27,6 +27,23 @@ namespace Slg3DScanner
                     );
                 }
 
+                static std::string findFolderPathFromSpecifiedPath(const std::string& folderName, const std::string& path)
+                {
+                    std::experimental::filesystem::path specifiedPath{ path };
+                    if(std::experimental::filesystem::exists(specifiedPath))
+                    {
+                        return
+                            FolderFinderPImpl::findRecursiveFolderPathFromCurrentPath(
+                                folderName,
+                                std::experimental::filesystem::directory_iterator{ specifiedPath }
+                        );
+                    }
+                    else
+                    {
+                        throw std::exception{ ("invalid begin path : " + path + " doesn't exists").c_str() };
+                    }
+                }
+
                 static std::string findRecursiveFolderPathFromCurrentPath(const std::string& folderName, std::experimental::filesystem::directory_iterator folderIter)
                 {
                     auto endFolderIter = std::experimental::filesystem::directory_iterator{};
@@ -56,6 +73,60 @@ namespace Slg3DScanner
 
                     return std::string{};
                 }
+
+
+                static std::string findStructurePathFromCurrentPath(const std::string& structureName)
+                {
+                    return
+                        FolderFinderPImpl::findStructurePathFromCurrentPath(
+                            structureName,
+                            std::experimental::filesystem::directory_iterator{ std::experimental::filesystem::current_path() }
+                    );
+                }
+
+                static std::string findStructurePathFromSpecifiedPath(const std::string& structureName, const std::string& path)
+                {
+                    std::experimental::filesystem::path specifiedPath{ path };
+                    if(std::experimental::filesystem::exists(specifiedPath))
+                    {
+                        return
+                            FolderFinderPImpl::findStructurePathFromCurrentPath(
+                                structureName,
+                                std::experimental::filesystem::directory_iterator{ specifiedPath }
+                        );
+                    }
+                    else
+                    {
+                        throw std::exception{ ("invalid begin path : " + path + " doesn't exists").c_str() };
+                    }
+                }
+
+                static std::string findStructurePathFromCurrentPath(const std::string& structureName, std::experimental::filesystem::directory_iterator folderIter)
+                {
+                    auto endFolderIter = std::experimental::filesystem::directory_iterator{};
+                    for(; folderIter != endFolderIter; ++folderIter)
+                    {
+                        auto currentIterFolderPath = folderIter->path();
+                        if(currentIterFolderPath.filename().string() == structureName || currentIterFolderPath.stem().string() == structureName)
+                        {
+                            return currentIterFolderPath.string();
+                        }
+                        else if(std::experimental::filesystem::is_directory(folderIter->status()))
+                        {
+                            std::string found = std::move(FolderFinderPImpl::findStructurePathFromCurrentPath(
+                                structureName,
+                                std::experimental::filesystem::directory_iterator{ currentIterFolderPath }
+                            ));
+
+                            if(!found.empty())
+                            {
+                                return found;
+                            }
+                        }
+                    }
+
+                    return std::string{};
+                }
             };
         }
 
@@ -70,6 +141,49 @@ namespace Slg3DScanner
             else
             {
                 throw std::exception{ (folderName + " not found or isn't a folder!").c_str() };
+            }
+        }
+
+
+        std::string FolderFinder::findFolderPathFromSpecifiedPath(const std::string& folderName, const std::string& path)
+        {
+            std::string found = PImpl::FolderFinderPImpl::findFolderPathFromSpecifiedPath(folderName, path);
+
+            if(!found.empty())
+            {
+                return found;
+            }
+            else
+            {
+                throw std::exception{ (folderName + " not found or isn't a folder!").c_str() };
+            }
+        }
+
+        std::string FolderFinder::findStructurePathFromCurrentPath(const std::string& StructureName)
+        {
+            std::string found = PImpl::FolderFinderPImpl::findStructurePathFromCurrentPath(StructureName);
+
+            if(!found.empty())
+            {
+                return found;
+            }
+            else
+            {
+                throw std::exception{ (StructureName + " not found!").c_str() };
+            }
+        }
+
+        std::string FolderFinder::findStructurePathFromSpecifiedPath(const std::string& StructureName, const std::string& path)
+        {
+            std::string found = PImpl::FolderFinderPImpl::findStructurePathFromSpecifiedPath(StructureName, path);
+
+            if(!found.empty())
+            {
+                return found;
+            }
+            else
+            {
+                throw std::exception{ (StructureName + " not found!").c_str() };
             }
         }
     }
