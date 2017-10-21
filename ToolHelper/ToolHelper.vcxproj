@@ -11,11 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CommandPrompt.h" />
     <ClInclude Include="EnvironmentVariableManip.h" />
     <ClInclude Include="FolderFinder.h" />
     <ClInclude Include="ToolHelperPCH.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CommandPrompt.cpp" />
     <ClCompile Include="EnvironmentVariableManip.cpp" />
     <ClCompile Include="FolderFinder.cpp" />
     <ClCompile Include="ToolHelperPCH.cpp">
