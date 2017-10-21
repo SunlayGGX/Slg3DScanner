@@ -27,7 +27,7 @@ int main() try
     LOG("*******************************************");
 
     Slg3DScanner::SlgTools::linkSlgEnvironmentVariableToFolder(
-        SLG_ENVIRONMENT_VARIABLE_BIND(USER, "SLG_DEVEL", "Slg3DScanner"),
+        SLG_ENVIRONMENT_VARIABLE_BIND(USER, "SLG_DEVEL", "Developper"),
         SLG_ENVIRONMENT_VARIABLE_BIND(USER, "SLG_DEPEND", "SlgDependencies")
     );
 
