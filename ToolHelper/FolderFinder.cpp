@@ -18,6 +18,21 @@ namespace Slg3DScanner
                 FolderFinderPImpl& operator=(FolderFinderPImpl&) = delete;
 
             public:
+                static std::string findFolderPathWithOffsetFromCurrentPath(const std::string& folderName, int offset)
+                {
+                    auto specified = std::experimental::filesystem::current_path();
+                    while(offset != 0 && specified.has_parent_path())
+                    {
+                        specified = specified.parent_path();
+                        --offset;
+                    }
+
+                    return FolderFinderPImpl::findRecursiveFolderPathFromCurrentPath(
+                        folderName,
+                        std::experimental::filesystem::directory_iterator{ specified }
+                    );
+                }
+
                 static std::string findFolderPathFromCurrentPath(const std::string& folderName)
                 {
                     return
@@ -144,6 +159,19 @@ namespace Slg3DScanner
             }
         }
 
+        std::string FolderFinder::findFolderPathWithSpecifiedOffsetFromCurrentPath(const std::string& folderName, int offset)
+        {
+            std::string found = PImpl::FolderFinderPImpl::findFolderPathWithOffsetFromCurrentPath(folderName, offset);
+
+            if(!found.empty())
+            {
+                return found;
+            }
+            else
+            {
+                throw std::exception{ (folderName + " not found or isn't a folder!").c_str() };
+            }
+        }
 
         std::string FolderFinder::findFolderPathFromSpecifiedPath(const std::string& folderName, const std::string& path)
         {
