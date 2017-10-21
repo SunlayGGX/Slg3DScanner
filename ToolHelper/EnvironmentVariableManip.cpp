@@ -5,6 +5,26 @@ namespace Slg3DScanner
 {
     namespace SlgTools
     {
+        std::string EnvironmentVariableManip::getEnvironmentVariableValue(const std::string& variableName)
+        {
+            if(!variableName.empty())
+            {
+                std::string result{ std::getenv(variableName.c_str()) };
+                if(!result.empty())
+                {
+                    return result;
+                }
+                else
+                {
+                    throw std::exception{ (variableName + " doesn't exist or is empty").c_str() };
+                }
+            }
+            else
+            {
+                throw std::exception{ "environment variable name is empty" };
+            }
+        }
+
         bool EnvironmentVariableManip::isValidEnvironmentVariableValue(const std::string& variableValue)
         {
             return variableValue.find(' ') == std::string::npos;

@@ -44,6 +44,8 @@ namespace Slg3DScanner
             Keep in mind that if this function is used. The application won't work unless run with administrator privilege.
             */
             static void removeSystemEnvironmentVariable(const std::string& variableName);
+
+            static std::string getEnvironmentVariableValue(const std::string& variableName);
         };
     }
 }
