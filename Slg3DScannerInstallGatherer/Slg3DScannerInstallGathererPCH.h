@@ -6,6 +6,8 @@
 #include <vector>
 #include <string>
 #include <filesystem>
+#include <mutex>
+#include <type_traits>
 
 
 //My own

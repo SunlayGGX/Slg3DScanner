@@ -85,11 +85,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AsynchronousCopier.h" />
     <ClInclude Include="IgnoreParser.h" />
     <ClInclude Include="Slg3DScannerInstallGathererLogUtils.h" />
     <ClInclude Include="Slg3DScannerInstallGathererPCH.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AsynchronousCopier.cpp" />
     <ClCompile Include="IgnoreParser.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Slg3DScannerInstallGathererPCH.cpp">
