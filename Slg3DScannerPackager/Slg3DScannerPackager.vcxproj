@@ -10,42 +10,22 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="CloudVertex.h" />
-    <ClInclude Include="GlobalDef.h" />
-    <ClInclude Include="IMaterial.h" />
-    <ClInclude Include="IMesh.h" />
-    <ClInclude Include="IShader.h" />
-    <ClInclude Include="RenderConfig.h" />
-    <ClInclude Include="ShaderConstantBuffer.h" />
-    <ClInclude Include="SlgRenderBasePCH.h" />
-    <ClInclude Include="Vertex.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="IMaterial.cpp" />
-    <ClCompile Include="IMesh.cpp" />
-    <ClCompile Include="IShader.cpp" />
-    <ClCompile Include="SlgRenderBasePCH.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{F709C46B-AAAF-49DD-9454-BF7DA30232F9}</ProjectGuid>
+    <ProjectGuid>{06F56407-1168-4696-9959-CE9C66DB7260}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>SlgRenderBase</RootNamespace>
+    <RootNamespace>Slg3DScannerPackager</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -64,28 +44,26 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
     <TargetName>$(ProjectName)_d</TargetName>
-    <OutDir>$(SLG_DEPEND)/Slg3DScanner/</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SLG_DEPEND)/Slg3DScanner/</OutDir>
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderFile>SlgRenderBasePCH.h</PrecompiledHeaderFile>
-      <ForcedIncludeFiles>SlgRenderBasePCH.h</ForcedIncludeFiles>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>Slg3DScannerPackagerPCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>Slg3DScannerPackagerPCH.h</ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/ToolHelper;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>$(SLG_DEPEND)/Slg3DScanner/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
-    <Lib>
-      <AdditionalLibraryDirectories>$(SLG_DEPEND)/Slg3DScanner/;$(SLG_DEPEND)/DirectX/Lib/x64/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -94,20 +72,35 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderFile>SlgRenderBasePCH.h</PrecompiledHeaderFile>
-      <ForcedIncludeFiles>SlgRenderBasePCH.h</ForcedIncludeFiles>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>Slg3DScannerPackagerPCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>Slg3DScannerPackagerPCH.h</ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/ToolHelper;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SLG_DEPEND)/Slg3DScanner/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
-    <Lib>
-      <AdditionalLibraryDirectories>$(SLG_DEPEND)/Slg3DScanner/;$(SLG_DEPEND)/DirectX/Lib/x64/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Lib>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="AsynchronousCopier.h" />
+    <ClInclude Include="IgnoreParser.h" />
+    <ClInclude Include="Slg3DScannerPackagerLogUtils.h" />
+    <ClInclude Include="Slg3DScannerPackagerPCH.h" />
+    <ClInclude Include="Zipper.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AsynchronousCopier.cpp" />
+    <ClCompile Include="IgnoreParser.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Slg3DScannerPackagerPCH.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Zipper.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
