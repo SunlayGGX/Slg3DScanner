@@ -8,6 +8,10 @@ namespace Slg3DScanner
         class AsynchronousCopier
         {
         public:
+            using BindedValue = std::pair<std::experimental::filesystem::path, std::experimental::filesystem::path>;
+            using BindingPathArray = std::vector<BindedValue>;
+
+        public:
             class WaitForCompletion {};
             class IndependentRun {};
 
@@ -15,8 +19,8 @@ namespace Slg3DScanner
             static std::mutex s_creationMutex;
 
         private:
-            std::vector<std::pair<std::experimental::filesystem::path, std::experimental::filesystem::path>> m_sourceAndDestinationFolderBindPath;
-            std::vector<std::pair<std::experimental::filesystem::path, std::experimental::filesystem::path>> m_sourceAndDestinationFileBindPath;
+            BindingPathArray m_sourceAndDestinationFolderBindPath;
+            BindingPathArray m_sourceAndDestinationFileBindPath;
 
             mutable std::mutex m_mutex;
 

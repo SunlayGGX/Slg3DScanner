@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Slg3DScannerInstallGathererPCH.h">
+    <ClInclude Include="Slg3DScannerPackagerPCH.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Slg3DScannerInstallGathererLogUtils.h">
+    <ClInclude Include="Slg3DScannerPackagerLogUtils.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="IgnoreParser.h">
@@ -29,7 +29,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Slg3DScannerInstallGathererPCH.cpp">
+    <ClCompile Include="Slg3DScannerPackagerPCH.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">

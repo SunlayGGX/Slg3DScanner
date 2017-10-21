@@ -1,9 +1,9 @@
-#include "Slg3DScannerInstallGathererPCH.h"
+#include "Slg3DScannerPackagerPCH.h"
 #include "AsynchronousCopier.h"
 
 #include "IgnoreParser.h"
 
-#include "Slg3DScannerInstallGathererLogUtils.h"
+#include "Slg3DScannerPackagerLogUtils.h"
 
 #include <thread>
 
@@ -172,13 +172,7 @@ void AsynchronousCopier::copyRelevantDirectoryRecursive(
 
 void AsynchronousCopier::copyFile(const std::experimental::filesystem::path& sourcePath, const std::experimental::filesystem::path& destinationPath, const std::vector<std::experimental::filesystem::path>& ignore)
 {
-    if(std::find_if(ignore.begin(), ignore.end(),
-        [&sourcePath](const std::experimental::filesystem::path& ignoreEval) {
-        return sourcePath.filename() == ignoreEval || sourcePath.extension() == ignoreEval || sourcePath.stem() == ignoreEval;
-    }) == ignore.end())
-    {
-        std::experimental::filesystem::copy(sourcePath, destinationPath, std::experimental::filesystem::copy_options::update_existing);
-    }
+    std::experimental::filesystem::copy(sourcePath, destinationPath, std::experimental::filesystem::copy_options::update_existing);
 }
 
 void AsynchronousCopier::start(const IgnoreParser& ignoreParser, AsynchronousCopier::WaitForCompletion)
@@ -190,16 +184,19 @@ void AsynchronousCopier::start(const IgnoreParser& ignoreParser, AsynchronousCop
 
         threadP.reserve(m_sourceAndDestinationFileBindPath.empty() ? m_sourceAndDestinationFolderBindPath.size() : (m_sourceAndDestinationFolderBindPath.size() + 1));
 
+        BindingPathArray arrayBind;
+        std::swap(arrayBind, m_sourceAndDestinationFileBindPath);
+
         threadP.emplace_back(
             [
-                fileCopyBindArray = std::move(m_sourceAndDestinationFileBindPath),
+                fileCopyBindArray = std::move(arrayBind),
                 toIgnoreData = ignoreParser
             ]()
         {
             auto endIter = fileCopyBindArray.end();
             for(auto iter = fileCopyBindArray.begin(); iter != endIter; ++iter)
             {
-                AsynchronousCopier::internalCreateDestinationDirIfDoesntExists(iter->second, true);
+                AsynchronousCopier::internalCreateDestinationDirIfDoesntExists(iter->second, false /*The destination is a directory*/);
                 AsynchronousCopier::copyFile(iter->first, iter->second, toIgnoreData.getAllExtensionToIgnore());
             }
         });
@@ -225,7 +222,6 @@ void AsynchronousCopier::start(const IgnoreParser& ignoreParser, AsynchronousCop
         }
 
         m_sourceAndDestinationFolderBindPath.clear();
-        m_sourceAndDestinationFileBindPath.clear();
     }
 
     auto endIter = threadP.end();
@@ -244,9 +240,12 @@ void AsynchronousCopier::start(const IgnoreParser& ignoreParser, AsynchronousCop
         
         threadP.reserve(m_sourceAndDestinationFileBindPath.empty() ? m_sourceAndDestinationFolderBindPath.size() : (m_sourceAndDestinationFolderBindPath.size() + 1));
 
+        BindingPathArray arrayBind;
+        std::swap(arrayBind, m_sourceAndDestinationFileBindPath);
+
         threadP.emplace_back(
             [
-                fileCopyBindArray = std::move(m_sourceAndDestinationFileBindPath),
+                fileCopyBindArray = std::move(arrayBind),
                 toIgnoreData = ignoreParser
             ]()
         {
@@ -279,7 +278,6 @@ void AsynchronousCopier::start(const IgnoreParser& ignoreParser, AsynchronousCop
         }
         
         m_sourceAndDestinationFolderBindPath.clear();
-        m_sourceAndDestinationFileBindPath.clear();
     }
 
     auto endIter = threadP.end();
