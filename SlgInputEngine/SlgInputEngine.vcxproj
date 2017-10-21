@@ -86,7 +86,7 @@
       <SubSystem>Windows</SubSystem>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SLG_DEPEND)/Slg3DScanner/;$(MOONRPG_DEPEND)/DirectX/Lib/x64/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SLG_DEPEND)/Slg3DScanner/;$(SLG_DEPEND)/DirectX/Lib/x64/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
@@ -110,7 +110,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SLG_DEPEND)/Slg3DScanner/;$(MOONRPG_DEPEND)/DirectX/Lib/x64/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SLG_DEPEND)/Slg3DScanner/;$(SLG_DEPEND)/DirectX/Lib/x64/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
