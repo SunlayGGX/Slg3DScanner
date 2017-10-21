@@ -5,10 +5,20 @@
 
 using namespace Slg3DScanner::Tools;
 
+
+IgnoreParser::IgnoreParser()
+{
+    
+}
+
+IgnoreParser::~IgnoreParser()
+{
+}
+
 FORCEINLINE bool IgnoreParser::isNotParseSeparator(char evaluatedCharacter) const
 {
     return !(
-        evaluatedCharacter == ' '  ||
+        evaluatedCharacter == ' ' ||
         evaluatedCharacter == '\t' ||
         evaluatedCharacter == '\n'
         );
@@ -21,9 +31,36 @@ FORCEINLINE bool IgnoreParser::isNotSkipParseSeparator(char evaluatedCharacter) 
         );
 }
 
-IgnoreParser::IgnoreParser(const std::string& extensionFile)
+const std::vector<std::experimental::filesystem::path>& IgnoreParser::getAllExtensionToIgnore() const
+{
+    return m_LUNameToIgnore;
+}
+
+void IgnoreParser::addToIgnoreList(const std::string& toAdd)
+{
+    //do not add doublons
+    std::experimental::filesystem::path tempPath{ toAdd };
+    if(!toAdd.empty() && std::find(m_LUNameToIgnore.begin(), m_LUNameToIgnore.end(), tempPath) == m_LUNameToIgnore.end())
+    {
+        m_LUNameToIgnore.emplace_back(std::move(tempPath));
+    }
+}
+
+void IgnoreParser::removeFromIgnoreList(const std::string& toRemove)
+{
+    auto found = std::find(m_LUNameToIgnore.begin(), m_LUNameToIgnore.end(), std::experimental::filesystem::path{ toRemove });
+    if(found != m_LUNameToIgnore.end())
+    {
+        std::swap(*found, m_LUNameToIgnore.back());
+        m_LUNameToIgnore.pop_back();
+    }
+}
+
+void IgnoreParser::load(const std::string& extensionFile)
 {
     using ReadDatatType = char;
+
+    m_LUNameToIgnore.clear();
 
     if(!std::experimental::filesystem::is_regular_file(extensionFile))
     {
@@ -31,6 +68,11 @@ IgnoreParser::IgnoreParser(const std::string& extensionFile)
     }
 
     std::size_t fileSize = std::experimental::filesystem::file_size(extensionFile);
+
+    if(fileSize == 0)
+    {
+        return;
+    }
 
     std::string readText;
     readText.reserve(fileSize);
@@ -59,26 +101,19 @@ IgnoreParser::IgnoreParser(const std::string& extensionFile)
                 }
             }
         }
-        textIter = currentIter;
-
-        //do not add doublons
-        std::experimental::filesystem::path tempPath{ tmpExtension };
-        if(std::find(m_LUNameToIgnore.begin(), m_LUNameToIgnore.end(), tempPath) == m_LUNameToIgnore.end())
-        {
-            m_LUNameToIgnore.emplace_back(std::move(tempPath));
-        }
-
+        
+        this->addToIgnoreList(tmpExtension);
         tmpExtension.clear();
+
+        if(currentIter != endTextIter)
+        {
+            textIter = currentIter;
+        }
+        else
+        {
+            break;
+        }
     }
 
     m_LUNameToIgnore.shrink_to_fit();
-}
-
-IgnoreParser::~IgnoreParser()
-{
-}
-
-const std::vector<std::experimental::filesystem::path>& IgnoreParser::getAllExtensionToIgnore() const
-{
-    return m_LUNameToIgnore;
 }

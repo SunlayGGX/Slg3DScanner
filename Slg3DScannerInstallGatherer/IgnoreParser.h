@@ -10,11 +10,16 @@ namespace Slg3DScanner
             std::vector<std::experimental::filesystem::path> m_LUNameToIgnore;
 
         public:
-            IgnoreParser(const std::string& extensionFile);
+            IgnoreParser();
             ~IgnoreParser();
 
         public:
             const std::vector<std::experimental::filesystem::path>& getAllExtensionToIgnore() const;
+
+            void load(const std::string& extensionFile);
+
+            void addToIgnoreList(const std::string& toAdd);
+            void removeFromIgnoreList(const std::string& toRemove);
 
         private:
             bool isNotParseSeparator(char evaluatedCharacter) const;
