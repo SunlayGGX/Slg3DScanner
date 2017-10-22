@@ -78,7 +78,7 @@ void CloudMesh::draw(ID3D11DeviceContext* immediateContext, const PreInitializeC
             {
                 iter->prepareDraw(immediateContext, renderCBufferParameter);
 
-                immediateContext->DrawIndexed(m_vertexCount, 0, 0);
+                immediateContext->DrawIndexed(static_cast<UINT>(m_vertexCount), 0, 0);
             }
         }
 
@@ -118,7 +118,7 @@ void CloudMesh::internalSendDataToGraphicCard()
     );
     
     bufferDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
-    bufferDesc.ByteWidth = m_vertexCount * sizeof(VertexType);
+    bufferDesc.ByteWidth = static_cast<UINT>(m_vertexCount * sizeof(VertexType));
     bufferDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
     bufferDesc.CPUAccessFlags = 0;
 
@@ -132,7 +132,7 @@ void CloudMesh::internalSendDataToGraphicCard()
         indexBuffer[iter] = iter;
     }
 
-    bufferDesc.ByteWidth = m_vertexCount * sizeof(UINT);
+    bufferDesc.ByteWidth = static_cast<UINT>(m_vertexCount * sizeof(UINT));
     bufferDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
 
     initData.pSysMem = indexBuffer.get();
