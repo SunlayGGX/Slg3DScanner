@@ -27,7 +27,7 @@ NB : Les versions debug sont suffixé d'un "_d". Les version Releases n'en n'ont 
 
 La solution se décompose en 13 sous projet appartenant à 2 partie (Application et Tool) :
 
-- Application se compose de 9 projets :
+- Application se compose de 10 projets :
 • Slg3DScanner (executable). C'est mon application principale ... Elle gère le lancement, le nettoyage et le bon execution de l'application d'un haut niveau.
 
 • Slg3DScanner (librairie statique) posant les bases et les "objets" helper pour tous les projets Application
@@ -43,6 +43,8 @@ La solution se décompose en 13 sous projet appartenant à 2 partie (Application e
 • SlgRenderEngine (librairie statique) est l'engin de Rendu.
 
 • SlgRessource (librairie statique) commande le loading de ressources. Pour le moment, seul le binaire pure et le format SlgBinPos (format binaire custom-made pour point cloud) sont implémentés.
+
+• SlgSurfaceComputation (librairie statique) sert de librairie de calcul pour reconstruire des Meshes à partir de point cloud. C'est dedans que se trouve l'implémentation de mes essais pour la reconstruction de mesh à partir de point cloud. Je l'ai faite séparée du reste de l'application pour ne pas polluer celle-ci de code d'essai, parfois non fonctionnels.
 
 • SlgWindow (librairie statique) génère et possède les ressources à la bonne production de la fenètre utilisé par l'application.
 

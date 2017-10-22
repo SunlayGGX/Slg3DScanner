@@ -11,45 +11,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="CameraParameters.h" />
-    <ClInclude Include="CloudMesh.h" />
-    <ClInclude Include="CubeMesh.h" />
-    <ClInclude Include="DXDispositif.h" />
-    <ClInclude Include="DXHardwareDeviceInfo.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="PixelShader.h" />
-    <ClInclude Include="RenderEngineManager.h" />
-    <ClInclude Include="RenderSceneManager.h" />
-    <ClInclude Include="ShaderDebugDefineMacro.h" />
-    <ClInclude Include="ShaderManager.h" />
-    <ClInclude Include="SlgRenderEnginePCH.h" />
-    <ClInclude Include="VertexShader.h" />
+    <ClInclude Include="SlgSurfaceComputationPCH.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CloudMesh.cpp" />
-    <ClCompile Include="CubeMesh.cpp" />
-    <ClCompile Include="DXDispositif.cpp" />
-    <ClCompile Include="DXHardwareDeviceInfo.cpp" />
-    <ClCompile Include="Material.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="PixelShader.cpp" />
-    <ClCompile Include="RenderEngineManager.cpp" />
-    <ClCompile Include="RenderSceneManager.cpp" />
-    <ClCompile Include="ShaderManager.cpp" />
-    <ClCompile Include="SlgRenderEnginePCH.cpp">
+    <ClCompile Include="SlgSurfaceComputationPCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="VertexShader.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{EDAA6F60-CEF6-4BFA-9433-D6F0ED8402E1}</ProjectGuid>
+    <ProjectGuid>{09678856-BE55-42B4-A5E2-9170812E2096}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>SlgRenderEngine</RootNamespace>
+    <RootNamespace>SlgSurfaceComputation</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -91,15 +65,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>SlgRenderEnginePCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;$(SLG_DEVEL)/Slg3DScanner/SlgRenderBase;$(SLG_DEVEL)/Slg3DScanner/SlgRessource;$(SLG_DEVEL)/Slg3DScanner/SlgSurfaceComputation;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ForcedIncludeFiles>SlgRenderEnginePCH.h</ForcedIncludeFiles>
+      <PrecompiledHeaderFile>SlgSurfaceComputationPCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>SlgSurfaceComputationPCH.h</ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;$(SLG_DEVEL)/Slg3DScanner/SlgRenderBase;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SLG_DEPEND)/Slg3DScanner/;$(SLG_DEPEND)/DirectX/Lib/x64/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SLG_DEPEND)/Slg3DScanner/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -110,9 +84,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>SlgRenderEnginePCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;$(SLG_DEVEL)/Slg3DScanner/SlgRenderBase;$(SLG_DEVEL)/Slg3DScanner/SlgRessource;$(SLG_DEVEL)/Slg3DScanner/SlgSurfaceComputation;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ForcedIncludeFiles>SlgRenderEnginePCH.h</ForcedIncludeFiles>
+      <PrecompiledHeaderFile>SlgSurfaceComputationPCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>SlgSurfaceComputationPCH.h</ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;$(SLG_DEVEL)/Slg3DScanner/SlgRenderBase;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -120,7 +94,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SLG_DEPEND)/Slg3DScanner/;$(SLG_DEPEND)/DirectX/Lib/x64/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SLG_DEPEND)/Slg3DScanner/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
