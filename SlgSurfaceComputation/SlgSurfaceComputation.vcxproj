@@ -12,10 +12,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputCloudVertex.h" />
+    <ClInclude Include="PointCloudAlgorithm.h" />
     <ClInclude Include="SlgCloudReadWrite.h" />
     <ClInclude Include="SlgSurfaceComputationPCH.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="PointCloudAlgorithm.cpp" />
     <ClCompile Include="SlgCloudReadWrite.cpp" />
     <ClCompile Include="SlgSurfaceComputationPCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

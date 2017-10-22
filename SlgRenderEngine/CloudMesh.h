@@ -20,8 +20,7 @@ namespace Slg3DScanner
     private:
         std::string m_cloudFileName;
 
-        std::size_t m_vertexCount;
-        std::unique_ptr<CloudVertex[]> m_cloud;
+        std::vector<CloudVertex> m_cloud;
         D3D11_PRIMITIVE_TOPOLOGY m_cloudTopology;
 
         std::atomic<bool> m_initialized;
