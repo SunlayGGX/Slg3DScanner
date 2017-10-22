@@ -41,6 +41,7 @@ int main() try
     asyncCopier.bindSourceToDestinationPath(develPath / "x64" / "Debug" / "Uninstaller_d.exe", destinationPath, true);
     asyncCopier.bindSourceToDestinationPath(develPath / "x64" / "Debug" / "Installer_d.exe", destinationPath, true);
     asyncCopier.bindSourceToDestinationPath(develPath / "README.txt", destinationPath, true);
+    asyncCopier.bindSourceToDestinationPath(develPath / "Update.txt", destinationPath, true);
 
     LOG("********************************\n\n");
 

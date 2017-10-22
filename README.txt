@@ -12,6 +12,8 @@ Pour le moment seul la lecture et l'affichage du mesh cloud est implémenté à par
 
 Le code et le suivi du développement est aussi présent dans le projet github : https://github.com/SunlayGGX/Slg3DScanner
 
+Sinon pour avoir un apperçu des changements apportés au fil du temps et connaitre si un projet à changé entre 2 .zip, un fichier Update.txt a été placé à la racine du dossier mère et sera mis à jour régulièrements des nouveaux changements.
+
 Pour naviguer dans la scene 3d :
 Translation droite/gauche/bas/haut = flèche directionnelle du clavier
 Translation avant/arrière = touche 2 (arrière) - touche 8 (avant)
