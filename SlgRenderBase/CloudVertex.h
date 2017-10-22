@@ -21,7 +21,7 @@ namespace Slg3DScanner
         constexpr CloudVertex(const CloudVertex&) noexcept = default;
 
         constexpr CloudVertex(float xPos, float yPos, float zPos) noexcept :
-            m_vertex{ xPos, yPos, zPos }
+        m_vertex{ xPos, yPos, zPos }
         {}
 
         constexpr CloudVertex(const DirectX::XMFLOAT3& vertexPos) noexcept :

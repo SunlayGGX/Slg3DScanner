@@ -11,9 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="InputCloudVertex.h" />
+    <ClInclude Include="SlgCloudReadWrite.h" />
     <ClInclude Include="SlgSurfaceComputationPCH.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SlgCloudReadWrite.cpp" />
     <ClCompile Include="SlgSurfaceComputationPCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -67,7 +70,7 @@
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>SlgSurfaceComputationPCH.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>SlgSurfaceComputationPCH.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;$(SLG_DEVEL)/Slg3DScanner/SlgRenderBase;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;$(SLG_DEVEL)/Slg3DScanner/SlgRenderBase;$(SLG_DEVEL)/Slg3DScanner/SlgRessource;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -86,7 +89,7 @@
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>SlgSurfaceComputationPCH.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>SlgSurfaceComputationPCH.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;$(SLG_DEVEL)/Slg3DScanner/SlgRenderBase;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;$(SLG_DEVEL)/Slg3DScanner/SlgRenderBase;$(SLG_DEVEL)/Slg3DScanner/SlgRessource;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
