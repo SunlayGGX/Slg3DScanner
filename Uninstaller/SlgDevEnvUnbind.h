@@ -25,4 +25,4 @@ namespace Slg3DScanner
     }
 }
 
-#define SLG_ENVIRONMENT_VARIABLE_UNBIND(modality, environmentVariableName, folderName) GET_UNLINK_ENVIR_METHOD(modality), std::string{ environmentVariableName }
+#define SLG_ENVIRONMENT_VARIABLE_UNBIND(modality, environmentVariableName) GET_UNLINK_ENVIR_METHOD(modality), std::string{ environmentVariableName }
