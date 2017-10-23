@@ -12,12 +12,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputCloudVertex.h" />
+    <ClInclude Include="NormalComputator.h" />
     <ClInclude Include="PointCloudAlgorithm.h" />
     <ClInclude Include="SlgCloudReadWrite.h" />
     <ClInclude Include="SlgMath.h" />
     <ClInclude Include="SlgSurfaceComputationPCH.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="NormalComputator.cpp" />
     <ClCompile Include="PointCloudAlgorithm.cpp" />
     <ClCompile Include="SlgCloudReadWrite.cpp" />
     <ClCompile Include="SlgMath.cpp" />
