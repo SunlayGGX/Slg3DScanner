@@ -217,8 +217,15 @@ void Slg3DScanner::computeEigenValueAndEigenVectorsFromCovarianceMatrixAndOutput
     Eigen::EigenSolver<MatrixType> solver{ MatrixType{ inCovarianceMatrix } };
     auto& eigenValues = solver.eigenvalues();
     auto& eigenVectors = solver.eigenvectors();
-
-    auto minElement = std::min_element(eigenValues.data(), eigenValues.data() + 3);
+    
+    //don't know if it is a good idea but for now, I will keep only real part, not imaginary parts... I'll see if it is a good idea when testing...
+    auto minElement = std::min_element(
+        eigenValues.data(), 
+        eigenValues.data() + 3, 
+        [](const std::complex<float>& a, const std::complex<float>& b) 
+    {
+        return a.real() < b.real();
+    });
 
     auto normal = eigenVectors.data() + (minElement - eigenValues.data());
 
