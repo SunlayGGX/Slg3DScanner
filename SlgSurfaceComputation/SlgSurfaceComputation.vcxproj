@@ -72,7 +72,7 @@
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>SlgSurfaceComputationPCH.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>SlgSurfaceComputationPCH.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;$(SLG_DEVEL)/Slg3DScanner/SlgRenderBase;$(SLG_DEVEL)/Slg3DScanner/SlgRessource;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;$(SLG_DEVEL)/Slg3DScanner/SlgRenderBase;$(SLG_DEVEL)/Slg3DScanner/SlgRessource;$(SLG_DEPEND)/Eigen/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -91,7 +91,7 @@
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>SlgSurfaceComputationPCH.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>SlgSurfaceComputationPCH.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;$(SLG_DEVEL)/Slg3DScanner/SlgRenderBase;$(SLG_DEVEL)/Slg3DScanner/SlgRessource;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SLG_DEVEL)/Slg3DScanner/Slg3DScannerHelper;$(SLG_DEVEL)/Slg3DScanner/SlgLogger;$(SLG_DEVEL)/Slg3DScanner/SlgRenderBase;$(SLG_DEVEL)/Slg3DScanner/SlgRessource;$(SLG_DEPEND)/Eigen/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

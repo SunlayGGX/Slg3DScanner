@@ -21,4 +21,6 @@ OgreMain
 DirectX_June
 SlgEngine
 Slg3DScanner_v1
+Eigen3.3.4
+EigenOriginal
 Test
