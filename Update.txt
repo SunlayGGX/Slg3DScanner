@@ -1,4 +1,11 @@
 
+23-10-2017  -  3.15am
+- Added Eigen Librairy dependencies
+- Separated Inputed Cloud Vertex (inputed as just an array of sparse 3D points) from Rendered Cloud Vertex (final, will have more than just points)
+- Added some mathematics implementation (covariance matrix creation, centroid computation, linear least square, eigenvalues and eigenvectors using Eigen library, ...)
+- A lot of research for making normals using a set of points...
+
+
 ************************
 22-10-2017
 - Fix the slgBinPos data.
