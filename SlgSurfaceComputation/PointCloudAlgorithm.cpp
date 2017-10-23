@@ -12,11 +12,11 @@ void PointCloudAlgorithm::computeInputCloudVertexToFinalCloudVertex(std::vector<
     outFinalCloudVertexVector.clear();
     outFinalCloudVertexVector.reserve(inputedVertexCount);
 
-
-    //for now (because the final algorithm is not implemented yet. To allow retrocompatibility with what we had before)
+    //Transfer input point to final point
     for(std::size_t iter = 0; iter != inputedVertexCount; ++iter)
     {
-        auto& inputVertex = inInputedVertexes[iter];
-        outFinalCloudVertexVector.emplace_back(inputVertex.m_vertex.x, inputVertex.m_vertex.y, inputVertex.m_vertex.z);
+        outFinalCloudVertexVector.emplace_back(inInputedVertexes[iter].m_vertex);
     }
+
+    //Compute normals
 }
