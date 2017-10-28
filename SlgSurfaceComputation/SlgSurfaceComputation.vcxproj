@@ -11,15 +11,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CloudVertexComputationStructure.h" />
+    <ClInclude Include="ComputationCloudStructure.h" />
     <ClInclude Include="InputCloudVertex.h" />
-    <ClInclude Include="NormalComputator.h" />
+    <ClInclude Include="PointCloudComputator.h" />
     <ClInclude Include="PointCloudAlgorithm.h" />
     <ClInclude Include="SlgCloudReadWrite.h" />
     <ClInclude Include="SlgMath.h" />
     <ClInclude Include="SlgSurfaceComputationPCH.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NormalComputator.cpp" />
+    <ClCompile Include="CloudVertexComputationStructure.cpp" />
+    <ClCompile Include="ComputationCloudStructure.cpp" />
+    <ClCompile Include="PointCloudComputator.cpp" />
     <ClCompile Include="PointCloudAlgorithm.cpp" />
     <ClCompile Include="SlgCloudReadWrite.cpp" />
     <ClCompile Include="SlgMath.cpp" />

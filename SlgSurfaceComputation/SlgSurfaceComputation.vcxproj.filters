@@ -30,7 +30,13 @@
     <ClInclude Include="SlgMath.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="NormalComputator.h">
+    <ClInclude Include="CloudVertexComputationStructure.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="PointCloudComputator.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="ComputationCloudStructure.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
@@ -47,7 +53,13 @@
     <ClCompile Include="SlgMath.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="NormalComputator.cpp">
+    <ClCompile Include="CloudVertexComputationStructure.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="PointCloudComputator.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ComputationCloudStructure.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
