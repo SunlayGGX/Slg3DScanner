@@ -227,11 +227,11 @@ void Slg3DScanner::computeEigenValueAndEigenVectorsFromCovarianceMatrixAndOutput
         return a.real() < b.real();
     });
 
-    auto normal = eigenVectors.data() + (minElement - eigenValues.data());
+    auto normal = &eigenVectors(minElement - eigenValues.data());
 
     outNormal.x = normal->real();
-    outNormal.y = normal->real();
-    outNormal.z = normal->real();
+    outNormal.y = (normal + 3)->real();
+    outNormal.z = (normal + 6)->real();
 
     float norme = std::sqrtf(outNormal.x * outNormal.x + outNormal.y * outNormal.y + outNormal.z * outNormal.z);
 
