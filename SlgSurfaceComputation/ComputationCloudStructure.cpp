@@ -71,7 +71,7 @@ ComputationCloudStructure::ComputationCloudStructure(const InputCloudVertex* inI
 {
     this->generateBoxArray(inInputedVertexes);
     this->fillBoxArray(inInputedVertexes);
-    this->internalOptimize();
+    this->internalOptimizeBox();
 }
 
 ComputationCloudStructure::~ComputationCloudStructure() = default;
@@ -293,7 +293,7 @@ void ComputationCloudStructure::fillBoxArray(const InputCloudVertex* inInputedVe
         {
             if(boxArrayIter->isInsideBox(inputVertex.m_vertex))
             {
-                boxArrayIter->m_cloudVertexInside.emplace_back(inputVertex);
+                boxArrayIter->m_cloudVertexInside.emplace_back(inputVertex, *boxArrayIter);
                 ++iter;
                 found = true;
                 break;
@@ -332,7 +332,7 @@ void ComputationCloudStructure::transferToFinal(std::vector<CloudVertex>& outFin
     }
 }
 
-void ComputationCloudStructure::internalOptimize()
+void ComputationCloudStructure::internalOptimizeBox()
 {
     /*
     Warning : MUST NOT do operation which could reallocate box array.
@@ -366,6 +366,29 @@ void ComputationCloudStructure::internalOptimize()
     }
 }
 
+void ComputationCloudStructure::internalOptimizeMemory()
+{
+    std::vector<std::future<void>> asyncVector;
+    asyncVector.reserve(m_boxArray.size());
+
+    auto endIter = m_boxArray.end();
+    for(auto iter = m_boxArray.begin(); iter != endIter; ++iter)
+    {
+        if(!iter->m_cloudVertexInside.empty())
+        {
+            asyncVector.emplace_back(std::async([iter]() {
+                std::for_each(
+                    iter->m_cloudVertexInside.begin(),
+                    iter->m_cloudVertexInside.end(),
+                    [](CloudVertexComputationStructure& cloudVertex) 
+                {
+                    cloudVertex.optimizeAllocMemory();
+                });
+            }));
+        }
+    }
+}
+
 void ComputationCloudStructure::compute()
 {
     if(m_vertexCount < 2)
@@ -374,31 +397,41 @@ void ComputationCloudStructure::compute()
     }
 
     this->computeNeighbourhoods();
+    this->internalEraseAllNeighboursDoublons();
+    this->internalOptimizeMemory();
     this->computeTangentPlanes();
 }
 
 void ComputationCloudStructure::computeNeighbourhoods()
 {
-    std::vector<std::future<void>> asyncArray;
-    asyncArray.reserve(m_boxArray.size());
+    std::vector<std::future<void>> asyncVector;
+    asyncVector.reserve(m_boxArray.size());
 
     auto endIter = m_boxArray.end();
     for(auto iter = m_boxArray.begin(); iter != endIter; ++iter)
     {
-        auto& cloudVertexInside = iter->m_cloudVertexInside;
-        if(!cloudVertexInside.empty())
+        if(!iter->m_cloudVertexInside.empty())
         {
-            asyncArray.emplace_back(std::async([this, iter, &cloudVertexInside = iter->m_cloudVertexInside]() 
+            asyncVector.emplace_back(std::async([this, iter]()
             {
+                auto& cloudVertexInside = iter->m_cloudVertexInside;
+
                 std::vector<ComputationCloudBox*> alreadyVisitedNeighborhood;
                 alreadyVisitedNeighborhood.reserve(26);
 
+                auto endVertexArray = cloudVertexInside.end();
+
+                const std::size_t vertexCount = cloudVertexInside.size();
+                for(auto kiter = cloudVertexInside.begin(); kiter != endVertexArray; ++kiter)
+                {
+                    kiter->optimizeAllocSpeed(vertexCount);
+                }
+
                 const auto endNeighbourIter = iter->m_connectedNeighbour.end();
-                auto endJiter = cloudVertexInside.end();
-                auto endKIter = endJiter - 1;
+                auto endKIter = endVertexArray - 1;
                 for(auto kiter = cloudVertexInside.begin(); kiter != endKIter; ++kiter)
                 {
-                    for(auto jiter = kiter + 1; jiter != endJiter; ++jiter)
+                    for(auto jiter = (kiter + 1); jiter != endVertexArray; ++jiter)
                     {
                         kiter->evaluateNeighbourhood(*jiter);
                     }
@@ -426,6 +459,8 @@ void ComputationCloudStructure::internalEvaluateNeighbourhoodRecursive(CloudVert
 
         if(boxNeighbour.isNear(currentCloudVertex.m_position, currentCloudVertex.m_distanceKnnSquared))
         {
+            currentCloudVertex.optimizeAllocSpeed(boxNeighbour.m_cloudVertexInside.size());
+
             auto endIter = boxNeighbour.m_cloudVertexInside.end();
             for(auto iter = boxNeighbour.m_cloudVertexInside.begin(); iter != endIter; ++iter)
             {
@@ -441,20 +476,49 @@ void ComputationCloudStructure::internalEvaluateNeighbourhoodRecursive(CloudVert
     }
 }
 
-void ComputationCloudStructure::computeTangentPlanes()
+void ComputationCloudStructure::internalEraseAllNeighboursDoublons()
 {
+    std::vector<std::future<void>> asyncVector;
+    asyncVector.reserve(m_boxArray.size());
+
     auto endIter = m_boxArray.end();
     for(auto iter = m_boxArray.begin(); iter != endIter; ++iter)
     {
         if(!iter->m_cloudVertexInside.empty())
         {
-            std::for_each(
-                iter->m_cloudVertexInside.begin(), 
-                iter->m_cloudVertexInside.end(), 
-                [](CloudVertexComputationStructure& cloudVertex) 
+            asyncVector.emplace_back(std::async([iter]() {
+                std::for_each(
+                    iter->m_cloudVertexInside.begin(),
+                    iter->m_cloudVertexInside.end(),
+                    [](CloudVertexComputationStructure& cloudVertex) 
+                {
+                    cloudVertex.eraseNeighbourNoDoublon();
+                });
+            }));
+        }
+    }
+}
+
+void ComputationCloudStructure::computeTangentPlanes()
+{
+    std::vector<std::future<void>> asyncVector;
+    asyncVector.reserve(m_boxArray.size());
+
+    auto endIter = m_boxArray.end();
+    for(auto iter = m_boxArray.begin(); iter != endIter; ++iter)
+    {
+        if(!iter->m_cloudVertexInside.empty())
+        {
+            asyncVector.emplace_back(std::async([iter]()
             {
-                cloudVertex.computeTangentPlane();
-            });
+                std::for_each(
+                    iter->m_cloudVertexInside.begin(), 
+                    iter->m_cloudVertexInside.end(), 
+                    [](CloudVertexComputationStructure& cloudVertex) 
+                {
+                    cloudVertex.computeTangentPlane();
+                });
+            }));
         }
     }
 }

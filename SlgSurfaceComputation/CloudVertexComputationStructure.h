@@ -3,11 +3,12 @@
 namespace Slg3DScanner
 {
     struct InputCloudVertex;
+    struct ComputationCloudBox;
 
     class CloudVertexComputationStructure
     {
     public:
-        static constexpr const float DEFAULT_KNN_DISTANCE_SQUARED = 0.00000025f;
+        static constexpr const float DEFAULT_KNN_DISTANCE_SQUARED = 0.0004f;
 
 
     public:
@@ -17,6 +18,8 @@ namespace Slg3DScanner
 
 
     private:
+        ComputationCloudBox* m_containingBox;
+
         //neighbourhood
         std::vector<CloudVertexComputationStructure*> m_neighbours;
         mutable std::shared_ptr<std::mutex> m_mutex;
@@ -27,7 +30,7 @@ namespace Slg3DScanner
 
 
     public:
-        CloudVertexComputationStructure(const InputCloudVertex& inputPoint);
+        CloudVertexComputationStructure(const InputCloudVertex& inputPoint, ComputationCloudBox& box);
         CloudVertexComputationStructure(CloudVertexComputationStructure&);
         CloudVertexComputationStructure(CloudVertexComputationStructure&&);
         ~CloudVertexComputationStructure();
@@ -37,10 +40,17 @@ namespace Slg3DScanner
 
 
     public:
+        ComputationCloudBox* getContainingBox() const;
+
         void evaluateNeighbourhood(CloudVertexComputationStructure& newNeighbour);
         void computeTangentPlane();
 
         void swap(CloudVertexComputationStructure& other);
+
+        void optimizeAllocSpeed(std::size_t newNeighbourCapacity);
+        void optimizeAllocMemory();
+
+        void eraseNeighbourNoDoublon();
 
 
     private:

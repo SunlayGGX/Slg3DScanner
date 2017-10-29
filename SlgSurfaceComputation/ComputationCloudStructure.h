@@ -93,6 +93,9 @@ namespace Slg3DScanner
 
         void internalEvaluateNeighbourhoodRecursive(CloudVertexComputationStructure& currentCloudVertex, ComputationCloudBox& boxNeighbour, std::vector<ComputationCloudBox*>& inOutAlreadyVisitedNeighborhood);
 
-        void internalOptimize();
+        void internalEraseAllNeighboursDoublons();
+
+        void internalOptimizeBox();
+        void internalOptimizeMemory();
     };
 }
