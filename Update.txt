@@ -1,3 +1,10 @@
+29-10-2017
+- Speed Optimization
+
+28-10-2017
+- Compute surface plane and normal
+- Box-tree (kd-tree, or whatever its name...)
+
 
 23-10-2017  -  3.15am
 - Added Eigen Librairy dependencies
