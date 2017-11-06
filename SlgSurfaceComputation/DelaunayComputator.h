@@ -5,21 +5,23 @@
 
 namespace Slg3DScanner
 {
+    class CloudVertexComputationStructureSimple;
+    
     class DelaunayComputator
     {
     public:
         struct DivideAndConquer {};
 
     private:
-        std::vector<DelaunayPoint2d> m_pointList;
-        std::vector<DelaunayTriangle> m_indexList;
+        std::vector<CloudVertexComputationStructureSimple>& m_pointList;
+        std::list<DelaunayTriangle> m_indexList;
 
     public:
-        DelaunayComputator(std::vector<DelaunayPoint2d>&& pointList);
+        DelaunayComputator(std::vector<CloudVertexComputationStructureSimple>& pointList);
         ~DelaunayComputator();
 
-        const std::vector<DelaunayPoint2d>& getPointList() const noexcept;
-        const std::vector<DelaunayTriangle>& getTriangleList() const noexcept;
+        const std::vector<CloudVertexComputationStructureSimple>& getPointList() const noexcept;
+        const std::list<DelaunayTriangle>& getTriangleList() const noexcept;
 
     private:
         void compute(DivideAndConquer);

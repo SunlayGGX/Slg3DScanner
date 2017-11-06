@@ -17,7 +17,7 @@ CloudMesh::CloudMesh(const CloudMeshInitializer& cloudMeshInitializer) :
     NamedObject{ cloudMeshInitializer.name },
     Mesh{ cloudMeshInitializer },
     m_initialized{ false },
-    m_cloudTopology{ D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_POINTLIST },
+    m_cloudTopology{ static_cast<D3D11_PRIMITIVE_TOPOLOGY>(CloudMesh::CURRENT_INDEX_TOPOLOGY) },
     m_version{ cloudMeshInitializer.m_version }
 {
     this->setCloudFile(cloudMeshInitializer.m_cloudFileName);
@@ -73,7 +73,7 @@ void CloudMesh::draw(ID3D11DeviceContext* immediateContext, const PreInitializeC
             /*Those matrix are transposed : transpose(A * B) == transpose(B) * transpose(A) */
             renderCBufferParameter.m_TransposedMatWorldViewProj = preInitShadingCBuffer.m_TransposedMatViewProj * thisMeshParameters.m_TransposedMatWorld;
 
-            UINT vertexCount = static_cast<UINT>(m_cloud.size());
+            UINT vertexCount = static_cast<UINT>(m_cloud.m_vertexes.size());
 
             auto endIter = m_materialArray.end();
             for(auto iter = m_materialArray.begin(); iter != endIter; ++iter)
@@ -98,14 +98,14 @@ void CloudMesh::readCloudFile()
     {
         if(m_version == 2)
         {
-            m_cloud = Slg3DScanner::readPointCloud2fromFile(m_cloudFileName);
+            Slg3DScanner::readPointCloud2fromFile(m_cloudFileName, m_cloud);
         }
         else
         {
-            m_cloud = Slg3DScanner::readPointCloudfromFile(m_cloudFileName);
+            m_cloud.m_vertexes = Slg3DScanner::readPointCloudfromFile(m_cloudFileName);
         }
 
-        if(m_cloud.empty())
+        if(m_cloud.m_vertexes.empty())
         {
             throw std::exception{ SLG_NORMALIZE_EXCEPTION_MESSAGE("No point cloud created") };
         }
@@ -128,29 +128,41 @@ void CloudMesh::internalSendDataToGraphicCard()
         initData
     );
     
-    UINT vertexCount = static_cast<UINT>(m_cloud.size());
+    UINT vertexCount = static_cast<UINT>(m_cloud.m_vertexes.size());
 
     bufferDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
     bufferDesc.ByteWidth = vertexCount * sizeof(VertexType);
     bufferDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
     bufferDesc.CPUAccessFlags = 0;
 
-    initData.pSysMem = m_cloud.data();
+    initData.pSysMem = m_cloud.m_vertexes.data();
 
     DXTry(device->CreateBuffer(&bufferDesc, &initData, &m_vertexBuffer));
 
-    std::unique_ptr<UINT[]> indexBuffer = std::make_unique<UINT[]>(vertexCount);
-    for(unsigned int iter = 0; iter != vertexCount; ++iter)
+    if(m_version == 2 && CloudMesh::IGNORE_INDEX_BUFFER == false)
     {
-        indexBuffer[iter] = iter;
+        bufferDesc.ByteWidth = static_cast<UINT>(m_cloud.m_indexes.size() * sizeof(decltype(m_cloud.m_indexes)::value_type));
+        bufferDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
+
+        initData.pSysMem = m_cloud.m_indexes.data();
+
+        DXTry(device->CreateBuffer(&bufferDesc, &initData, &m_indexBuffer));
     }
+    else
+    {
+        std::unique_ptr<UINT[]> indexBuffer = std::make_unique<UINT[]>(vertexCount);
+        for(unsigned int iter = 0; iter != vertexCount; ++iter)
+        {
+            indexBuffer[iter] = iter;
+        }
 
-    bufferDesc.ByteWidth = vertexCount * sizeof(UINT);
-    bufferDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
+        bufferDesc.ByteWidth = vertexCount * sizeof(UINT);
+        bufferDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
 
-    initData.pSysMem = indexBuffer.get();
+        initData.pSysMem = indexBuffer.get();
 
-    DXTry(device->CreateBuffer(&bufferDesc, &initData, &m_indexBuffer));
+        DXTry(device->CreateBuffer(&bufferDesc, &initData, &m_indexBuffer));
+    }
 
     this->setBuffers(RenderEngineManager::instance().getDevice().getImmediateContext(), sizeof(VertexType), 0);
 }

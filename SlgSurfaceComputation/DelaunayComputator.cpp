@@ -1,12 +1,16 @@
 #include "SlgSurfaceComputationPCH.h"
 #include "DelaunayComputator.h"
 
+#include "CloudVertexComputationStructureSimple.h"
+
+#include "SlgMath.h"
+
 #include <algorithm>
 
 using namespace Slg3DScanner;
 
-DelaunayComputator::DelaunayComputator(std::vector<DelaunayPoint2d>&& pointList) :
-    m_pointList{ std::forward<std::vector<DelaunayPoint2d>>(pointList) }
+DelaunayComputator::DelaunayComputator(std::vector<CloudVertexComputationStructureSimple>& pointList) :
+    m_pointList{ pointList }
 {
 }
 
@@ -14,12 +18,12 @@ DelaunayComputator::~DelaunayComputator()
 {
 }
 
-const std::vector<DelaunayPoint2d>& DelaunayComputator::getPointList() const noexcept
+const std::vector<CloudVertexComputationStructureSimple>& DelaunayComputator::getPointList() const noexcept
 {
     return m_pointList;
 }
 
-const std::vector<DelaunayTriangle>& DelaunayComputator::getTriangleList() const noexcept
+const std::list<DelaunayTriangle>& DelaunayComputator::getTriangleList() const noexcept
 {
     return m_indexList;
 }
@@ -32,15 +36,15 @@ void DelaunayComputator::compute(DivideAndConquer)
 
 void DelaunayComputator::delaunaySort()
 {
-    using CloudVertexType = decltype(m_pointList)::value_type;
+    using CloudVertexType = CloudVertexComputationStructureSimple;
     std::sort(m_pointList.begin(), m_pointList.end(), [](const CloudVertexType& cloudVertex1, const CloudVertexType& cloudVertex2) {
-        if(cloudVertex1.x < cloudVertex2.x)
+        if(cloudVertex1.getProjectedPosition().x < cloudVertex2.getProjectedPosition().x)
         {
             return true;
         }
-        else if(cloudVertex1.x == cloudVertex2.x)
+        else if(cloudVertex1.getProjectedPosition().x == cloudVertex2.getProjectedPosition().x)
         {
-            return cloudVertex1.y < cloudVertex2.y;
+            return cloudVertex1.getProjectedPosition().y < cloudVertex2.getProjectedPosition().y;
         }
 
         return false;
@@ -49,12 +53,9 @@ void DelaunayComputator::delaunaySort()
 
 void DelaunayComputator::mergeDelaunay()
 {
-    std::list<DelaunayTriangle> outList;
-    this->mergeDelaunayRecursive(0, m_pointList.size() - 1, outList);
-
     m_indexList.clear();
-    m_indexList.reserve(outList.size());
-    std::copy(outList.begin(), outList.end(), std::back_inserter(m_indexList));
+
+    this->mergeDelaunayRecursive(0, m_pointList.size() - 1, m_indexList);
 }
 
 void DelaunayComputator::mergeDelaunayRecursive(std::size_t beginIndex, std::size_t endIndex, std::list<DelaunayTriangle>& outMergeContainer)
@@ -101,7 +102,7 @@ std::size_t DelaunayComputator::findBottomPointIndex(const std::list<DelaunayTri
         auto endIter = inContainer.end();
         for(auto iter = inContainer.begin(); iter != endIter; ++iter)
         {
-            const DelaunayPoint2d* pointToCheck = &m_pointList[iter->index0];
+            const DirectX::XMFLOAT2* pointToCheck = &m_pointList[iter->index0].getProjectedPosition();
             if(pointToCheck->y < bottomValue || (pointToCheck->y == bottomValue && pointToCheck->x > rightValue))
             {
                 result = iter->index0;
@@ -111,7 +112,7 @@ std::size_t DelaunayComputator::findBottomPointIndex(const std::list<DelaunayTri
 
             if(iter->index1 != std::numeric_limits<std::size_t>::max())
             {
-                pointToCheck = &m_pointList[iter->index1];
+                pointToCheck = &m_pointList[iter->index1].getProjectedPosition();
                 if(pointToCheck->y < bottomValue || (pointToCheck->y == bottomValue && pointToCheck->x > rightValue))
                 {
                     result = iter->index1;
@@ -122,7 +123,7 @@ std::size_t DelaunayComputator::findBottomPointIndex(const std::list<DelaunayTri
 
             if(iter->index2 != std::numeric_limits<std::size_t>::max())
             {
-                pointToCheck = &m_pointList[iter->index2];
+                pointToCheck = &m_pointList[iter->index2].getProjectedPosition();
                 if(pointToCheck->y < bottomValue || (pointToCheck->y == bottomValue && pointToCheck->x > rightValue))
                 {
                     result = iter->index2;
@@ -139,7 +140,7 @@ std::size_t DelaunayComputator::findBottomPointIndex(const std::list<DelaunayTri
         auto endIter = inContainer.end();
         for(auto iter = inContainer.begin(); iter != endIter; ++iter)
         {
-            const DelaunayPoint2d* pointToCheck = &m_pointList[iter->index0];
+            const DirectX::XMFLOAT2* pointToCheck = &m_pointList[iter->index0].getProjectedPosition();
             if(pointToCheck->y < bottomValue || (pointToCheck->y == bottomValue && pointToCheck->x < leftValue))
             {
                 result = iter->index0;
@@ -149,7 +150,7 @@ std::size_t DelaunayComputator::findBottomPointIndex(const std::list<DelaunayTri
 
             if(iter->index1 != std::numeric_limits<std::size_t>::max())
             {
-                pointToCheck = &m_pointList[iter->index1];
+                pointToCheck = &m_pointList[iter->index1].getProjectedPosition();
                 if(pointToCheck->y < bottomValue || (pointToCheck->y == bottomValue && pointToCheck->x < leftValue))
                 {
                     result = iter->index1;
@@ -160,7 +161,7 @@ std::size_t DelaunayComputator::findBottomPointIndex(const std::list<DelaunayTri
 
             if(iter->index2 != std::numeric_limits<std::size_t>::max())
             {
-                pointToCheck = &m_pointList[iter->index2];
+                pointToCheck = &m_pointList[iter->index2].getProjectedPosition();
                 if(pointToCheck->y < bottomValue || (pointToCheck->y == bottomValue && pointToCheck->x < leftValue))
                 {
                     result = iter->index2;
@@ -176,16 +177,16 @@ std::size_t DelaunayComputator::findBottomPointIndex(const std::list<DelaunayTri
 
 bool DelaunayComputator::isInsideCircumcenterCircle(std::size_t pointIndex, const DelaunayTriangle& triangleCheck) const
 {
-    const DelaunayPoint2d& pointToCheck = m_pointList[pointIndex];
-    const DelaunayPoint2d& pointA = m_pointList[triangleCheck.index0];
-    const DelaunayPoint2d& pointB = m_pointList[triangleCheck.index1];
-    const DelaunayPoint2d& pointC = m_pointList[triangleCheck.index2];
+    const DirectX::XMFLOAT2& pointToCheck = m_pointList[pointIndex].getProjectedPosition();
+    const DirectX::XMFLOAT2& pointA = m_pointList[triangleCheck.index0].getProjectedPosition();
+    const DirectX::XMFLOAT2& pointB = m_pointList[triangleCheck.index1].getProjectedPosition();
+    const DirectX::XMFLOAT2& pointC = m_pointList[triangleCheck.index2].getProjectedPosition();
 
     return
-        pointA.lengthSquared() * DelaunayTriangle::computeArea(pointB, pointC, pointToCheck) -
-        pointB.lengthSquared() * DelaunayTriangle::computeArea(pointA, pointC, pointToCheck) +
-        pointC.lengthSquared() * DelaunayTriangle::computeArea(pointA, pointB, pointToCheck) -
-        pointToCheck.lengthSquared() * DelaunayTriangle::computeArea(pointA, pointB, pointC) > 0.f;
+        Slg3DScanner::lengthSquared(pointA) * DelaunayTriangle::computeArea(pointB, pointC, pointToCheck) -
+        Slg3DScanner::lengthSquared(pointB) * DelaunayTriangle::computeArea(pointA, pointC, pointToCheck) +
+        Slg3DScanner::lengthSquared(pointC) * DelaunayTriangle::computeArea(pointA, pointB, pointToCheck) -
+        Slg3DScanner::lengthSquared(pointToCheck) * DelaunayTriangle::computeArea(pointA, pointB, pointC) > 0.f;
 }
 
 std::size_t DelaunayComputator::findCandidatePoint(const DelaunayEdge& baseEdge, std::list<DelaunayTriangle>& inOutContainer, const bool isLeftContainer) const
@@ -226,12 +227,12 @@ std::size_t DelaunayComputator::findCandidatePoint(const DelaunayEdge& baseEdge,
                 continue;
             }
 
-            if(indexA != std::numeric_limits<std::size_t>::max() && m_pointList[indexA].y > m_pointList[base].y && std::find(indexCandidates.begin(), indexCandidates.end(), indexA) == indexCandidates.end())
+            if(indexA != std::numeric_limits<std::size_t>::max() && m_pointList[indexA].getProjectedPosition().y > m_pointList[base].getProjectedPosition().y && std::find(indexCandidates.begin(), indexCandidates.end(), indexA) == indexCandidates.end())
             {
                 indexCandidates.emplace_back(indexA);
             }
 
-            if(indexB != std::numeric_limits<std::size_t>::max() && m_pointList[indexB].y > m_pointList[base].y && std::find(indexCandidates.begin(), indexCandidates.end(), indexB) == indexCandidates.end())
+            if(indexB != std::numeric_limits<std::size_t>::max() && m_pointList[indexB].getProjectedPosition().y > m_pointList[base].getProjectedPosition().y && std::find(indexCandidates.begin(), indexCandidates.end(), indexB) == indexCandidates.end())
             {
                 indexCandidates.emplace_back(indexB);
             }
@@ -243,33 +244,33 @@ std::size_t DelaunayComputator::findCandidatePoint(const DelaunayEdge& baseEdge,
         }
     }
 
-    DelaunayPoint2d vectBaseEdge;
+    DirectX::XMFLOAT2 vectBaseEdge;
     if(isLeftContainer)
     {
-        vectBaseEdge.x = m_pointList[baseEdge.index1].x - m_pointList[baseEdge.index0].x;
-        vectBaseEdge.y = m_pointList[baseEdge.index1].y - m_pointList[baseEdge.index0].y;
+        vectBaseEdge.x = m_pointList[baseEdge.index1].getProjectedPosition().x - m_pointList[baseEdge.index0].getProjectedPosition().x;
+        vectBaseEdge.y = m_pointList[baseEdge.index1].getProjectedPosition().y - m_pointList[baseEdge.index0].getProjectedPosition().y;
     }
     else
     {
-        vectBaseEdge.x = m_pointList[baseEdge.index0].x - m_pointList[baseEdge.index1].x;
-        vectBaseEdge.y = m_pointList[baseEdge.index0].y - m_pointList[baseEdge.index1].y;
+        vectBaseEdge.x = m_pointList[baseEdge.index0].getProjectedPosition().x - m_pointList[baseEdge.index1].getProjectedPosition().x;
+        vectBaseEdge.y = m_pointList[baseEdge.index0].getProjectedPosition().y - m_pointList[baseEdge.index1].getProjectedPosition().y;
     }
-    vectBaseEdge.normalize();
+    Slg3DScanner::normalize(vectBaseEdge);
 
-    const DelaunayPoint2d& basePoint = m_pointList[baseIndex];
+    const DirectX::XMFLOAT2& basePoint = m_pointList[baseIndex].getProjectedPosition();
 
     indexCandidates.sort(
         [&pointList = this->m_pointList, &baseIndex, &vectBaseEdge, &basePoint](std::size_t id1, std::size_t id2)
     {
-        const DelaunayPoint2d& point1 = pointList[id1];
-        DelaunayPoint2d candidateEdgeVect1{ point1.x - basePoint.x, point1.y - basePoint.y };
-        candidateEdgeVect1.normalize();
+        const DirectX::XMFLOAT2& point1 = pointList[id1].getProjectedPosition();
+        DirectX::XMFLOAT2 candidateEdgeVect1{ point1.x - basePoint.x, point1.y - basePoint.y };
+        Slg3DScanner::normalize(candidateEdgeVect1);
 
-        const DelaunayPoint2d& point2 = pointList[id2];
-        DelaunayPoint2d candidateEdgeVect2{ point2.x - basePoint.x, point2.y - basePoint.y };
-        candidateEdgeVect2.normalize();
+        const DirectX::XMFLOAT2& point2 = pointList[id2].getProjectedPosition();
+        DirectX::XMFLOAT2 candidateEdgeVect2{ point2.x - basePoint.x, point2.y - basePoint.y };
+        Slg3DScanner::normalize(candidateEdgeVect2);
 
-        return DelaunayPoint2d::scalar(candidateEdgeVect1, vectBaseEdge) > DelaunayPoint2d::scalar(candidateEdgeVect2, vectBaseEdge);
+        return Slg3DScanner::scalar(candidateEdgeVect1, vectBaseEdge) > Slg3DScanner::scalar(candidateEdgeVect2, vectBaseEdge);
     });
 
     auto lastCandidateIter = indexCandidates.end(); --lastCandidateIter;
@@ -382,6 +383,11 @@ void DelaunayComputator::mergeSubsetsPointsIntoOne(std::list<DelaunayTriangle>& 
         {
             auto toErase = iter++;
             outMergeContainer.erase(toErase);
+
+            if(iter == outMergeContainer.end())
+            {
+                break;
+            }
         }
     }
 }

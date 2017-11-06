@@ -31,4 +31,11 @@ namespace Slg3DScanner
 
         ~CloudVertex() = default;
     };
+
+    struct InternalCloudMesh
+    {
+    public:
+        std::vector<CloudVertex> m_vertexes;
+        std::vector<std::size_t> m_indexes;
+    };
 }

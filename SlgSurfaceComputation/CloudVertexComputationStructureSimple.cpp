@@ -32,6 +32,11 @@ CloudVertexComputationStructureSimple::~CloudVertexComputationStructureSimple()
 {
 }
 
+const DirectX::XMFLOAT2& CloudVertexComputationStructureSimple::getProjectedPosition() const
+{
+    return m_projectedPosition;
+}
+
 void CloudVertexComputationStructureSimple::swap(CloudVertexComputationStructureSimple& other)
 {
     std::swap(other.m_position, m_position);

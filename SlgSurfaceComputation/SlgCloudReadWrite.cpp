@@ -30,7 +30,7 @@ std::vector<Slg3DScanner::CloudVertex> Slg3DScanner::readPointCloudfromFile(cons
     return std::vector<Slg3DScanner::CloudVertex>{};
 }
 
-std::vector<Slg3DScanner::CloudVertex> Slg3DScanner::readPointCloud2fromFile(const std::string& fileName)
+void Slg3DScanner::readPointCloud2fromFile(const std::string& fileName, Slg3DScanner::InternalCloudMesh& outCloudMesh)
 {
     Slg3DScanner::SlgBinRessource binRessource;
     if(binRessource.load(std::experimental::filesystem::path{ fileName }.has_extension() ? fileName : fileName + ".slgBinPos2"))
@@ -42,15 +42,9 @@ std::vector<Slg3DScanner::CloudVertex> Slg3DScanner::readPointCloud2fromFile(con
 
         if(outPointCloudSize != 0)
         {
-            std::vector<Slg3DScanner::CloudVertex> result;
-
-            PointCloudAlgorithm::computeInputCloudVertexToFinalCloudVertexSimple(result, inputedCloudVertex, outPointCloudSize, *scannerDir);
-
-            return std::move(result);
+            PointCloudAlgorithm::computeInputCloudVertexToFinalCloudVertexSimple(outCloudMesh, inputedCloudVertex, outPointCloudSize, *scannerDir);
         }
     }
-
-    return std::vector<Slg3DScanner::CloudVertex>{};
 }
 
 bool Slg3DScanner::writePointCloudToFile(const std::string& fileName, char* data, std::size_t outPointCloudSizeInByte)

@@ -47,11 +47,11 @@ void PointCloudAlgorithm::computeInputCloudVertexToFinalCloudVertex(std::vector<
     //}
 }
 
-void PointCloudAlgorithm::computeInputCloudVertexToFinalCloudVertexSimple(std::vector<Slg3DScanner::CloudVertex>& outFinalCloudVertexVector, const Slg3DScanner::InputCloudVertex* inInputedVertexes, std::size_t inputedVertexCount, DirectX::XMFLOAT3& scannerDir)
+void PointCloudAlgorithm::computeInputCloudVertexToFinalCloudVertexSimple(Slg3DScanner::InternalCloudMesh& outFinalCloudMesh, const Slg3DScanner::InputCloudVertex* inInputedVertexes, std::size_t inputedVertexCount, DirectX::XMFLOAT3& scannerDir)
 {
     ComputationCloudStructureSimple cloud{ scannerDir, inInputedVertexes, inputedVertexCount };
 
     cloud.compute();
 
-    cloud.transferToFinal(outFinalCloudVertexVector);
+    cloud.transferToFinal(outFinalCloudMesh);
 }

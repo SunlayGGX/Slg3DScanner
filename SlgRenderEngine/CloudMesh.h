@@ -2,6 +2,8 @@
 
 #include "Mesh.h"
 
+#include "CloudVertex.h"
+
 namespace Slg3DScanner
 {
     struct CloudVertex;
@@ -13,15 +15,24 @@ namespace Slg3DScanner
 
     class CloudMesh : public Mesh
     {
-
     public:
         using VertexType = CloudVertex;
+
+
+    public:
+        enum 
+        {
+            IGNORE_INDEX_BUFFER = false,
+            
+            DEFAULT_INDEX_TOPOLOGY = D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
+            CURRENT_INDEX_TOPOLOGY = IGNORE_INDEX_BUFFER ? D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_POINTLIST : DEFAULT_INDEX_TOPOLOGY
+        };
 
 
     private:
         std::string m_cloudFileName;
 
-        std::vector<CloudVertex> m_cloud;
+        Slg3DScanner::InternalCloudMesh m_cloud;
         D3D11_PRIMITIVE_TOPOLOGY m_cloudTopology;
 
         std::atomic<bool> m_initialized;

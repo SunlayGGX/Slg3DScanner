@@ -6,7 +6,7 @@
 namespace Slg3DScanner
 {
     struct InputCloudVertex;
-    struct CloudVertex;
+    struct InternalCloudMesh;
 
     class ComputationCloudStructureSimple
     {
@@ -28,7 +28,7 @@ namespace Slg3DScanner
     public:
         void compute();
 
-        void transferToFinal(std::vector<CloudVertex>& outFinalPointCloudArray) const;
+        void transferToFinal(InternalCloudMesh& outFinalPointCloudArray) const;
 
     private:
         void fillArray(const InputCloudVertex* inInputedVertexes, std::size_t inputedVertexCount);
@@ -36,9 +36,6 @@ namespace Slg3DScanner
 
         void computeProjectionOnPlane();
         
-        void computeDelaunayIndexes();
-        void mergeDelaunay();
-        void mergeDelaunayRecursive(std::size_t beginIndex, std::size_t endIndex, std::list<DelaunayTriangle>& outMergeContainer);
-        void mergeSubsetsPointsIntoOne(std::list<DelaunayTriangle>& inContainer1, std::list<DelaunayTriangle>& inContainer2, std::list<DelaunayTriangle>& outMergeContainer);
+        void computeDelaunay();
     };
 }

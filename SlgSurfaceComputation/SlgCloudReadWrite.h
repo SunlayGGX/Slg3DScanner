@@ -4,6 +4,7 @@
 namespace Slg3DScanner
 {
     struct CloudVertex;
+    struct InternalCloudMesh;
 
     /*
     Read a point cloud from a SlgBinPos file. No need to specify the extension => if the name is "toto.slgBinPos", enter "toto". But if you want a custom extension, specify it.
@@ -15,7 +16,7 @@ namespace Slg3DScanner
     Read a point cloud from a SlgBinPos2 file. No need to specify the extension => if the name is "toto.slgBinPos2", enter "toto". But if you want a custom extension, specify it.
     If the operation has failed, it will return an empty vector.
     */
-    extern std::vector<CloudVertex> readPointCloud2fromFile(const std::string& fileName);
+    extern void readPointCloud2fromFile(const std::string& fileName, Slg3DScanner::InternalCloudMesh& outCloudMesh);
     
     /*
     Write a point cloud from a SlgBinPos file. No need to specify the extension => if the name is "toto.slgBinPos", enter "toto". But if you want a custom extension, specify it.

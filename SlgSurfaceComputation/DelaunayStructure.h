@@ -2,27 +2,7 @@
 
 namespace Slg3DScanner
 {
-    struct DelaunayPoint2d
-    {
-    public:
-        float x;
-        float y;
-
-    public:
-        float lengthSquared() const;
-        void normalize();
-
-        void operator+=(const DelaunayPoint2d& a);
-        DelaunayPoint2d operator+(DelaunayPoint2d a) const;
-
-        void operator*=(float scalar);
-        DelaunayPoint2d operator*(float scalar) const;
-        void operator/=(float scalar);
-        DelaunayPoint2d operator/(float scalar) const;
-
-    public:
-        static float scalar(const DelaunayPoint2d& vect1, const DelaunayPoint2d& vect2);
-    };
+    class CloudVertexComputationStructureSimple;
 
     struct DelaunayEdge
     {
@@ -43,10 +23,10 @@ namespace Slg3DScanner
         DelaunayTriangle(std::size_t id0, std::size_t id1, std::size_t id2);
 
     public:
-        float computeArea(const std::vector<DelaunayPoint2d>& pointList) const;
-        bool isCounterClockwise(const std::vector<DelaunayPoint2d>& pointList, float& outArea) const;
+        float computeArea(const std::vector<CloudVertexComputationStructureSimple>& pointList) const;
+        bool isCounterClockwise(const std::vector<CloudVertexComputationStructureSimple>& pointList, float& outArea) const;
 
     public:
-        static float computeArea(const DelaunayPoint2d& A, const DelaunayPoint2d& B, const DelaunayPoint2d& C);
+        static float computeArea(const DirectX::XMFLOAT2& A, const DirectX::XMFLOAT2& B, const DirectX::XMFLOAT2& C);
     };
 }

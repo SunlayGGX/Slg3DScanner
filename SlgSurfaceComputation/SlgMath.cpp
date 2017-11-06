@@ -256,6 +256,13 @@ float Slg3DScanner::scalar(const DirectX::XMFLOAT3& vect1, const DirectX::XMFLOA
         vect1.z * vect2.z;
 }
 
+float Slg3DScanner::scalar(const DirectX::XMFLOAT2& vect1, const DirectX::XMFLOAT2& vect2)
+{
+    return
+        vect1.x * vect2.x +
+        vect1.y * vect2.y;
+}
+
 DirectX::XMFLOAT3 Slg3DScanner::cross(const DirectX::XMFLOAT3& vect1, const DirectX::XMFLOAT3& vect2)
 {
     return
@@ -266,8 +273,25 @@ DirectX::XMFLOAT3 Slg3DScanner::cross(const DirectX::XMFLOAT3& vect1, const Dire
     };
 }
 
+float Slg3DScanner::lengthSquared(const DirectX::XMFLOAT3& vect)
+{
+    return Slg3DScanner::scalar(vect, vect);
+}
+
+float Slg3DScanner::lengthSquared(const DirectX::XMFLOAT2& vect)
+{
+    return Slg3DScanner::scalar(vect, vect);
+}
+
 DirectX::XMFLOAT3 Slg3DScanner::getNormalized(const DirectX::XMFLOAT3& vect)
 {
-    float norm = std::sqrtf(Slg3DScanner::scalar(vect, vect));
+    float norm = std::sqrtf(lengthSquared(vect));
     return { vect.x / norm, vect.y / norm, vect.z / norm };
+}
+
+void Slg3DScanner::normalize(DirectX::XMFLOAT2& inOutVect)
+{
+    float norm = std::sqrtf(lengthSquared(inOutVect));
+    inOutVect.x /= norm;
+    inOutVect.y /= norm;
 }

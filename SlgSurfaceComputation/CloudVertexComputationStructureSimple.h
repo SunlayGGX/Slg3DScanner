@@ -24,6 +24,8 @@ namespace Slg3DScanner
         CloudVertexComputationStructureSimple& operator=(const CloudVertexComputationStructureSimple&);
         CloudVertexComputationStructureSimple& operator=(CloudVertexComputationStructureSimple&& other);
 
+        const DirectX::XMFLOAT2& getProjectedPosition() const;
+
     public:
         void swap(CloudVertexComputationStructureSimple& other);
     };

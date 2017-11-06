@@ -70,6 +70,12 @@ namespace Slg3DScanner
 
 
     float scalar(const DirectX::XMFLOAT3& vect1, const DirectX::XMFLOAT3& vect2);
+    float scalar(const DirectX::XMFLOAT2& vect1, const DirectX::XMFLOAT2& vect2);
+
     DirectX::XMFLOAT3 cross(const DirectX::XMFLOAT3& vect1, const DirectX::XMFLOAT3& vect2);
     DirectX::XMFLOAT3 getNormalized(const DirectX::XMFLOAT3& vect);
+    
+    void normalize(DirectX::XMFLOAT2& inOutVect);
+    float lengthSquared(const DirectX::XMFLOAT2& vect);
+    float lengthSquared(const DirectX::XMFLOAT3& vect);
 }
