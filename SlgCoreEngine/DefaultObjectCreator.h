@@ -10,6 +10,6 @@ namespace Slg3DScanner
     {
     public:
         static IMeshRef createDefaultCubeMesh();
-        static IMeshRef createDefaultPointCloud(const std::string &pathFileName);
+        static IMeshRef createDefaultPointCloud(const std::string &pathFileName, int cloudVersion);
     };
 }

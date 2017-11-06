@@ -44,10 +44,16 @@ namespace Slg3DScanner
 
     public:
         template<class Type>
+        Type* getAs(std::size_t& outSizeAsType, const std::size_t byteOffset) const
+        {
+            outSizeAsType = (m_size - byteOffset) / sizeof(Type);
+            return reinterpret_cast<Type*>(m_dataBuffer + byteOffset);
+        }
+
+        template<class Type>
         Type* releaseAs(std::size_t& outSizeAsType)
         {
-            Type* result = reinterpret_cast<Type*>(m_dataBuffer);
-            outSizeAsType = m_size / sizeof(Type);
+            Type* result = this->getAs<Type>(outSizeAsType, 0);
             
             m_dataBuffer = nullptr;
             m_size = 0;

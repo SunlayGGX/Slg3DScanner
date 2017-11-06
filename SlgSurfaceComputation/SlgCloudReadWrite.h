@@ -10,6 +10,12 @@ namespace Slg3DScanner
     If the operation has failed, it will return an empty vector.
     */
     extern std::vector<CloudVertex> readPointCloudfromFile(const std::string& fileName);
+
+    /*
+    Read a point cloud from a SlgBinPos2 file. No need to specify the extension => if the name is "toto.slgBinPos2", enter "toto". But if you want a custom extension, specify it.
+    If the operation has failed, it will return an empty vector.
+    */
+    extern std::vector<CloudVertex> readPointCloud2fromFile(const std::string& fileName);
     
     /*
     Write a point cloud from a SlgBinPos file. No need to specify the extension => if the name is "toto.slgBinPos", enter "toto". But if you want a custom extension, specify it.

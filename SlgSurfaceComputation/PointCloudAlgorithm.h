@@ -15,5 +15,7 @@ namespace Slg3DScanner
     {
     public:
         static void computeInputCloudVertexToFinalCloudVertex(std::vector<Slg3DScanner::CloudVertex>& outFinalCloudVertexVector, const Slg3DScanner::InputCloudVertex* inInputedVertexes, std::size_t inputedVertexCount);
+
+        static void computeInputCloudVertexToFinalCloudVertexSimple(std::vector<Slg3DScanner::CloudVertex>& outFinalCloudVertexVector, const Slg3DScanner::InputCloudVertex* inInputedVertexes, std::size_t inputedVertexCount, DirectX::XMFLOAT3& scannerDir);
     };
 }

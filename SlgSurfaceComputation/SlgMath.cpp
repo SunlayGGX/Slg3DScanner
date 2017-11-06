@@ -247,3 +247,27 @@ void Slg3DScanner::computeEigenValueAndEigenVectorsFromCovarianceMatrixAndOutput
         outNormal = { 0.f, 0.f, 0.f };
     }
 }
+
+float Slg3DScanner::scalar(const DirectX::XMFLOAT3& vect1, const DirectX::XMFLOAT3& vect2)
+{
+    return
+        vect1.x * vect2.x +
+        vect1.y * vect2.y +
+        vect1.z * vect2.z;
+}
+
+DirectX::XMFLOAT3 Slg3DScanner::cross(const DirectX::XMFLOAT3& vect1, const DirectX::XMFLOAT3& vect2)
+{
+    return
+    {
+        vect1.y * vect2.z - vect1.z * vect2.y,
+        vect1.z * vect2.x - vect1.x * vect2.z,
+        vect1.x * vect2.y - vect1.y * vect2.x
+    };
+}
+
+DirectX::XMFLOAT3 Slg3DScanner::getNormalized(const DirectX::XMFLOAT3& vect)
+{
+    float norm = std::sqrtf(Slg3DScanner::scalar(vect, vect));
+    return { vect.x / norm, vect.y / norm, vect.z / norm };
+}

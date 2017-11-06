@@ -67,5 +67,6 @@ namespace Slg3DScanner
     private:
         void test(SLG_TEST_ORDER_MAKE(DrawCubes));
         void test(SLG_TEST_ORDER_MAKE(LoadPointCloud));
+        void test(SLG_TEST_ORDER_MAKE(LoadPointCloudSimple));
     };
 }

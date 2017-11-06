@@ -57,9 +57,9 @@ namespace Slg3DScanner
 
         enum
         {
-            MAX_BOX_COUNT_ON_X_AXIS = 8,
-            MAX_BOX_COUNT_ON_Y_AXIS = 8,
-            MAX_BOX_COUNT_ON_Z_AXIS = 8
+            MAX_BOX_COUNT_ON_X_AXIS = 9,
+            MAX_BOX_COUNT_ON_Y_AXIS = 9,
+            MAX_BOX_COUNT_ON_Z_AXIS = 9
         };
 
 
@@ -97,5 +97,7 @@ namespace Slg3DScanner
 
         void internalOptimizeBox();
         void internalOptimizeMemory();
+
+        void computeConsistentPlaneOrientation();
     };
 }

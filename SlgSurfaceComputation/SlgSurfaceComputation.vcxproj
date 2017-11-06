@@ -12,6 +12,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CloudVertexComputationStructure.h" />
+    <ClInclude Include="CloudVertexComputationStructureSimple.h" />
+    <ClInclude Include="ComputationCloudStructureSimple.h" />
     <ClInclude Include="ComputationCloudStructure.h" />
     <ClInclude Include="InputCloudVertex.h" />
     <ClInclude Include="PointCloudComputator.h" />
@@ -22,6 +24,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CloudVertexComputationStructure.cpp" />
+    <ClCompile Include="CloudVertexComputationStructureSimple.cpp" />
+    <ClCompile Include="ComputationCloudStructureSimple.cpp" />
     <ClCompile Include="ComputationCloudStructure.cpp" />
     <ClCompile Include="PointCloudComputator.cpp" />
     <ClCompile Include="PointCloudAlgorithm.cpp" />

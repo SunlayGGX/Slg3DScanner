@@ -34,11 +34,12 @@ IMeshRef DefaultObjectCreator::createDefaultCubeMesh()
     return std::move(cube);
 }
 
-IMeshRef DefaultObjectCreator::createDefaultPointCloud(const std::string &pathFileName)
+IMeshRef DefaultObjectCreator::createDefaultPointCloud(const std::string &pathFileName, int cloudVersion)
 {
     CloudMeshInitializer meshInitializer;
     meshInitializer.name = NameManager::instance().createUniqueName("CloudMesh");
     meshInitializer.m_cloudFileName = pathFileName;
+    meshInitializer.m_version = cloudVersion;
 
     IMeshRef cloud = RenderSceneManager::instance().createMeshOfType<CloudMesh>(meshInitializer);
 

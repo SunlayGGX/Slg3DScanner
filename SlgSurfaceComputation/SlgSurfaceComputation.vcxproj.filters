@@ -39,6 +39,12 @@
     <ClInclude Include="ComputationCloudStructure.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="ComputationCloudStructureSimple.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="CloudVertexComputationStructureSimple.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SlgSurfaceComputationPCH.cpp">
@@ -60,6 +66,12 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="ComputationCloudStructure.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ComputationCloudStructureSimple.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="CloudVertexComputationStructureSimple.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

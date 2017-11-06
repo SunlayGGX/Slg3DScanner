@@ -8,6 +8,7 @@ namespace Slg3DScanner
     struct CloudMeshInitializer : public MeshInitializer
     {
         std::string m_cloudFileName;
+        int m_version;
     };
 
     class CloudMesh : public Mesh
@@ -24,6 +25,8 @@ namespace Slg3DScanner
         D3D11_PRIMITIVE_TOPOLOGY m_cloudTopology;
 
         std::atomic<bool> m_initialized;
+
+        int m_version;
 
 
     public:

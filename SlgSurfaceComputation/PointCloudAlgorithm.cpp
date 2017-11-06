@@ -3,6 +3,7 @@
 
 #include "CloudVertex.h"
 #include "CloudVertexComputationStructure.h"
+#include "CloudVertexComputationStructureSimple.h"
 #include "InputCloudVertex.h"
 
 #include "PointCloudComputator.h"
@@ -10,6 +11,7 @@
 
 
 #include "ComputationCloudStructure.h"
+#include "ComputationCloudStructureSimple.h"
 
 using namespace Slg3DScanner;
 
@@ -43,4 +45,13 @@ void PointCloudAlgorithm::computeInputCloudVertexToFinalCloudVertex(std::vector<
     //{
     //    outFinalCloudVertexVector.emplace_back(iter->m_position);
     //}
+}
+
+void PointCloudAlgorithm::computeInputCloudVertexToFinalCloudVertexSimple(std::vector<Slg3DScanner::CloudVertex>& outFinalCloudVertexVector, const Slg3DScanner::InputCloudVertex* inInputedVertexes, std::size_t inputedVertexCount, DirectX::XMFLOAT3& scannerDir)
+{
+    ComputationCloudStructureSimple cloud{ scannerDir, inInputedVertexes, inputedVertexCount };
+
+    cloud.compute();
+
+    cloud.transferToFinal(outFinalCloudVertexVector);
 }

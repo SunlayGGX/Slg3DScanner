@@ -400,6 +400,7 @@ void ComputationCloudStructure::compute()
     this->internalEraseAllNeighboursDoublons();
     this->internalOptimizeMemory();
     this->computeTangentPlanes();
+    this->computeConsistentPlaneOrientation();
 }
 
 void ComputationCloudStructure::computeNeighbourhoods()
@@ -519,6 +520,36 @@ void ComputationCloudStructure::computeTangentPlanes()
                     cloudVertex.computeTangentPlane();
                 });
             }));
+        }
+    }
+}
+
+void ComputationCloudStructure::computeConsistentPlaneOrientation()
+{
+    auto endIter = m_boxArray.end();
+    auto iter = m_boxArray.begin();
+    //find the first box that isn't empty
+    for(; iter != endIter; ++iter)
+    {
+        if(!iter->m_cloudVertexInside.empty())
+        {
+            break;
+        }
+    }
+
+    //say the first point ever encountered as a ok orientation.
+    iter->m_cloudVertexInside.front().m_consistentlyOriented = true;
+
+    //propagate orientation from the first vertex ever encountered.
+    for(; iter != endIter; ++iter)
+    {
+        if(!iter->m_cloudVertexInside.empty())
+        {
+            auto endJiter = iter->m_cloudVertexInside.end();
+            for(auto jiter = iter->m_cloudVertexInside.begin(); jiter != endJiter; ++jiter)
+            {
+                jiter->propagateOrientationOnNeighbourhood(2);
+            }
         }
     }
 }

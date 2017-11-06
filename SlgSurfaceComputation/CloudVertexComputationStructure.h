@@ -4,20 +4,23 @@ namespace Slg3DScanner
 {
     struct InputCloudVertex;
     struct ComputationCloudBox;
+    class ComputationCloudStructure;
 
     class CloudVertexComputationStructure
     {
-    public:
-        static constexpr const float DEFAULT_KNN_DISTANCE_SQUARED = 0.0004f;
+    private:
+        friend ComputationCloudStructure;
 
 
     public:
+        static constexpr const float DEFAULT_KNN_DISTANCE_SQUARED = 0.0001f;
+
+
+    private:
         DirectX::XMFLOAT3 m_position;
 
         float m_distanceKnnSquared;
 
-
-    private:
         ComputationCloudBox* m_containingBox;
 
         //neighbourhood
@@ -27,6 +30,7 @@ namespace Slg3DScanner
         //Plane
         DirectX::XMFLOAT3 m_tangentPlaneOrigin;
         DirectX::XMFLOAT3 m_tangentPlaneNormal;
+        bool m_consistentlyOriented;
 
 
     public:
@@ -52,9 +56,14 @@ namespace Slg3DScanner
 
         void eraseNeighbourNoDoublon();
 
+        void propagateOrientationOnNeighbourhood(const unsigned int recursiveDepth);
+
 
     private:
         void addNeighbour(CloudVertexComputationStructure* neighbour);
         void computeAverage3DCovarianceMatrixFromSetsPointsForNeighbourhood(float(&outResult)[9]);
+
+        bool internalFindAndPropagateNormalOrientation(const unsigned int recursiveDepth, const DirectX::XMFLOAT3*& foundNormal);
+        bool flipNormalIfNeeded(const DirectX::XMFLOAT3& baseNormal);
     };
 }

@@ -17,7 +17,8 @@ CloudMesh::CloudMesh(const CloudMeshInitializer& cloudMeshInitializer) :
     NamedObject{ cloudMeshInitializer.name },
     Mesh{ cloudMeshInitializer },
     m_initialized{ false },
-    m_cloudTopology{ D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST }
+    m_cloudTopology{ D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_POINTLIST },
+    m_version{ cloudMeshInitializer.m_version }
 {
     this->setCloudFile(cloudMeshInitializer.m_cloudFileName);
     this->readCloudFile();
@@ -93,8 +94,17 @@ void CloudMesh::readCloudFile()
 
     std::thread
     {
-        [this]() {
-        m_cloud = Slg3DScanner::readPointCloudfromFile(m_cloudFileName);
+        [this]() 
+    {
+        if(m_version == 2)
+        {
+            m_cloud = Slg3DScanner::readPointCloud2fromFile(m_cloudFileName);
+        }
+        else
+        {
+            m_cloud = Slg3DScanner::readPointCloudfromFile(m_cloudFileName);
+        }
+
         if(m_cloud.empty())
         {
             throw std::exception{ SLG_NORMALIZE_EXCEPTION_MESSAGE("No point cloud created") };

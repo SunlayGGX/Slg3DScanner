@@ -8,10 +8,6 @@
 
 #include <experimental/filesystem>
 
-namespace Slg3DScanner
-{
-    struct InputCloudVertex;
-}
 
 std::vector<Slg3DScanner::CloudVertex> Slg3DScanner::readPointCloudfromFile(const std::string& fileName)
 {
@@ -31,6 +27,29 @@ std::vector<Slg3DScanner::CloudVertex> Slg3DScanner::readPointCloudfromFile(cons
         }
     }
         
+    return std::vector<Slg3DScanner::CloudVertex>{};
+}
+
+std::vector<Slg3DScanner::CloudVertex> Slg3DScanner::readPointCloud2fromFile(const std::string& fileName)
+{
+    Slg3DScanner::SlgBinRessource binRessource;
+    if(binRessource.load(std::experimental::filesystem::path{ fileName }.has_extension() ? fileName : fileName + ".slgBinPos2"))
+    {
+        std::size_t outPointCloudSize;
+        DirectX::XMFLOAT3* scannerDir = binRessource.getAs<DirectX::XMFLOAT3>(outPointCloudSize, 0);
+
+        Slg3DScanner::InputCloudVertex* inputedCloudVertex = binRessource.getAs<Slg3DScanner::InputCloudVertex>(outPointCloudSize, sizeof(DirectX::XMFLOAT3));
+
+        if(outPointCloudSize != 0)
+        {
+            std::vector<Slg3DScanner::CloudVertex> result;
+
+            PointCloudAlgorithm::computeInputCloudVertexToFinalCloudVertexSimple(result, inputedCloudVertex, outPointCloudSize, *scannerDir);
+
+            return std::move(result);
+        }
+    }
+
     return std::vector<Slg3DScanner::CloudVertex>{};
 }
 

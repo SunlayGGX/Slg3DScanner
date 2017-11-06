@@ -18,6 +18,16 @@ SLG_BEGIN_TEST_ORDER_DEFINITION(LoadPointCloud)
     const DirectX::XMVECTOR cameraPosition = { 0.f, 0.f, -10.f, 1.f };
     const DirectX::XMVECTOR cameraDirection = { 0.f, 0.f, 1.f, 1.f };
     const DirectX::XMVECTOR cameraUp = { 0.f, 1.f, 0.f, 0.f };
+    const int version = 1;
 
     const std::string pointCloudFilePath = "../SlgData/PointCloud/positionImage.slgBinPos";
+SLG_END_TEST_ORDER_DEFINITION
+
+SLG_BEGIN_TEST_ORDER_DEFINITION(LoadPointCloudSimple)
+const DirectX::XMVECTOR cameraPosition = { 0.f, 0.f, -10.f, 1.f };
+const DirectX::XMVECTOR cameraDirection = { 0.f, 0.f, 1.f, 1.f };
+const DirectX::XMVECTOR cameraUp = { 0.f, 1.f, 0.f, 0.f };
+const int version = 2;
+
+const std::string pointCloudFilePath = "../SlgData/PointCloud/positionImage.slgBinPos2";
 SLG_END_TEST_ORDER_DEFINITION

@@ -16,7 +16,8 @@ CloudVertexComputationStructure::CloudVertexComputationStructure(const InputClou
     m_position{ inputVertex.m_vertex },
     m_distanceKnnSquared{ CloudVertexComputationStructure::DEFAULT_KNN_DISTANCE_SQUARED },
     m_mutex{ std::make_shared<std::mutex>() },
-    m_containingBox{ &box }
+    m_containingBox{ &box },
+    m_consistentlyOriented{ false }
 {
 }
 
@@ -34,7 +35,8 @@ CloudVertexComputationStructure::CloudVertexComputationStructure(CloudVertexComp
     m_tangentPlaneNormal{ other.m_tangentPlaneNormal },
     m_tangentPlaneOrigin{ other.m_tangentPlaneOrigin },
     m_position{ other.m_position },
-    m_containingBox{ other.m_containingBox }
+    m_containingBox{ other.m_containingBox },
+    m_consistentlyOriented{ other.m_consistentlyOriented }
 {
     std::swap(other.m_mutex, m_mutex);
     std::swap(other.m_neighbours, m_neighbours);
@@ -53,6 +55,7 @@ void CloudVertexComputationStructure::swap(CloudVertexComputationStructure& othe
     std::swap(m_tangentPlaneOrigin, other.m_tangentPlaneOrigin);
     std::swap(other.m_neighbours, m_neighbours);
     std::swap(other.m_mutex, m_mutex);
+    std::swap(other.m_consistentlyOriented, m_consistentlyOriented);
 }
 
 ComputationCloudBox* CloudVertexComputationStructure::getContainingBox() const
@@ -198,4 +201,137 @@ void CloudVertexComputationStructure::computeAverage3DCovarianceMatrixFromSetsPo
     outResult[3] = outResult[1];
     outResult[6] = outResult[2];
     outResult[7] = outResult[5];
+}
+
+bool CloudVertexComputationStructure::flipNormalIfNeeded(const DirectX::XMFLOAT3& baseNormal)
+{
+    float scalarProduct = m_tangentPlaneNormal.x * baseNormal.x + m_tangentPlaneNormal.y * baseNormal.y + m_tangentPlaneNormal.z * baseNormal.z;
+    if(scalarProduct < -0.5f) // we must flip normal
+    {
+        m_tangentPlaneNormal.x *= -1.f;
+        m_tangentPlaneNormal.y *= -1.f;
+        m_tangentPlaneNormal.z *= -1.f;
+    }
+    else if(scalarProduct < 0.5f) //it is a corner
+    {
+        return false;
+    }
+
+    m_consistentlyOriented = true;
+    return true;
+}
+
+void CloudVertexComputationStructure::propagateOrientationOnNeighbourhood(const unsigned int recursiveDepth)
+{
+    if(m_neighbours.empty())
+    {
+        m_consistentlyOriented = true;
+        return;
+    }
+
+    if(!m_consistentlyOriented)
+    {
+        const DirectX::XMFLOAT3* foundNormal = nullptr;
+        if(recursiveDepth != 0 && this->internalFindAndPropagateNormalOrientation(recursiveDepth - 1, foundNormal))
+        {
+            this->flipNormalIfNeeded(*foundNormal);
+        }
+        else
+        {
+            return;
+        }
+    }
+    
+    auto endIter = m_neighbours.end();
+    for(auto iter = m_neighbours.begin(); iter != endIter; ++iter)
+    {
+        auto neighbour = *iter;
+
+        if(!neighbour->m_consistentlyOriented)
+        {
+            if(neighbour->flipNormalIfNeeded(m_tangentPlaneNormal))
+            {
+                if(recursiveDepth != 0)
+                {
+                    neighbour->propagateOrientationOnNeighbourhood(recursiveDepth - 1);
+                }
+            }
+            else if(recursiveDepth != 0)
+            {
+                const DirectX::XMFLOAT3* foundNormal = nullptr;
+                if(neighbour->internalFindAndPropagateNormalOrientation(recursiveDepth - 1, foundNormal))
+                {
+                    neighbour->flipNormalIfNeeded(*foundNormal);
+                    neighbour->propagateOrientationOnNeighbourhood(recursiveDepth - 1);
+                }
+            }
+        }
+        else if(recursiveDepth != 0)
+        {
+            neighbour->propagateOrientationOnNeighbourhood(recursiveDepth - 1);
+        }
+    }
+}
+
+bool CloudVertexComputationStructure::internalFindAndPropagateNormalOrientation(const unsigned int recursiveDepth, const DirectX::XMFLOAT3*& foundNormal)
+{
+    if(m_consistentlyOriented)
+    {
+        if(recursiveDepth != 0)
+        {
+            this->propagateOrientationOnNeighbourhood(recursiveDepth - 1);
+        }
+        return true;
+    }
+
+    if(foundNormal != nullptr)
+    {
+        if(!m_consistentlyOriented)
+        {
+            this->flipNormalIfNeeded(*foundNormal);
+            m_consistentlyOriented = true;
+        }
+
+        if(recursiveDepth != 0)
+        {
+            this->propagateOrientationOnNeighbourhood(recursiveDepth - 1);
+        }
+
+        return true;
+    }
+    else
+    {
+        const auto endIter = m_neighbours.end();
+        auto found = std::find_if(m_neighbours.begin(), endIter, [](CloudVertexComputationStructure* neighbour) { return neighbour->m_consistentlyOriented; });
+
+        if(found != endIter)
+        {
+            foundNormal = &(*found)->m_tangentPlaneNormal;
+            this->flipNormalIfNeeded(*foundNormal);
+            
+            if(recursiveDepth != 0)
+            {
+                (*found)->propagateOrientationOnNeighbourhood(recursiveDepth - 1);
+                this->propagateOrientationOnNeighbourhood(recursiveDepth - 1);
+            }
+
+            return true;
+        }
+        else if(recursiveDepth != 0)
+        {
+            for(auto iter = m_neighbours.begin(); iter != endIter; ++iter)
+            {
+                auto neighbour = *iter;
+                if(neighbour->internalFindAndPropagateNormalOrientation(recursiveDepth - 1, foundNormal))
+                {
+                    this->flipNormalIfNeeded(*foundNormal);
+                    this->propagateOrientationOnNeighbourhood(recursiveDepth - 1);
+
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
 }

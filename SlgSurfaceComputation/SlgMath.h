@@ -67,4 +67,9 @@ namespace Slg3DScanner
     void computeEigenValueAndEigenVectorsFromCovarianceMatrix(const float(&inCovarianceMatrix)[9], DirectX::XMFLOAT3& outEigenValues, float(&outEigenVectors)[9]);
 
     void computeEigenValueAndEigenVectorsFromCovarianceMatrixAndOutputNormal(const float(&inCovarianceMatrix)[9], DirectX::XMFLOAT3& outNormal);
+
+
+    float scalar(const DirectX::XMFLOAT3& vect1, const DirectX::XMFLOAT3& vect2);
+    DirectX::XMFLOAT3 cross(const DirectX::XMFLOAT3& vect1, const DirectX::XMFLOAT3& vect2);
+    DirectX::XMFLOAT3 getNormalized(const DirectX::XMFLOAT3& vect);
 }
