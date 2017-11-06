@@ -19,7 +19,7 @@ namespace Slg3DScanner
 
 
     private:
-        DXDispositif m_Device;
+        DXDispositif m_device;
 
 
     public:
@@ -35,7 +35,10 @@ namespace Slg3DScanner
 
 
     public:
-        DECLARE_SIMPLE_GET_REFERENCE_ACCESSOR(DXDispositif, Device);
+        FORCEINLINE DXDispositif& getDevice() noexcept
+        {
+            return m_device;
+        }
     };
 }
 

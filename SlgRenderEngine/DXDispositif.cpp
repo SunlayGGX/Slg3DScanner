@@ -332,8 +332,8 @@ void DXDispositif::setEnableBlendAlpha(bool enable)
 
 void DXDispositif::clearView()
 {
-	m_ImmediateContext->ClearRenderTargetView(m_RenderTargetView, BACKGROUND_DEFAULT_COLOR);
-	m_ImmediateContext->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_FLAG::D3D11_CLEAR_DEPTH, 1.f, 0);
+    m_ImmediateContext->ClearRenderTargetView(m_RenderTargetView, BACKGROUND_DEFAULT_COLOR);
+    m_ImmediateContext->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_FLAG::D3D11_CLEAR_DEPTH, 1.f, 0);
 }
 
 void DXDispositif::unbindTargetView()
