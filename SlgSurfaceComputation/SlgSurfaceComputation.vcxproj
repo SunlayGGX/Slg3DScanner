@@ -15,6 +15,8 @@
     <ClInclude Include="CloudVertexComputationStructureSimple.h" />
     <ClInclude Include="ComputationCloudStructureSimple.h" />
     <ClInclude Include="ComputationCloudStructure.h" />
+    <ClInclude Include="DelaunayComputator.h" />
+    <ClInclude Include="DelaunayStructure.h" />
     <ClInclude Include="InputCloudVertex.h" />
     <ClInclude Include="PointCloudComputator.h" />
     <ClInclude Include="PointCloudAlgorithm.h" />
@@ -27,6 +29,8 @@
     <ClCompile Include="CloudVertexComputationStructureSimple.cpp" />
     <ClCompile Include="ComputationCloudStructureSimple.cpp" />
     <ClCompile Include="ComputationCloudStructure.cpp" />
+    <ClCompile Include="DelaunayComputator.cpp" />
+    <ClCompile Include="DelaunayStructure.cpp" />
     <ClCompile Include="PointCloudComputator.cpp" />
     <ClCompile Include="PointCloudAlgorithm.cpp" />
     <ClCompile Include="SlgCloudReadWrite.cpp" />
