@@ -1,3 +1,6 @@
+05-11-2017
+- A lot of thing... Delaunay implementation and use index buffer. Not working as intended but draws something...
+
 29-10-2017
 - Speed Optimization
 

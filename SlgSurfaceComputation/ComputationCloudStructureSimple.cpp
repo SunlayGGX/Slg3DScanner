@@ -26,7 +26,7 @@ ComputationCloudStructureSimple::~ComputationCloudStructureSimple()
 void ComputationCloudStructureSimple::initializeProjectivePlane(const DirectX::XMFLOAT3& scannerDir)
 {
     m_projPlaneOrigin = { 0.f, 0.f, 0.f };
-    m_projPlaneNormal = { scannerDir.x, scannerDir.y, scannerDir.z }; //normal face the camera (scanner)
+    m_projPlaneNormal = { scannerDir.x, -scannerDir.z, scannerDir.y }; //normal face the camera (scanner)
 
     float norm = std::sqrtf(Slg3DScanner::scalar(m_projPlaneNormal, m_projPlaneNormal));
 
