@@ -35,7 +35,11 @@ namespace Slg3DScanner
 
 
     public:
-        FORCEINLINE DXDispositif& getDevice() noexcept
+        void addDeviceAction(DXDispositif::Action action);
+
+
+    public:
+        FORCEINLINE const DXDispositif& getDevice() const noexcept
         {
             return m_device;
         }

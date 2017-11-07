@@ -21,7 +21,7 @@ DXDispositif::DXDispositif() :
     m_SwapChain{ nullptr },
     m_D3DDevice{ nullptr }
 {
-
+    m_actionQueue.reserve(4);
 }
 
 DXDispositif::~DXDispositif()
@@ -247,6 +247,7 @@ void DXDispositif::internalConfigureStates()
 
         DXTry(m_D3DDevice->CreateRasterizerState(&rsDesc, &m_SolidCullNoneRS));
 
+        rsDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
         rsDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_WIREFRAME;
 
         DXTry(m_D3DDevice->CreateRasterizerState(&rsDesc, &m_WireframeCullNoneRS));
@@ -366,4 +367,68 @@ void DXDispositif::reportLiveObject()
         DXTry(m_DXDebugDevice->ReportLiveDeviceObjects(D3D11_RLDO_FLAGS::D3D11_RLDO_DETAIL));
     }
 #endif // _DEBUG
+}
+
+void DXDispositif::addDispositifAction(Action action)
+{
+    std::lock_guard<std::mutex> autoLocker{ m_actionMutex };
+    m_actionQueue.emplace_back(action);
+}
+
+void DXDispositif::internalExecuteAction(Action actionToExecute)
+{
+    switch(actionToExecute)
+    {
+    case Slg3DScanner::DXDispositif::Action::SET_WIREFRAME:
+        this->setWireFrameState();
+        break;
+
+    case Slg3DScanner::DXDispositif::Action::SET_NO_CULL:
+        this->setSolidCullNoneState();
+        break;
+
+    case Slg3DScanner::DXDispositif::Action::SET_CULLBACK:
+        this->setSolidCullBackState();
+        break;
+
+    case Slg3DScanner::DXDispositif::Action::ENABLE_Z_BUFFER:
+        this->setEnableZBuffer(true);
+        break;
+
+    case Slg3DScanner::DXDispositif::Action::DISABLE_Z_BUFFER:
+        this->setEnableZBuffer(false);
+        break;
+
+    case Slg3DScanner::DXDispositif::Action::ENABLE_BLEND_ALPHA:
+        this->setEnableBlendAlpha(true);
+        break;
+
+    case Slg3DScanner::DXDispositif::Action::DISABLE_BLEND_ALPHA:
+        this->setEnableBlendAlpha(false);
+        break;
+
+    default:
+        break;
+    }
+}
+
+void DXDispositif::update()
+{
+    std::vector<Action> temp;
+    {
+        std::lock_guard<std::mutex> autoLocker{ m_actionMutex };
+        if(m_actionQueue.empty())
+        {
+            return;
+        }
+
+        std::swap(temp, m_actionQueue);
+        m_actionQueue.reserve(4);
+    }
+
+    auto endIter = temp.end();
+    for(auto iter = temp.begin(); iter != endIter; ++iter)
+    {
+        this->internalExecuteAction(*iter);
+    }
 }

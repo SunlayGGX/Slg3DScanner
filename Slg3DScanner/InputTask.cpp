@@ -73,19 +73,18 @@ void InputTask::update()
         renderMgr.setMainCameraMatViewManually(pos, dir, up);
     }
 
-    //buggy (not thread safe) don't have time to fix for now
     if(currentState.getKey(DIK_W))
     {
-        renderMgr.getDevice().setWireFrameState();
+        renderMgr.addDeviceAction(DXDispositif::Action::SET_WIREFRAME);
     }
 
     if(currentState.getKey(DIK_X))
     {
-        renderMgr.getDevice().setSolidCullBackState();
+        renderMgr.addDeviceAction(DXDispositif::Action::SET_CULLBACK);
     }
 
     if(currentState.getKey(DIK_C))
     {
-        renderMgr.getDevice().setSolidCullNoneState();
+        renderMgr.addDeviceAction(DXDispositif::Action::SET_NO_CULL);
     }
 }

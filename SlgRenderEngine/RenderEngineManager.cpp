@@ -44,6 +44,8 @@ void RenderEngineManager::update()
 {
     m_device.clearView();
 
+    m_device.update();
+
     m_device.initView();
 
     RenderSceneManager::instance().update();
@@ -66,4 +68,9 @@ void RenderEngineManager::setMainCameraMatViewManually(const DirectX::XMVECTOR& 
 void RenderEngineManager::getMainCameraMatViewManually(DirectX::XMVECTOR& outEyePosition, DirectX::XMVECTOR& outFocusDirection, DirectX::XMVECTOR& outUpDirection) const
 {
     RenderSceneManager::instance().getMainCameraMatViewManually(outEyePosition, outFocusDirection, outUpDirection);
+}
+
+void RenderEngineManager::addDeviceAction(DXDispositif::Action action)
+{
+    m_device.addDispositifAction(action);
 }

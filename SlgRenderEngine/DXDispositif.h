@@ -9,6 +9,21 @@ namespace Slg3DScanner
     class DXDispositif
     {
     public:
+        enum class Action
+        {
+            SET_WIREFRAME,
+            SET_NO_CULL,
+            SET_CULLBACK,
+            
+            ENABLE_Z_BUFFER,
+            DISABLE_Z_BUFFER,
+
+            ENABLE_BLEND_ALPHA,
+            DISABLE_BLEND_ALPHA,
+        };
+
+
+    public:
         const float BACKGROUND_DEFAULT_COLOR[4] = { 0.f, 0.5f, 0.f, 1.f };
         const float BLEND_FACTOR[4] = { 0.f, 0.f, 0.f, 0.f };
 
@@ -39,6 +54,9 @@ namespace Slg3DScanner
         ID3D11Debug* m_DXDebugDevice;
 #endif
 
+        std::mutex m_actionMutex;
+        std::vector<Action> m_actionQueue;
+
 
     public:
         DXDispositif();
@@ -48,6 +66,16 @@ namespace Slg3DScanner
     public:
         void initialize(const WindowsMode& windowsMode, const HWND hWnd);
 
+        void update();
+
+        void addDispositifAction(Action action);
+
+
+    private:
+        void internalExecuteAction(Action actionToExecute);
+
+
+    private:
         void setWireFrameState();
         void setSolidCullNoneState();
         void setSolidCullBackState();
@@ -55,6 +83,8 @@ namespace Slg3DScanner
         void setEnableZBuffer(bool enable);
         void setEnableBlendAlpha(bool enable);
 
+
+    public:
         DECLARE_SIMPLE_GET_ACCESSOR(ID3D11Device*,           D3DDevice);
         DECLARE_SIMPLE_GET_ACCESSOR(ID3D11DeviceContext*,    ImmediateContext);
         DECLARE_SIMPLE_GET_ACCESSOR(IDXGISwapChain*,         SwapChain);
