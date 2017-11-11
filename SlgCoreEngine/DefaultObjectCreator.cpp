@@ -44,14 +44,14 @@ IMeshRef DefaultObjectCreator::createDefaultPointCloud(const std::string &pathFi
     IMeshRef cloud = RenderSceneManager::instance().createMeshOfType<CloudMesh>(meshInitializer);
 
     MaterialInitializer materialInitializer;
-    materialInitializer.m_VSFileName = L"Shader/MiniPhong.hlsl";
+    materialInitializer.m_VSFileName = L"Shader/MiniPhongCloud.hlsl";
     materialInitializer.m_PSFileName = materialInitializer.m_VSFileName;
 
     materialInitializer.m_VSFuncName = "mainVS";
     materialInitializer.m_PSFuncName = "mainPS";
 
-    materialInitializer.m_Desc = Slg3DScanner::SimpleVertex::s_Layout;
-    materialInitializer.m_ElemCount = ARRAYSIZE(Slg3DScanner::SimpleVertex::s_Layout);
+    materialInitializer.m_Desc = Slg3DScanner::CloudVertex::s_layout;
+    materialInitializer.m_ElemCount = ARRAYSIZE(Slg3DScanner::CloudVertex::s_layout);
 
     cloud->addMaterial(materialInitializer);
 
