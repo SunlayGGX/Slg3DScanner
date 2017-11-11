@@ -129,6 +129,17 @@ void CloudMesh::internalSendDataToGraphicCard()
         bufferDesc,
         initData
     );
+
+    /*Patching Hack Aie aie aie*/
+
+    const std::size_t indexCount = m_cloud.m_indexes.size();
+    m_cloud.m_vertexes.reserve(indexCount);
+    for(auto iter = m_cloud.m_vertexes.size(); iter != indexCount; ++iter)
+    {
+        m_cloud.m_vertexes.emplace_back();
+    }
+
+    /**/
     
     UINT vertexCount = static_cast<UINT>(m_cloud.m_vertexes.size());
 
