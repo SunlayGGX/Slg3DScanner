@@ -73,14 +73,14 @@ void CloudMesh::draw(ID3D11DeviceContext* immediateContext, const PreInitializeC
             /*Those matrix are transposed : transpose(A * B) == transpose(B) * transpose(A) */
             renderCBufferParameter.m_TransposedMatWorldViewProj = preInitShadingCBuffer.m_TransposedMatViewProj * thisMeshParameters.m_TransposedMatWorld;
 
-            UINT vertexCount = static_cast<UINT>(m_cloud.m_vertexes.size());
+            UINT indexCount = static_cast<UINT>(m_cloud.m_indexes.size());
 
             auto endIter = m_materialArray.end();
             for(auto iter = m_materialArray.begin(); iter != endIter; ++iter)
             {
                 iter->prepareDraw(immediateContext, renderCBufferParameter);
 
-                immediateContext->DrawIndexed(vertexCount, 0, 0);
+                immediateContext->DrawIndexed(indexCount, 0, 0);
             }
         }
 
@@ -129,17 +129,6 @@ void CloudMesh::internalSendDataToGraphicCard()
         bufferDesc,
         initData
     );
-
-    /*Patching Hack Aie aie aie*/
-
-    const std::size_t indexCount = m_cloud.m_indexes.size();
-    m_cloud.m_vertexes.reserve(indexCount);
-    for(auto iter = m_cloud.m_vertexes.size(); iter != indexCount; ++iter)
-    {
-        m_cloud.m_vertexes.emplace_back();
-    }
-
-    /**/
     
     UINT vertexCount = static_cast<UINT>(m_cloud.m_vertexes.size());
 
@@ -152,7 +141,7 @@ void CloudMesh::internalSendDataToGraphicCard()
     initData.pSysMem = m_cloud.m_vertexes.data();
 
     DXTry(device->CreateBuffer(&bufferDesc, &initData, &m_vertexBuffer));
-    
+
     if(m_version == 2 && CloudMesh::IGNORE_INDEX_BUFFER == false)
     {
         bufferDesc.StructureByteStride = sizeof(decltype(m_cloud.m_indexes)::value_type);
