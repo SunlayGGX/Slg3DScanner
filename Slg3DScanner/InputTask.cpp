@@ -30,7 +30,8 @@ void InputTask::update()
     Slg3DScanner::KeyboardElement currentState = InputEngine::instance().getCurrentKeyboardState();
 
     bool hasMoved = false;
-    constexpr const float DELTA_MOVE = 0.05f;
+    constexpr const float DELTA_MOVE = 0.02f;
+    constexpr const float DELTA_ROTATE = 0.02f;
 
     if(currentState.getKey(DIK_RIGHTARROW))
     {
@@ -65,6 +66,30 @@ void InputTask::update()
     if(currentState.getKey(DIK_NUMPAD2) || currentState.getKey(DIK_2))
     {
         pos.m128_f32[2] -= DELTA_MOVE;
+        hasMoved = true;
+    }
+
+    if(currentState.getKey(DIK_L))
+    {
+        float angle = dir.m128_f32[1] + DELTA_ROTATE;
+        if(angle >= DirectX::XM_2PI)
+        {
+            angle -= DirectX::XM_2PI;
+        }
+
+        dir = DirectX::XMVector3Rotate(dir, DirectX::XMQuaternionRotationAxis({ 0.f, 1.f, 0.f, 0.f }, angle));
+        hasMoved = true;
+    }
+
+    if(currentState.getKey(DIK_J))
+    {
+        float angle = dir.m128_f32[1] - DELTA_ROTATE;
+        if(angle < 0.f)
+        {
+            angle += DirectX::XM_2PI;
+        }
+
+        dir = DirectX::XMVector3Rotate(dir, DirectX::XMQuaternionRotationAxis({ 0.f, 1.f, 0.f, 0.f }, angle));
         hasMoved = true;
     }
 
