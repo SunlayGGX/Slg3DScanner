@@ -36,6 +36,6 @@ namespace Slg3DScanner
     {
     public:
         std::vector<CloudVertex> m_vertexes;
-        std::vector<std::size_t> m_indexes;
+        std::vector<unsigned int> m_indexes;
     };
 }

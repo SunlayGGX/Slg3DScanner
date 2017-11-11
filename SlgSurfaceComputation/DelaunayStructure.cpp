@@ -5,20 +5,20 @@
 using namespace Slg3DScanner;
 
 
-DelaunayTriangle::DelaunayTriangle(std::size_t id0) :
+DelaunayTriangle::DelaunayTriangle(DelaunayTriangle::IndexType id0) :
     index0{ id0 }
 {
 
 }
 
-DelaunayTriangle::DelaunayTriangle(std::size_t id0, std::size_t id1) :
+DelaunayTriangle::DelaunayTriangle(DelaunayTriangle::IndexType id0, DelaunayTriangle::IndexType id1) :
     index0{ id0 },
     index1{ id1 }
 {
 
 }
 
-DelaunayTriangle::DelaunayTriangle(std::size_t id0, std::size_t id1, std::size_t id2) :
+DelaunayTriangle::DelaunayTriangle(DelaunayTriangle::IndexType id0, DelaunayTriangle::IndexType id1, DelaunayTriangle::IndexType id2) :
     index0{ id0 },
     index1{ id1 },
     index2{ id2 }

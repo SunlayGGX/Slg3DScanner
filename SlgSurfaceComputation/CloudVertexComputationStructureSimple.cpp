@@ -5,10 +5,12 @@
 
 #include "ComputationCloudStructureSimple.h"
 
+#include "SlgMath.h"
+
 using namespace Slg3DScanner;
 
 CloudVertexComputationStructureSimple::CloudVertexComputationStructureSimple(const InputCloudVertex& inputVertex) :
-    m_position{ inputVertex.m_vertex }
+    m_position{ inputVertex.m_vertex.x, inputVertex.m_vertex.y, inputVertex.m_vertex.z }
 {
 }
 
@@ -35,6 +37,17 @@ CloudVertexComputationStructureSimple::~CloudVertexComputationStructureSimple()
 const DirectX::XMFLOAT2& CloudVertexComputationStructureSimple::getProjectedPosition() const
 {
     return m_projectedPosition;
+}
+
+const DirectX::XMFLOAT3& CloudVertexComputationStructureSimple::get3DPosition() const
+{
+    return m_position;
+}
+
+void CloudVertexComputationStructureSimple::projectOnPlane(const DirectX::XMFLOAT3& origin, const DirectX::XMFLOAT3& rightAxis, const DirectX::XMFLOAT3& upAxis)
+{
+    DirectX::XMFLOAT3 relativePosition{ m_position.x - origin.x, m_position.y - origin.y, m_position.z - origin.z };
+    m_projectedPosition = { Slg3DScanner::scalar(relativePosition, rightAxis), Slg3DScanner::scalar(relativePosition, upAxis) };
 }
 
 void CloudVertexComputationStructureSimple::swap(CloudVertexComputationStructureSimple& other)

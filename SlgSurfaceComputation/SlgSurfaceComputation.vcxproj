@@ -30,6 +30,8 @@
     <ClCompile Include="ComputationCloudStructureSimple.cpp" />
     <ClCompile Include="ComputationCloudStructure.cpp" />
     <ClCompile Include="DelaunayComputator.cpp" />
+    <ClCompile Include="DelaunayComputatorDivideAndConquer.cpp" />
+    <ClCompile Include="DelaunayComputatorSimpleTriangulation.cpp" />
     <ClCompile Include="DelaunayStructure.cpp" />
     <ClCompile Include="PointCloudComputator.cpp" />
     <ClCompile Include="PointCloudAlgorithm.cpp" />

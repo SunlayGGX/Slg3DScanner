@@ -11,6 +11,7 @@ namespace Slg3DScanner
     {
     public:
         struct DivideAndConquer {};
+        struct SimpleTriangulation {};
 
     private:
         std::vector<CloudVertexComputationStructureSimple>& m_pointList;
@@ -24,23 +25,34 @@ namespace Slg3DScanner
         const std::list<DelaunayTriangle>& getTriangleList() const noexcept;
 
     private:
+        /*Divide and conquer "pseudo" delaunay triangulation*/
         void compute(DivideAndConquer);
 
         void delaunaySort();
         void mergeDelaunay();
-        void mergeDelaunayRecursive(std::size_t beginIndex, std::size_t endIndex, std::list<DelaunayTriangle>& outMergeContainer);
+        void mergeDelaunayRecursive(DelaunayTriangle::IndexType beginIndex, DelaunayTriangle::IndexType endIndex, std::list<DelaunayTriangle>& outMergeContainer);
         void mergeSubsetsPointsIntoOne(std::list<DelaunayTriangle>& inContainer1, std::list<DelaunayTriangle>& inContainer2, std::list<DelaunayTriangle>& outMergeContainer);
 
-        std::size_t findBottomPointIndex(const std::list<DelaunayTriangle>& inContainer, bool isLeftContainer) const;
-        std::size_t findCandidatePoint(const DelaunayEdge& baseEdge, std::list<DelaunayTriangle>& inOutContainer, const bool isLeftContainer) const;
+        DelaunayTriangle::IndexType findBottomPointIndex(const std::list<DelaunayTriangle>& inContainer, bool isLeftContainer) const;
+        DelaunayTriangle::IndexType findCandidatePoint(const DelaunayEdge& baseEdge, std::list<DelaunayTriangle>& inOutContainer, const bool isLeftContainer) const;
 
-        bool isInsideCircumcenterCircle(std::size_t pointIndex, const DelaunayTriangle& triangleCheck) const;
+        bool isInsideCircumcenterCircle(DelaunayTriangle::IndexType pointIndex, const DelaunayTriangle& triangleCheck) const;
+
+        /*Simple triangulation based on plane triangulation resolution (not delaunay)*/
+        void compute(SimpleTriangulation);
+
+        void scanSort();
+        void triangulate();
+        DelaunayTriangle::IndexType searchUpNeighbour(DelaunayTriangle::IndexType pointIndex) const;
 
     public:
         template<class DelaunayAlgoType>
         void compute()
         {
-            this->compute(DelaunayAlgoType{});
+            if(m_pointList.size() > 2)
+            {
+                this->compute(DelaunayAlgoType{});
+            }
         }
     };
 }

@@ -26,7 +26,7 @@ ComputationCloudStructureSimple::~ComputationCloudStructureSimple()
 void ComputationCloudStructureSimple::initializeProjectivePlane(const DirectX::XMFLOAT3& scannerDir)
 {
     m_projPlaneOrigin = { 0.f, 0.f, 0.f };
-    m_projPlaneNormal = { scannerDir.x, -scannerDir.z, scannerDir.y }; //normal face the camera (scanner)
+    m_projPlaneNormal = { scannerDir.x, scannerDir.y, -scannerDir.z }; //normal face the camera (scanner)
 
     float norm = std::sqrtf(Slg3DScanner::scalar(m_projPlaneNormal, m_projPlaneNormal));
 
@@ -42,7 +42,7 @@ void ComputationCloudStructureSimple::initializeProjectivePlane(const DirectX::X
     }
 
     DirectX::XMFLOAT3 firstVect = { 0.f, 1.f, 0.f };
-    if(std::abs(Slg3DScanner::scalar(firstVect, m_projPlaneNormal) - 1.f) < 0.0000001f)
+    if(std::abs(std::abs(Slg3DScanner::scalar(firstVect, m_projPlaneNormal)) - 1.f) < 0.0000001f)
     {
         firstVect = { 0.f, 0.f, 1.f };
     }
@@ -51,12 +51,12 @@ void ComputationCloudStructureSimple::initializeProjectivePlane(const DirectX::X
     m_projPlaneUp = Slg3DScanner::getNormalized(Slg3DScanner::cross(m_projPlaneRight, m_projPlaneNormal));
 }
 
-void ComputationCloudStructureSimple::fillArray(const InputCloudVertex* inInputedVertexes, std::size_t inputedVertexCount)
+void ComputationCloudStructureSimple::fillArray(const InputCloudVertex* inInputedVertexes, DelaunayTriangle::IndexType inputedVertexCount)
 {
     m_cloudArray.clear();
     m_cloudArray.reserve(inputedVertexCount);
 
-    for(std::size_t iter = 0; iter != inputedVertexCount; ++iter)
+    for(DelaunayTriangle::IndexType iter = 0; iter != inputedVertexCount; ++iter)
     {
         auto& inputVertex = inInputedVertexes[iter];
 
@@ -107,14 +107,14 @@ void ComputationCloudStructureSimple::computeProjectionOnPlane()
     const auto endArrayIter = m_cloudArray.end();
     for(auto iter = m_cloudArray.begin(); iter != endArrayIter; ++iter)
     {
-        iter->m_projectedPosition = { Slg3DScanner::scalar(iter->m_position, m_projPlaneRight), Slg3DScanner::scalar(iter->m_position, m_projPlaneUp) };
+        iter->projectOnPlane(m_projPlaneOrigin, m_projPlaneRight, m_projPlaneUp);
     }
 }
 
 void ComputationCloudStructureSimple::computeDelaunay()
 {
     DelaunayComputator computator{ m_cloudArray };
-    computator.compute<DelaunayComputator::DivideAndConquer>();
+    computator.compute<DelaunayComputator::SimpleTriangulation>();
 
     const std::list<DelaunayTriangle>& triangleList = computator.getTriangleList();
 

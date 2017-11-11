@@ -6,21 +6,24 @@ namespace Slg3DScanner
 
     struct DelaunayEdge
     {
-        std::size_t index0;
-        std::size_t index1;
+        unsigned int index0;
+        unsigned int index1;
     };
 
     struct DelaunayTriangle
     {
     public:
-        std::size_t index0 = std::numeric_limits<std::size_t>::max();
-        std::size_t index1 = std::numeric_limits<std::size_t>::max();
-        std::size_t index2 = std::numeric_limits<std::size_t>::max();
+        using IndexType = unsigned int;
 
     public:
-        DelaunayTriangle(std::size_t id0);
-        DelaunayTriangle(std::size_t id0, std::size_t id1);
-        DelaunayTriangle(std::size_t id0, std::size_t id1, std::size_t id2);
+        IndexType index0 = std::numeric_limits<IndexType>::max();
+        IndexType index1 = std::numeric_limits<IndexType>::max();
+        IndexType index2 = std::numeric_limits<IndexType>::max();
+
+    public:
+        DelaunayTriangle(IndexType id0);
+        DelaunayTriangle(IndexType id0, IndexType id1);
+        DelaunayTriangle(IndexType id0, IndexType id1, IndexType id2);
 
     public:
         float computeArea(const std::vector<CloudVertexComputationStructureSimple>& pointList) const;
