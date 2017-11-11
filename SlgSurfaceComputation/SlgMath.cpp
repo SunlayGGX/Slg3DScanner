@@ -251,16 +251,16 @@ void Slg3DScanner::computeEigenValueAndEigenVectorsFromCovarianceMatrixAndOutput
 float Slg3DScanner::scalar(const DirectX::XMFLOAT3& vect1, const DirectX::XMFLOAT3& vect2)
 {
     return
-        vect1.x * vect2.x +
-        vect1.y * vect2.y +
-        vect1.z * vect2.z;
+        (vect1.x * vect2.x) +
+        (vect1.y * vect2.y) +
+        (vect1.z * vect2.z);
 }
 
 float Slg3DScanner::scalar(const DirectX::XMFLOAT2& vect1, const DirectX::XMFLOAT2& vect2)
 {
     return
-        vect1.x * vect2.x +
-        vect1.y * vect2.y;
+        (vect1.x * vect2.x) +
+        (vect1.y * vect2.y);
 }
 
 DirectX::XMFLOAT3 Slg3DScanner::cross(const DirectX::XMFLOAT3& vect1, const DirectX::XMFLOAT3& vect2)
@@ -294,4 +294,14 @@ void Slg3DScanner::normalize(DirectX::XMFLOAT2& inOutVect)
     float norm = std::sqrtf(lengthSquared(inOutVect));
     inOutVect.x /= norm;
     inOutVect.y /= norm;
+}
+
+float Slg3DScanner::distanceSquaredBetween(const DirectX::XMFLOAT3& point0, const DirectX::XMFLOAT3& point1)
+{
+    return Slg3DScanner::lengthSquared({ point1.x - point0.x, point1.y - point0.y, point1.z - point0.z });
+}
+
+float Slg3DScanner::distanceSquaredBetween(const DirectX::XMFLOAT2& point0, const DirectX::XMFLOAT2& point1)
+{
+    return Slg3DScanner::lengthSquared({ point1.x - point0.x, point1.y - point0.y });
 }

@@ -78,4 +78,7 @@ namespace Slg3DScanner
     void normalize(DirectX::XMFLOAT2& inOutVect);
     float lengthSquared(const DirectX::XMFLOAT2& vect);
     float lengthSquared(const DirectX::XMFLOAT3& vect);
+
+    float distanceSquaredBetween(const DirectX::XMFLOAT3& point0, const DirectX::XMFLOAT3& point1);
+    float distanceSquaredBetween(const DirectX::XMFLOAT2& point0, const DirectX::XMFLOAT2& point1);
 }
