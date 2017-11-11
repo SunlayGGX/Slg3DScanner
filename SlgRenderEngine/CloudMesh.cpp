@@ -118,7 +118,9 @@ void CloudMesh::readCloudFile()
 
 void CloudMesh::internalSendDataToGraphicCard()
 {
-    ID3D11Device* device = RenderEngineManager::instance().getDevice().getD3DDevice();
+    const Slg3DScanner::DXDispositif& d3d11GlobalDevice = RenderEngineManager::instance().getDevice();
+
+    ID3D11Device* device = d3d11GlobalDevice.getD3DDevice();
 
     D3D11_BUFFER_DESC bufferDesc;
     D3D11_SUBRESOURCE_DATA initData;
@@ -131,22 +133,22 @@ void CloudMesh::internalSendDataToGraphicCard()
     UINT vertexCount = static_cast<UINT>(m_cloud.m_vertexes.size());
 
     bufferDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
-    bufferDesc.ByteWidth = vertexCount * sizeof(VertexType);
+    bufferDesc.StructureByteStride = sizeof(VertexType);
+    bufferDesc.ByteWidth = vertexCount * bufferDesc.StructureByteStride;
     bufferDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
     bufferDesc.CPUAccessFlags = 0;
 
     initData.pSysMem = m_cloud.m_vertexes.data();
 
     DXTry(device->CreateBuffer(&bufferDesc, &initData, &m_vertexBuffer));
-
+    
     if(m_version == 2 && CloudMesh::IGNORE_INDEX_BUFFER == false)
     {
-        bufferDesc.ByteWidth = static_cast<UINT>(m_cloud.m_indexes.size() * sizeof(decltype(m_cloud.m_indexes)::value_type));
+        bufferDesc.StructureByteStride = sizeof(decltype(m_cloud.m_indexes)::value_type);
+        bufferDesc.ByteWidth = static_cast<UINT>(m_cloud.m_indexes.size() * bufferDesc.StructureByteStride);
         bufferDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
 
-        initData.pSysMem = m_cloud.m_indexes.data();
-
-        DXTry(device->CreateBuffer(&bufferDesc, &initData, &m_indexBuffer));
+        initData.pSysMem = static_cast<const void*>(m_cloud.m_indexes.data());
     }
     else
     {
@@ -160,9 +162,9 @@ void CloudMesh::internalSendDataToGraphicCard()
         bufferDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
 
         initData.pSysMem = indexBuffer.get();
-
-        DXTry(device->CreateBuffer(&bufferDesc, &initData, &m_indexBuffer));
     }
+    
+    DXTry(device->CreateBuffer(&bufferDesc, &initData, &m_indexBuffer));
 
-    this->setBuffers(RenderEngineManager::instance().getDevice().getImmediateContext(), sizeof(VertexType), 0);
+    this->setBuffers(d3d11GlobalDevice.getImmediateContext(), sizeof(VertexType), 0);
 }
