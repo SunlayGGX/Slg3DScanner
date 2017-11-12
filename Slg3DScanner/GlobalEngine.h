@@ -34,6 +34,9 @@ namespace Slg3DScanner
 
         std::atomic<uint8_t> m_allInitialized;
 
+        std::thread m_renderThread;
+        std::thread m_inputThread;
+
 
     public:
         void run();
@@ -46,8 +49,8 @@ namespace Slg3DScanner
 
 
     private:
-        void startInputAndWindowsThread() const;
-        void internalStartRenderThread() const;
+        void startInputAndWindowsThread();
+        void internalStartRenderThread();
 
         void internalInitializeAllTasks();
         void internalDestroyAllTasks();

@@ -54,6 +54,9 @@ void GlobalEngine::destroy()
 
     TimeManager::instance().destroy();
     SlgCoreEngine::instance().destroy();
+
+    m_renderThread.join();
+    m_inputThread.join();
 }
 
 void GlobalEngine::run()
@@ -84,9 +87,9 @@ void GlobalEngine::quit()
     m_run = false;
 }
 
-void GlobalEngine::startInputAndWindowsThread() const
+void GlobalEngine::startInputAndWindowsThread()
 {
-    std::thread
+    m_inputThread = std::thread
     {
         [&run = this->m_run]() 
     {
@@ -99,7 +102,7 @@ void GlobalEngine::startInputAndWindowsThread() const
             windowMgrMediator.update();
             TimeManager::instance().waitEndOfFrame();
         }
-    }}.detach();
+    }};
 }
 
 void GlobalEngine::startRendering(HWND windowVisuHandle)
@@ -114,9 +117,9 @@ void GlobalEngine::startRendering(HWND windowVisuHandle)
     this->internalStartRenderThread();
 }
 
-void GlobalEngine::internalStartRenderThread() const
+void GlobalEngine::internalStartRenderThread()
 {
-    std::thread
+    m_renderThread = std::thread
     {
         [&run = this->m_run]()
     {
@@ -128,7 +131,7 @@ void GlobalEngine::internalStartRenderThread() const
         }
 
         renderMgr.destroy();
-    }}.detach();
+    }};
 }
 
 bool GlobalEngine::isFullyInitialized() const
