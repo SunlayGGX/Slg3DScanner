@@ -2,6 +2,7 @@
 
 #include "NameManager.h"
 #include "RenderSceneManager.h"
+#include "RenderEngineManager.h"
 
 #include "IMesh.h"
 #include "CubeMesh.h"
@@ -10,7 +11,22 @@
 #include "Vertex.h"
 #include "Material.h"
 
+#include "CameraParameters.h"
+
 using namespace Slg3DScanner;
+
+void DefaultObjectCreator::createDefaultCamera(const DirectX::XMVECTOR& position, const DirectX::XMVECTOR& direction, const DirectX::XMVECTOR& up)
+{
+    RenderEngineManager& renderMgr = RenderEngineManager::instance();
+    auto& dxDevice = renderMgr.getDevice();
+
+    CameraParameters cameraParameter;
+    cameraParameter.aspectRatio = dxDevice.getScreenWidth() / dxDevice.getScreenHeight();
+
+    renderMgr.createCamera(cameraParameter);
+
+    renderMgr.setMainCameraMatViewManually(position, direction, up);
+}
 
 IMeshRef DefaultObjectCreator::createDefaultCubeMesh()
 {
@@ -34,12 +50,11 @@ IMeshRef DefaultObjectCreator::createDefaultCubeMesh()
     return std::move(cube);
 }
 
-IMeshRef DefaultObjectCreator::createDefaultPointCloud(const std::string &pathFileName, int cloudVersion)
+IMeshRef DefaultObjectCreator::createDefaultPointCloud(const std::string& pathFileName, int cloudVersion)
 {
     CloudMeshInitializer meshInitializer;
     meshInitializer.name = NameManager::instance().createUniqueName("CloudMesh");
-    meshInitializer.m_cloudFileName = pathFileName;
-    meshInitializer.m_version = cloudVersion;
+    meshInitializer.m_cloudFilesName.emplace_back(pathFileName);
 
     IMeshRef cloud = RenderSceneManager::instance().createMeshOfType<CloudMesh>(meshInitializer);
 
