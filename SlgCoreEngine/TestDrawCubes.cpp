@@ -5,8 +5,6 @@
 #include "DefaultObjectCreator.h"
 #include "LoggerCommand.h"
 
-#include "RenderEngineManager.h"
-
 #include "CameraParameters.h"
 #include "CubeMesh.h"
 
@@ -14,21 +12,8 @@ using namespace Slg3DScanner;
 
 void TesterManager::test(SLG_TEST_ORDER_MAKE(DrawCubes))
 {
-    RenderEngineManager& renderMgr = RenderEngineManager::instance();
-    auto& dxDevice = renderMgr.getDevice();
-
-    CameraParameters cameraParameter;
-    cameraParameter.aspectRatio = dxDevice.getScreenWidth() / dxDevice.getScreenHeight();
-
     SLGENGINE_LOG_DEBUG("Create camera");
-
-    renderMgr.createCamera(cameraParameter);
-
-    renderMgr.setMainCameraMatViewManually(
-        testOrder.cameraPosition,
-        testOrder.cameraDirection,
-        testOrder.cameraUp
-    );
+    DefaultObjectCreator::createDefaultCamera(testOrder.cameraPosition, testOrder.cameraDirection, testOrder.cameraUp);
 
     SLGENGINE_LOG_DEBUG("Create cube 1");
     auto cube = DefaultObjectCreator::createDefaultCubeMesh();

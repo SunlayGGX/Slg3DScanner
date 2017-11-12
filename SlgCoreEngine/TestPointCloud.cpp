@@ -5,60 +5,42 @@
 #include "DefaultObjectCreator.h"
 #include "LoggerCommand.h"
 
-#include "RenderEngineManager.h"
-
 #include "CameraParameters.h"
 #include "CloudMesh.h"
 
 using namespace Slg3DScanner;
 
+namespace Slg3DScanner
+{
+    namespace TestDetails
+    {
+        template<class TestType>
+        void loadPointCloudTestHelper(const TestType& testOrder)
+        {
+            SLGENGINE_LOG_DEBUG("Create camera");
+            DefaultObjectCreator::createDefaultCamera(testOrder.cameraPosition, testOrder.cameraDirection, testOrder.cameraUp);
+
+            SLGENGINE_LOG_DEBUG("Read point cloud");
+            DefaultObjectCreator::createDefaultPointCloud(testOrder.pointCloudFilePath, testOrder.version);
+        };
+    }
+}
+
 
 void TesterManager::test(SLG_TEST_ORDER_MAKE(LoadPointCloud))
 {
-    RenderEngineManager& renderMgr = RenderEngineManager::instance();
-    auto& dxDevice = renderMgr.getDevice();
-
-    CameraParameters cameraParameter;
-    cameraParameter.aspectRatio = dxDevice.getScreenWidth() / dxDevice.getScreenHeight();
-
-    SLGENGINE_LOG_DEBUG("Create camera");
-
-    renderMgr.createCamera(cameraParameter);
-
-    renderMgr.setMainCameraMatViewManually(
-        testOrder.cameraPosition,
-        testOrder.cameraDirection,
-        testOrder.cameraUp
-    );
-
-    SLGENGINE_LOG_DEBUG("Read point cloud");
-
-    DefaultObjectCreator::createDefaultPointCloud(testOrder.pointCloudFilePath, testOrder.version);
-
+    TestDetails::loadPointCloudTestHelper(testOrder);
     SLG_PRINT_END_TEST(LoadPointCloud);
 }
 
 void TesterManager::test(SLG_TEST_ORDER_MAKE(LoadPointCloudSimple))
 {
-    RenderEngineManager& renderMgr = RenderEngineManager::instance();
-    auto& dxDevice = renderMgr.getDevice();
-
-    CameraParameters cameraParameter;
-    cameraParameter.aspectRatio = dxDevice.getScreenWidth() / dxDevice.getScreenHeight();
-
-    SLGENGINE_LOG_DEBUG("Create camera");
-
-    renderMgr.createCamera(cameraParameter);
-
-    renderMgr.setMainCameraMatViewManually(
-        testOrder.cameraPosition,
-        testOrder.cameraDirection,
-        testOrder.cameraUp
-    );
-
-    SLGENGINE_LOG_DEBUG("Read point cloud");
-
-    DefaultObjectCreator::createDefaultPointCloud(testOrder.pointCloudFilePath, testOrder.version);
-
+    TestDetails::loadPointCloudTestHelper(testOrder);
     SLG_PRINT_END_TEST(LoadPointCloudSimple);
+}
+
+void TesterManager::test(SLG_TEST_ORDER_MAKE(LoadPointCloudTranslatedSimple))
+{
+    TestDetails::loadPointCloudTestHelper(testOrder);
+    SLG_PRINT_END_TEST(LoadPointCloudTranslatedSimple);
 }
