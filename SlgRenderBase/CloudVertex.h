@@ -26,8 +26,7 @@ namespace Slg3DScanner
 
         constexpr CloudVertex(const DirectX::XMFLOAT3& vertexPos) noexcept :
             m_vertex{ vertexPos }
-        {
-        }
+        {}
 
         ~CloudVertex() = default;
     };
@@ -37,5 +36,27 @@ namespace Slg3DScanner
     public:
         std::vector<CloudVertex> m_vertexes;
         std::vector<unsigned int> m_indexes;
+
+    public:
+        InternalCloudMesh() = default;
+        InternalCloudMesh(const InternalCloudMesh&) = default;
+        InternalCloudMesh& operator=(const InternalCloudMesh&) = default;
+
+        InternalCloudMesh(InternalCloudMesh&& other) :
+            m_vertexes{ std::move(other.m_vertexes) },
+            m_indexes{ std::move(other.m_indexes) }
+        {}
+
+        InternalCloudMesh& operator=(InternalCloudMesh&& other)
+        {
+            m_vertexes = std::move(other.m_vertexes);
+            m_indexes = std::move(other.m_indexes);
+            return *this;
+        }
+
+        bool isEmpty() const
+        {
+            return m_vertexes.empty();
+        }
     };
 }
