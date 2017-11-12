@@ -9,8 +9,7 @@ namespace Slg3DScanner
     struct CloudVertex;
     struct CloudMeshInitializer : public MeshInitializer
     {
-        std::string m_cloudFileName;
-        int m_version;
+        std::vector<std::string> m_cloudFilesName;
     };
 
     class CloudMesh : public Mesh
@@ -28,16 +27,24 @@ namespace Slg3DScanner
             CURRENT_INDEX_TOPOLOGY = IGNORE_INDEX_BUFFER ? D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST : DEFAULT_INDEX_TOPOLOGY
         };
 
+        enum Version
+        {
+            V1,
+            V2,
+
+            UNKNOWN
+        };
+
 
     private:
-        std::string m_cloudFileName;
+        std::vector<std::string> m_cloudFilesName;
 
         Slg3DScanner::InternalCloudMesh m_cloud;
         D3D11_PRIMITIVE_TOPOLOGY m_cloudTopology;
 
         std::atomic<bool> m_initialized;
 
-        int m_version;
+        Version m_version;
 
 
     public:
@@ -47,14 +54,9 @@ namespace Slg3DScanner
         virtual void draw(ID3D11DeviceContext* immediateContext, const PreInitializeCBufferParameterFromRendererSceneManager& preInitShadingCBuffer) override;
 
 
-    public:
-        void setCloudFile(const std::string &cloudFileName);
+    private:
+        void setCloudFile(const std::vector<std::string>& cloudFileName);
         void readCloudFile();
         void internalSendDataToGraphicCard();
-
-
-    private:
-        //no reference
-        void internalSetCloudFile(std::string cloudFileName);
     };
 }

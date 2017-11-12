@@ -140,8 +140,6 @@ CubeMesh::CubeMesh(const CubeMeshInitializer& cubeMeshInitializer) :
     initData.pSysMem = indexBuffer;
 
     DXTry(device->CreateBuffer(&bufferDesc, &initData, &m_indexBuffer));
-
-    this->setBuffers(RenderEngineManager::instance().getDevice().getImmediateContext(), sizeof(VertexType), 0);
 }
 
 CubeMesh::~CubeMesh()
@@ -155,6 +153,8 @@ void CubeMesh::draw(ID3D11DeviceContext* immediateContext, const PreInitializeCB
     ConstantBufferParameterHelper::transfer(preInitShadingCBuffer, renderCBufferParameter);
 
     std::lock_guard<std::mutex> autoLocker{ m_mutex };
+
+    this->setBuffers(immediateContext, sizeof(VertexType), 0);
 
     const PreInitializeCBufferParameterFromMeshInstance& thisMeshParameters = this->getMeshParams();
 

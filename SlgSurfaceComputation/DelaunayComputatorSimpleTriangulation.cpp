@@ -185,7 +185,7 @@ void DelaunayComputator::triangulate()
     */
 #endif
 
-    DelaunayDetail::QuadHelper quadHelp{ m_pointList, 10.f };
+    DelaunayDetail::QuadHelper quadHelp{ m_pointList, 0.00025f };
 
     DelaunayTriangle tmpUpTriangle{ 0, 0, 0 };
     bool tmpUpValid;
@@ -193,16 +193,13 @@ void DelaunayComputator::triangulate()
     DelaunayTriangle tmpDownTriangle{ 0, 0, 0 };
     bool tmpDownValid;
 
-    int skipped = 0;
-    int invel = 0;
-
     const auto endPointListIter = m_pointList.size() - 1;
     for(auto iter = 0; iter != endPointListIter; ++iter)
     {
         quadHelp.m_bottomRightIndex = iter;
         quadHelp.m_bottomLeftIndex = iter + 1;
 
-        if(m_pointList[quadHelp.m_bottomRightIndex].getProjectedPosition().y == m_pointList[quadHelp.m_bottomLeftIndex].getProjectedPosition().y)
+        //if(m_pointList[quadHelp.m_bottomRightIndex].getProjectedPosition().y == m_pointList[quadHelp.m_bottomLeftIndex].getProjectedPosition().y)
         {
             quadHelp.m_topRightIndex = this->searchUpNeighbour(quadHelp.m_bottomRightIndex);
 
@@ -214,12 +211,10 @@ void DelaunayComputator::triangulate()
                 }
                 else
                 {
-                    ++skipped;
-                    continue;
-                    //break;
+                    break;
                 }
 
-                if(m_pointList[quadHelp.m_topRightIndex].getProjectedPosition().y == m_pointList[quadHelp.m_topLeftIndex].getProjectedPosition().y)
+                //if(m_pointList[quadHelp.m_topRightIndex].getProjectedPosition().y == m_pointList[quadHelp.m_topLeftIndex].getProjectedPosition().y)
                 {
                     quadHelp.retrieveTriangles(tmpUpTriangle, tmpUpValid, tmpDownTriangle, tmpDownValid);
 
@@ -227,38 +222,17 @@ void DelaunayComputator::triangulate()
                     {
                         m_indexList.emplace_back(tmpUpTriangle);
                     }
-                    else
-                    {
-                        ++invel;
-                    }
 
                     if(tmpDownValid)
                     {
                         m_indexList.emplace_back(tmpDownTriangle);
                     }
-                    else
-                    {
-                        ++invel;
-                    }
                 }
-                else
-                {
-                    ++skipped;
-                }
-
-                quadHelp.reset();
             }
             else
             {
-                ++skipped;
-                continue;
-                //break;
+                break;
             }
-        }
-        else
-        {
-            ++skipped;
-            continue;
         }
     }
 }

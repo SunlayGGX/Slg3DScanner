@@ -7,6 +7,7 @@
 #include "RenderEngineManager.h"
 
 #include "CloudVertex.h"
+#include "CloudMerger.h"
 
 #include <experimental/filesystem>
 #include <future>
@@ -18,36 +19,57 @@ CloudMesh::CloudMesh(const CloudMeshInitializer& cloudMeshInitializer) :
     Mesh{ cloudMeshInitializer },
     m_initialized{ false },
     m_cloudTopology{ static_cast<D3D11_PRIMITIVE_TOPOLOGY>(CloudMesh::CURRENT_INDEX_TOPOLOGY) },
-    m_version{ cloudMeshInitializer.m_version }
+    m_version{ CloudMesh::Version::UNKNOWN }
 {
-    this->setCloudFile(cloudMeshInitializer.m_cloudFileName);
+    this->setCloudFile(cloudMeshInitializer.m_cloudFilesName);
     this->readCloudFile();
 }
 
 CloudMesh::~CloudMesh() = default;
 
-void CloudMesh::setCloudFile(const std::string &cloudFileName)
+void CloudMesh::setCloudFile(const std::vector<std::string>& cloudFileName)
 {
-    std::experimental::filesystem::path filePath{ cloudFileName };
-    if(filePath.has_extension())
-    {
-        this->internalSetCloudFile(cloudFileName);
-    }
-    else
-    {
-        this->internalSetCloudFile(cloudFileName + ".slgBinPos");
-    }
-}
+    m_cloudFilesName.clear();
+    m_cloudFilesName.reserve(cloudFileName.size());
+    m_version = CloudMesh::Version::UNKNOWN;
 
-void CloudMesh::internalSetCloudFile(std::string cloudFileName)
-{
-    if(std::experimental::filesystem::exists(cloudFileName))
+    const auto endIter = cloudFileName.end();
+    for(auto iter = cloudFileName.begin(); iter != endIter; ++iter)
     {
-        m_cloudFileName = std::move(cloudFileName);
-    }
-    else
-    {
-        throw std::exception{ SLG_NORMALIZE_EXCEPTION_STRING_MESSAGE(cloudFileName + " doesn't exists") };
+        std::experimental::filesystem::path filePath{ *iter };
+        if(std::experimental::filesystem::exists(filePath) && filePath.has_extension())
+        {
+            std::string extension = filePath.extension().string();
+
+            if(extension == ".slgBinPos2")
+            {
+                if(m_version == CloudMesh::Version::V1)
+                {
+                    throw std::exception{ SLG_NORMALIZE_EXCEPTION_MESSAGE("You create a cloud mesh using different version cloud files") };
+                }
+
+                m_version = CloudMesh::Version::V2;
+            }
+            else if(extension == ".slgBinPos")
+            {
+                if(m_version == CloudMesh::Version::V2)
+                {
+                    throw std::exception{ SLG_NORMALIZE_EXCEPTION_MESSAGE("You create a cloud mesh using different version cloud files") };
+                }
+
+                m_version = CloudMesh::Version::V1;
+            }
+            else
+            {
+                throw std::exception{ SLG_NORMALIZE_EXCEPTION_STRING_MESSAGE("Unsupported cloud file : " + *iter) };
+            }
+
+            m_cloudFilesName.emplace_back(*iter);
+        }
+        else
+        {
+            throw std::exception{ SLG_NORMALIZE_EXCEPTION_STRING_MESSAGE("Invalid cloud file : " + *iter) };
+        }
     }
 }
 
@@ -65,6 +87,8 @@ void CloudMesh::draw(ID3D11DeviceContext* immediateContext, const PreInitializeC
 
         {
             std::lock_guard<std::mutex> autoLocker{ m_mutex };
+
+            this->setBuffers(immediateContext, sizeof(VertexType), 0);
 
             const PreInitializeCBufferParameterFromMeshInstance& thisMeshParameters = this->getMeshParams();
 
@@ -94,21 +118,58 @@ void CloudMesh::readCloudFile()
 
     std::thread
     {
-        [this]() 
+        [this, version = this->m_version]()
     {
-        if(m_version == 2)
-        {
-            Slg3DScanner::readPointCloud2fromFile(m_cloudFileName, m_cloud);
-        }
-        else
-        {
-            m_cloud.m_vertexes = Slg3DScanner::readPointCloudfromFile(m_cloudFileName);
-        }
+        std::vector<Slg3DScanner::InternalCloudMesh> cloudDataResults;
+        std::vector<std::future<Slg3DScanner::InternalCloudMesh>> readFutures;
 
-        if(m_cloud.m_vertexes.empty())
+        const std::size_t filesCount = m_cloudFilesName.size();
+        readFutures.reserve(filesCount);
+        cloudDataResults.reserve(filesCount);
+
+        std::for_each(
+            m_cloudFilesName.begin(),
+            m_cloudFilesName.end(), 
+            [version, &readFutures](const std::string& cloudFileName)
         {
-            throw std::exception{ SLG_NORMALIZE_EXCEPTION_MESSAGE("No point cloud created") };
-        }
+            readFutures.emplace_back(std::async([cloudFileName, version]()
+            {
+                Slg3DScanner::InternalCloudMesh result;
+
+                switch(version)
+                {
+                case CloudMesh::Version::V2:
+                    Slg3DScanner::readPointCloud2fromFile(cloudFileName, result);
+                    break;
+
+                case CloudMesh::Version::V1:
+                    result.m_vertexes = Slg3DScanner::readPointCloudfromFile(cloudFileName);
+                    break;
+
+                default:
+                    throw std::exception{ SLG_NORMALIZE_EXCEPTION_MESSAGE("Unknown cloud files version") };
+                }
+                
+                return std::move(result);
+            }));
+        });
+
+        std::mutex readMutex;
+        std::for_each(
+            readFutures.begin(),
+            readFutures.end(),
+            [this, &readMutex](std::future<Slg3DScanner::InternalCloudMesh>& readFuture)
+        {
+            std::lock_guard<std::mutex> autoLocker{ readMutex };
+            if(m_cloud.isEmpty())
+            {
+                m_cloud = std::move(readFuture.get());
+            }
+            else
+            {
+                Slg3DScanner::CloudMerger::merge(m_cloud, readFuture.get());
+            }
+        });
 
         this->internalSendDataToGraphicCard();
 
@@ -142,7 +203,7 @@ void CloudMesh::internalSendDataToGraphicCard()
 
     DXTry(device->CreateBuffer(&bufferDesc, &initData, &m_vertexBuffer));
 
-    if(m_version == 2 && CloudMesh::IGNORE_INDEX_BUFFER == false)
+    if(m_version == CloudMesh::Version::V2 && CloudMesh::IGNORE_INDEX_BUFFER == false)
     {
         bufferDesc.StructureByteStride = sizeof(decltype(m_cloud.m_indexes)::value_type);
         bufferDesc.ByteWidth = static_cast<UINT>(m_cloud.m_indexes.size() * bufferDesc.StructureByteStride);
@@ -165,6 +226,4 @@ void CloudMesh::internalSendDataToGraphicCard()
     }
     
     DXTry(device->CreateBuffer(&bufferDesc, &initData, &m_indexBuffer));
-
-    this->setBuffers(d3d11GlobalDevice.getImmediateContext(), sizeof(VertexType), 0);
 }

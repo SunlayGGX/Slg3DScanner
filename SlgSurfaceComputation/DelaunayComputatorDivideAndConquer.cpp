@@ -37,7 +37,7 @@ void DelaunayComputator::mergeDelaunay()
 {
     m_indexList.clear();
 
-    this->mergeDelaunayRecursive(0, m_pointList.size() - 1, m_indexList);
+    this->mergeDelaunayRecursive(0, static_cast<DelaunayTriangle::IndexType>(m_pointList.size() - 1), m_indexList);
 }
 
 void DelaunayComputator::mergeDelaunayRecursive(DelaunayTriangle::IndexType beginIndex, DelaunayTriangle::IndexType endIndex, std::list<DelaunayTriangle>& outMergeContainer)
