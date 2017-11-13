@@ -9,6 +9,7 @@ using namespace Slg3DScanner;
 
 DXDispositif::DXDispositif() :
     m_DepthTexture{ nullptr },
+    m_DepthCapturedTexture{ nullptr },
     m_DepthStencilView{ nullptr },
     m_SolidCullBackRS{ nullptr },
     m_SolidCullNoneRS{ nullptr },
@@ -27,6 +28,7 @@ DXDispositif::DXDispositif() :
 DXDispositif::~DXDispositif()
 {
     DXRelease(
+        m_DepthCapturedTexture,
         m_DepthTexture,
         m_SolidCullBackRS,
         m_SolidCullNoneRS,
@@ -189,7 +191,7 @@ void DXDispositif::internalInitializeDepthBuffer()
     depthTextureDesc.Height = static_cast<UINT>(m_ScreenHeight);
     depthTextureDesc.MipLevels = 1;
     depthTextureDesc.ArraySize = 1;
-    depthTextureDesc.Format = DXGI_FORMAT::DXGI_FORMAT_D24_UNORM_S8_UINT;
+    depthTextureDesc.Format = DXGI_FORMAT::DXGI_FORMAT_D32_FLOAT;
     depthTextureDesc.SampleDesc.Count = 1;
     depthTextureDesc.SampleDesc.Quality = 0;
     depthTextureDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
@@ -197,6 +199,11 @@ void DXDispositif::internalInitializeDepthBuffer()
     depthTextureDesc.CPUAccessFlags = 0;
 
     DXTry(m_D3DDevice->CreateTexture2D(&depthTextureDesc, nullptr, &m_DepthTexture));
+    
+    depthTextureDesc.Usage = D3D11_USAGE::D3D11_USAGE_STAGING;
+    depthTextureDesc.BindFlags = 0;
+    depthTextureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_READ;
+    DXTry(m_D3DDevice->CreateTexture2D(&depthTextureDesc, nullptr, &m_DepthCapturedTexture));
 
     D3D11_DEPTH_STENCIL_VIEW_DESC descStencilView;
     DXZeroMemory(descStencilView);
@@ -262,6 +269,7 @@ void DXDispositif::internalConfigureStates()
     depthStencilDesc.DepthEnable = FALSE;
     depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
     depthStencilDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS;
+    depthStencilDesc.StencilEnable = FALSE;
 
     DXTry(m_D3DDevice->CreateDepthStencilState(&depthStencilDesc, &m_ZBufferDisable));
 
@@ -407,6 +415,10 @@ void DXDispositif::internalExecuteAction(Action actionToExecute)
         this->setEnableBlendAlpha(false);
         break;
 
+    case Slg3DScanner::DXDispositif::Action::CAPTURE_DEPTH:
+        this->captureDepthBuffer();
+        break;
+
     default:
         break;
     }
@@ -431,4 +443,34 @@ void DXDispositif::update()
     {
         this->internalExecuteAction(*iter);
     }
+}
+
+void DXDispositif::captureDepthBuffer()
+{
+    std::lock_guard<std::mutex> autoLocker{ m_depthCaptureMutex };
+
+    m_ImmediateContext->CopyResource(m_DepthCapturedTexture, m_DepthTexture);
+
+    D3D11_MAPPED_SUBRESOURCE mapSubressource;
+    m_ImmediateContext->Map(m_DepthCapturedTexture, 0, D3D11_MAP::D3D11_MAP_READ, D3D11_MAP_FLAG::D3D11_MAP_FLAG_DO_NOT_WAIT, &mapSubressource);
+
+    m_depthCapturedDataSizeCount = mapSubressource.DepthPitch / sizeof(DXDispositif::DepthType);
+
+    m_depthCapturedData = std::make_unique<DXDispositif::DepthType[]>(m_depthCapturedDataSizeCount);
+    memcpy(static_cast<void*>(m_depthCapturedData.get()), mapSubressource.pData, m_depthCapturedDataSizeCount);
+
+    m_ImmediateContext->Unmap(m_DepthCapturedTexture, 0);
+}
+
+std::unique_ptr<DXDispositif::DepthType[]> DXDispositif::retrieveLastCapturedDepthBufferData(std::size_t& outDataSize) const
+{
+    std::unique_ptr<DXDispositif::DepthType[]> result;
+    {
+        std::lock_guard<std::mutex> autoLocker{ m_depthCaptureMutex };
+
+        outDataSize = m_depthCapturedDataSizeCount;
+        result = std::make_unique<DXDispositif::DepthType[]>(outDataSize);
+        memcpy(static_cast<void*>(result.get()), static_cast<void*>(m_depthCapturedData.get()), outDataSize);
+    }
+    return std::move(result);
 }

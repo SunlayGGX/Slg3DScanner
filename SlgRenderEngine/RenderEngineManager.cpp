@@ -44,11 +44,11 @@ void RenderEngineManager::update()
 {
     m_device.clearView();
 
-    m_device.update();
-
     m_device.initView();
 
     RenderSceneManager::instance().update();
+
+    m_device.update();
 
     m_device.unbindTargetView();
 

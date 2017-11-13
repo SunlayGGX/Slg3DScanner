@@ -9,6 +9,10 @@ namespace Slg3DScanner
     class DXDispositif
     {
     public:
+        using DepthType = float;
+
+
+    public:
         enum class Action
         {
             SET_WIREFRAME,
@@ -20,6 +24,8 @@ namespace Slg3DScanner
 
             ENABLE_BLEND_ALPHA,
             DISABLE_BLEND_ALPHA,
+
+            CAPTURE_DEPTH
         };
 
 
@@ -36,6 +42,8 @@ namespace Slg3DScanner
 
         ID3D11Texture2D* m_DepthTexture;
         ID3D11DepthStencilView* m_DepthStencilView;
+
+        ID3D11Texture2D* m_DepthCapturedTexture;
 
         ID3D11RasterizerState* m_SolidCullBackRS;
         ID3D11RasterizerState* m_SolidCullNoneRS;
@@ -56,6 +64,10 @@ namespace Slg3DScanner
 
         std::mutex m_actionMutex;
         std::vector<Action> m_actionQueue;
+
+        mutable std::mutex m_depthCaptureMutex;
+        std::unique_ptr<DepthType[]> m_depthCapturedData;
+        std::size_t m_depthCapturedDataSizeCount;
 
 
     public:
@@ -83,6 +95,8 @@ namespace Slg3DScanner
         void setEnableZBuffer(bool enable);
         void setEnableBlendAlpha(bool enable);
 
+        void captureDepthBuffer();
+
 
     public:
         DECLARE_SIMPLE_GET_ACCESSOR(ID3D11Device*,           D3DDevice);
@@ -103,6 +117,11 @@ namespace Slg3DScanner
         void presentToDisplay();
 
         void unbindTargetView();
+
+
+    public:
+        std::unique_ptr<DepthType[]> retrieveLastCapturedDepthBufferData(std::size_t& outDataSize) const;
+
 
         //Debug
     public:
