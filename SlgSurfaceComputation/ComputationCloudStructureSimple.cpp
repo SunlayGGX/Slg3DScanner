@@ -26,7 +26,7 @@ ComputationCloudStructureSimple::~ComputationCloudStructureSimple()
 void ComputationCloudStructureSimple::initializeProjectivePlane(const DirectX::XMFLOAT3& scannerDir)
 {
     m_projPlaneOrigin = { 0.f, 0.f, 0.f };
-    m_projPlaneNormal = { scannerDir.x, scannerDir.y, -scannerDir.z }; //normal face the camera (scanner)
+    m_projPlaneNormal = { -scannerDir.x, -scannerDir.y, -scannerDir.z }; //normal face the camera (scanner)
 
     float norm = std::sqrtf(Slg3DScanner::scalar(m_projPlaneNormal, m_projPlaneNormal));
 
@@ -51,12 +51,12 @@ void ComputationCloudStructureSimple::initializeProjectivePlane(const DirectX::X
     m_projPlaneUp = Slg3DScanner::getNormalized(Slg3DScanner::cross(m_projPlaneRight, m_projPlaneNormal));
 }
 
-void ComputationCloudStructureSimple::fillArray(const InputCloudVertex* inInputedVertexes, DelaunayTriangle::IndexType inputedVertexCount)
+void ComputationCloudStructureSimple::fillArray(const InputCloudVertex* inInputedVertexes, std::size_t inputedVertexCount)
 {
     m_cloudArray.clear();
     m_cloudArray.reserve(inputedVertexCount);
 
-    for(DelaunayTriangle::IndexType iter = 0; iter != inputedVertexCount; ++iter)
+    for(std::size_t iter = 0; iter != inputedVertexCount; ++iter)
     {
         auto& inputVertex = inInputedVertexes[iter];
 

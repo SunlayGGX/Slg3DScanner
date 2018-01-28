@@ -31,7 +31,7 @@ namespace Slg3DScanner
         void transferToFinal(InternalCloudMesh& outFinalPointCloudArray) const;
 
     private:
-        void fillArray(const InputCloudVertex* inInputedVertexes, DelaunayTriangle::IndexType inputedVertexCount);
+        void fillArray(const InputCloudVertex* inInputedVertexes, std::size_t inputedVertexCount);
         void initializeProjectivePlane(const DirectX::XMFLOAT3& scannerDir);
 
         void computeProjectionOnPlane();
