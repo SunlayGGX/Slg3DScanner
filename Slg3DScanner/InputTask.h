@@ -6,8 +6,13 @@ namespace Slg3DScanner
 {
     class InputTask : public ITask
     {
+    private:
+        float m_translationMove;
+        float m_rotationMove;
+
+
     public:
-        InputTask() = default;
+        InputTask();
         ~InputTask() = default;
 
 
