@@ -42,8 +42,6 @@ namespace Slg3DScanner
         Slg3DScanner::InternalCloudMesh m_cloud;
         D3D11_PRIMITIVE_TOPOLOGY m_cloudTopology;
 
-        std::atomic<bool> m_initialized;
-
         Version m_version;
 
 
@@ -58,5 +56,9 @@ namespace Slg3DScanner
         void setCloudFile(const std::vector<std::string>& cloudFileName);
         void readCloudFile();
         void internalSendDataToGraphicCard();
+
+
+    public:
+        virtual bool writeToObj(const std::string& objPath) override;
     };
 }

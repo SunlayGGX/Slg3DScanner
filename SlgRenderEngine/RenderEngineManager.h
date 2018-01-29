@@ -39,6 +39,9 @@ namespace Slg3DScanner
 
 
     public:
+        void askWritePointCloudToObj(const std::string& path);
+
+    public:
         FORCEINLINE const DXDispositif& getDevice() const noexcept
         {
             return m_device;

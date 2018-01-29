@@ -42,3 +42,8 @@ SLG_BEGIN_TEST_ORDER_DEFINITION(LoadPointCloudTranslatedSimple)
 
     const std::string pointCloudFilePath = "../SlgData/PointCloud/positionImageTranslated.slgBinPos2";
 SLG_END_TEST_ORDER_DEFINITION
+
+
+SLG_BEGIN_TEST_ORDER_DEFINITION(WriteAllPointCloudToObj)
+    const std::string objFolderPath = "../SlgData/Output/";
+SLG_END_TEST_ORDER_DEFINITION

@@ -93,6 +93,12 @@
     <ClInclude Include="BitHelper.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="ArgumentManager.h">
+      <Filter>Fichiers d%27en-tête\ManagerHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadManager.h">
+      <Filter>Fichiers d%27en-tête\ManagerHelper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Slg3DScannerHelperPCH.cpp">
@@ -114,6 +120,12 @@
       <Filter>Fichiers sources\ManagerHelper</Filter>
     </ClCompile>
     <ClCompile Include="NameManager.cpp">
+      <Filter>Fichiers sources\ManagerHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="ArgumentManager.cpp">
+      <Filter>Fichiers sources\ManagerHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadManager.cpp">
       <Filter>Fichiers sources\ManagerHelper</Filter>
     </ClCompile>
   </ItemGroup>

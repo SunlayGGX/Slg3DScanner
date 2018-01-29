@@ -11,10 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CloudMerger.h" />
     <ClInclude Include="CloudVertexComputationStructure.h" />
     <ClInclude Include="CloudVertexComputationStructureSimple.h" />
     <ClInclude Include="ComputationCloudStructureSimple.h" />
     <ClInclude Include="ComputationCloudStructure.h" />
+    <ClInclude Include="ComputationTree.h" />
     <ClInclude Include="DelaunayComputator.h" />
     <ClInclude Include="DelaunayStructure.h" />
     <ClInclude Include="InputCloudVertex.h" />
@@ -25,10 +27,12 @@
     <ClInclude Include="SlgSurfaceComputationPCH.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CloudMerger.cpp" />
     <ClCompile Include="CloudVertexComputationStructure.cpp" />
     <ClCompile Include="CloudVertexComputationStructureSimple.cpp" />
     <ClCompile Include="ComputationCloudStructureSimple.cpp" />
     <ClCompile Include="ComputationCloudStructure.cpp" />
+    <ClCompile Include="ComputationTree.cpp" />
     <ClCompile Include="DelaunayComputator.cpp" />
     <ClCompile Include="DelaunayComputatorDivideAndConquer.cpp" />
     <ClCompile Include="DelaunayComputatorSimpleTriangulation.cpp" />

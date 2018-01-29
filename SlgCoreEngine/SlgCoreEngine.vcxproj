@@ -27,6 +27,7 @@
     </ClCompile>
     <ClCompile Include="TesterManager.cpp" />
     <ClCompile Include="TestDrawCubes.cpp" />
+    <ClCompile Include="TestObj.cpp" />
     <ClCompile Include="TestPointCloud.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

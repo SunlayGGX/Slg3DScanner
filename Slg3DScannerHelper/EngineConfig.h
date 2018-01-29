@@ -23,4 +23,6 @@ namespace Slg3DScanner
         HEIGHT = 600,
         WIDTH = 1800
     };
+
+    static constexpr const float THRESHOLD_ABERRANT_TRIANGLE = 0.000025f;
 }

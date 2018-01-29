@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Slg3DScanner", "Slg3DScanner\Slg3DScanner.vcxproj", "{5ED4D0C6-F8B7-4F50-B313-4F5742CAF40C}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -167,5 +167,8 @@ Global
 		{0A0D4872-F195-4F98-9AF2-040FA7F88A31} = {D7BD6E32-3D0D-418F-952D-682F2E960130}
 		{06F56407-1168-4696-9959-CE9C66DB7260} = {D7BD6E32-3D0D-418F-952D-682F2E960130}
 		{09678856-BE55-42B4-A5E2-9170812E2096} = {86F606E3-BFD8-4A9D-9D1F-9925EBC511AF}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {58850584-69D5-4FAC-8EB0-1E8972FCF672}
 	EndGlobalSection
 EndGlobal

@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArgumentManager.h" />
     <ClInclude Include="AutoSchedulerResolutionModifier.h" />
     <ClInclude Include="BindToExistantHelper.h" />
     <ClInclude Include="BitHelper.h" />
@@ -30,6 +31,7 @@
     <ClInclude Include="SlgSingleton.h" />
     <ClInclude Include="SlgSingletonGlobalAllocator.h" />
     <ClInclude Include="STDForwardDeclaration.h" />
+    <ClInclude Include="ThreadManager.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Uncopyable.h" />
     <ClInclude Include="UniqueDX.h" />
@@ -37,6 +39,7 @@
     <ClInclude Include="WindowsPop.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ArgumentManager.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DllManager.cpp" />
     <ClCompile Include="NameManager.cpp" />
@@ -45,6 +48,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ThreadManager.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="WindowsPop.cpp" />
   </ItemGroup>

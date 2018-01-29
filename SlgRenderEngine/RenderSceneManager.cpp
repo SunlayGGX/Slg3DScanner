@@ -4,11 +4,14 @@
 
 #include "RenderEngineManager.h"
 #include "TimeManager.h"
+#include "ThreadManager.h"
 
 #include "IMesh.h"
 #include "Camera.h"
 
 #include "ShaderConstantBuffer.h"
+
+#include "LoggerCommand.h"
 
 
 using namespace Slg3DScanner;
@@ -189,4 +192,26 @@ std::size_t RenderSceneManager::internalFindIndexOfMeshByName(const std::string&
     }
 
     return endIndex;
+}
+
+void RenderSceneManager::askWritePointCloudToObj(const std::string& path)
+{
+    std::lock_guard<std::mutex> autoLocker{ m_mutex };
+
+    const auto endIter = m_meshArray.end();
+    for (auto meshIter = m_meshArray.begin(); meshIter != endIter; ++meshIter)
+    {
+        Slg3DScanner::ThreadManager::instance().addFunctionToRunAsynchronously([&mesh = (*meshIter), path]()
+        {
+            while(!mesh->isReady())
+            {
+                std::this_thread::sleep_for(std::chrono::milliseconds{ 33 });
+            }
+
+            if(!mesh->writeToObj(path + mesh->m_name + ".obj"))
+            {
+                SLGENGINE_LOG_DEBUG("Cannot write obj for mesh " + mesh->m_name);
+            }
+        });
+    }
 }

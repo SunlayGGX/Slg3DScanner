@@ -1,6 +1,7 @@
 #include "SlgSingletonGlobalAllocator.h"
 
 #include "LoggerEngine.h"
+#include "ArgumentManager.h"
 #include "NameManager.h"
 #include "DllManager.h"
 #include "TimeManager.h"
@@ -15,6 +16,7 @@
 #include "TesterManager.h"
 
 #include "SlgEngineCoreBinder.h"
+#include "ThreadManager.h"
 
 using namespace Slg3DScanner;
 
@@ -22,7 +24,9 @@ namespace Slg3DScanner
 {
     using SlgSingletonContainerAllocatorAlias = SlgSingletonGlobalAllocator<
         LoggerEngine,
+        ArgumentManager,
         NameManager,
+        ThreadManager,
         TimeManager,
         DllManager,
         SlgCoreEngine,
@@ -38,8 +42,10 @@ namespace Slg3DScanner
         SlgEngineCoreBinder //must remain the last. It's role is to bind everyone together.
     >;
 
-    void autoAllocateAndInstallSlgSingleton()
+    void autoAllocateAndInstallSlgSingleton(int argc, char** argv)
     {
+        ArgumentManager::registerArguments(argc, argv);
+
         static SlgSingletonContainerAllocatorAlias containerSlgSingletonAllocator;
     }
 }

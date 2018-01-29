@@ -59,6 +59,8 @@ namespace Slg3DScanner
 
         mutable std::mutex m_mutex;
 
+        std::atomic<bool> m_ready;
+
 
     protected:
         IMesh(const IMeshInitializer& other);
@@ -87,5 +89,16 @@ namespace Slg3DScanner
         virtual void destroy() override;
 
         virtual void draw(ID3D11DeviceContext* immediateContext, const PreInitializeCBufferParameterFromRendererSceneManager& preInitShadingCBuffer) = 0;
+
+
+    public:
+        FORCEINLINE bool isReady() const
+        {
+            return m_ready;
+        }
+
+
+    public:
+        virtual bool writeToObj(const std::string& objPath);
     };
 }

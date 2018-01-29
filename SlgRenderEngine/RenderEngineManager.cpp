@@ -74,3 +74,8 @@ void RenderEngineManager::addDeviceAction(DXDispositif::Action action)
 {
     m_device.addDispositifAction(action);
 }
+
+void RenderEngineManager::askWritePointCloudToObj(const std::string& path)
+{
+    RenderSceneManager::instance().askWritePointCloudToObj(path);
+}

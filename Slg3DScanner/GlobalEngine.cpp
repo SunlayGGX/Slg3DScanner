@@ -13,6 +13,7 @@
 
 #include "ITask.h"
 #include "InputTask.h"
+#include "ThreadManager.h"
 
 using namespace Slg3DScanner;
 
@@ -40,6 +41,7 @@ void GlobalEngine::initialize()
 
     this->startInputAndWindowsThread();
 
+    ThreadManager::instance().initialize();
     TimeManager::instance().initialize();
     SlgCoreEngine::instance().initialize();
 
@@ -52,6 +54,7 @@ void GlobalEngine::destroy()
 
     this->internalDestroyAllTasks();
 
+    ThreadManager::instance().destroy();
     TimeManager::instance().destroy();
     SlgCoreEngine::instance().destroy();
 

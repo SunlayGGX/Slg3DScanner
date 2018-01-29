@@ -51,6 +51,12 @@
     <ClInclude Include="DelaunayComputator.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="CloudMerger.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="ComputationTree.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SlgSurfaceComputationPCH.cpp">
@@ -90,6 +96,12 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="DelaunayComputatorSimpleTriangulation.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="CloudMerger.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ComputationTree.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

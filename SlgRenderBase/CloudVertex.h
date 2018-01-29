@@ -29,6 +29,12 @@ namespace Slg3DScanner
         {}
 
         ~CloudVertex() = default;
+
+    public:
+        FORCEINLINE std::string prettyPrintObjStream() const
+        {
+            return "v " + std::to_string(m_vertex.x) + ' ' + std::to_string(m_vertex.y) + ' ' + std::to_string(m_vertex.z) + '\n';
+        }
     };
 
     struct InternalCloudMesh

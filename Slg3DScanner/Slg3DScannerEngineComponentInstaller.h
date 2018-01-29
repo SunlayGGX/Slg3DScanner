@@ -2,5 +2,5 @@
 
 namespace Slg3DScanner
 {
-    extern void autoAllocateAndInstallSlgSingleton();
+    extern void autoAllocateAndInstallSlgSingleton(int argc, char** argv);
 }

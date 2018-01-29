@@ -9,7 +9,7 @@ using Slg3DScanner::Slg3DScannerApplication;
 
 Slg3DScannerApplication::Slg3DScannerApplication(int argc, char** argv)
 {
-    Slg3DScanner::autoAllocateAndInstallSlgSingleton();
+    Slg3DScanner::autoAllocateAndInstallSlgSingleton(argc, argv);
 }
 
 Slg3DScannerApplication::~Slg3DScannerApplication()

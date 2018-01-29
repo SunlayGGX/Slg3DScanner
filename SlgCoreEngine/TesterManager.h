@@ -69,5 +69,6 @@ namespace Slg3DScanner
         void test(SLG_TEST_ORDER_MAKE(LoadPointCloud));
         void test(SLG_TEST_ORDER_MAKE(LoadPointCloudSimple));
         void test(SLG_TEST_ORDER_MAKE(LoadPointCloudTranslatedSimple));
+        void test(SLG_TEST_ORDER_MAKE(WriteAllPointCloudToObj));
     };
 }

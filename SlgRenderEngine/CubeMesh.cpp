@@ -140,6 +140,8 @@ CubeMesh::CubeMesh(const CubeMeshInitializer& cubeMeshInitializer) :
     initData.pSysMem = indexBuffer;
 
     DXTry(device->CreateBuffer(&bufferDesc, &initData, &m_indexBuffer));
+
+    m_ready = true;
 }
 
 CubeMesh::~CubeMesh()

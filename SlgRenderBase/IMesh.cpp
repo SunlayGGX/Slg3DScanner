@@ -9,7 +9,8 @@ IMesh::IMesh(const IMeshInitializer& other) :
     NamedObject{ other.name },
     m_meshParams{other.meshParameters },
     m_vertexBuffer{ nullptr },
-    m_indexBuffer{ nullptr }
+    m_indexBuffer{ nullptr },
+    m_ready{ false }
 {
 
 }
@@ -52,4 +53,9 @@ void IMesh::destroy()
 void IMesh::update(float deltaTime)
 {
 
+}
+
+bool IMesh::writeToObj(const std::string& objPath)
+{
+    return false;
 }

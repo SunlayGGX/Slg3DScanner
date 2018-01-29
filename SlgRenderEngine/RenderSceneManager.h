@@ -53,6 +53,8 @@ namespace Slg3DScanner
     private:
         std::size_t internalFindIndexOfMeshByName(const std::string& meshName) const;
 
+    public:
+        void askWritePointCloudToObj(const std::string& path);
 
     public:
         template<class MeshType, class MeshInitializer>

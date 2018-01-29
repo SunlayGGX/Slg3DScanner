@@ -55,3 +55,8 @@ void PointCloudAlgorithm::computeInputCloudVertexToFinalCloudVertexSimple(Slg3DS
 
     cloud.transferToFinal(outFinalCloudMesh);
 }
+
+void PointCloudAlgorithm::computeInputCloudVertexToFinalCloudVertexSimpleWithPoisson(Slg3DScanner::InternalCloudMesh& outFinalCloudMesh, const Slg3DScanner::InputCloudVertex* inInputedVertexes, std::size_t inputedVertexCount, DirectX::XMFLOAT3& scannerDir)
+{
+
+}

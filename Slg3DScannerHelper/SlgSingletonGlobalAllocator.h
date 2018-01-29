@@ -36,6 +36,7 @@ namespace Slg3DScanner
         static void deallocate()
         {
             SingletonType::s_instance->~SingletonType();
+            SingletonType::s_instance = nullptr;
         }
     };
 

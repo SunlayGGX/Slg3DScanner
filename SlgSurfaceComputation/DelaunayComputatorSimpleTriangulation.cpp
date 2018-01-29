@@ -5,6 +5,8 @@
 
 #include "SlgMath.h"
 
+#include "EngineConfig.h"
+
 #include <algorithm>
 
 //#define TEST
@@ -98,7 +100,7 @@ namespace Slg3DScanner
 
 void DelaunayComputator::compute(SimpleTriangulation)
 {
-    this->scanSort();
+    this->scanSort(); //not mandatory with Simple Triangulation method but it is important since the points are not ordonned in the same order than what is supposed by the triangulation (triangulation search the up neighbour and scan the point cloud as if the first line are below. It is the contrary before sorting -> the first line point are higher)
     this->triangulate();
 }
 
@@ -134,6 +136,11 @@ DelaunayTriangle::IndexType DelaunayComputator::searchUpNeighbour(DelaunayTriang
         const DirectX::XMFLOAT2& currentCheckedPointPosition = m_pointList[pointIndex].getProjectedPosition();
         if(currentCheckedPointPosition.y > basePointPosition.y)
         {
+            /*if(abs(currentCheckedPointPosition.x - basePointPosition.x) < 0.0001f)
+            {
+                return pointIndex;
+            }*/
+
             float currentDist = Slg3DScanner::distanceSquaredBetween(basePointPosition, currentCheckedPointPosition);
             
             if(currentDist <= minDist)
@@ -166,7 +173,7 @@ void DelaunayComputator::triangulate()
     test.m_vertex.z = 0.f;
 
     DirectX::XMFLOAT3 planeOrigin{ 0.f, 0.f, 0.f };
-    DirectX::XMFLOAT3 planeRight{ -1.f, 0.f, 0.f };
+    DirectX::XMFLOAT3 planeRight{ 1.f, 0.f, 0.f };
     DirectX::XMFLOAT3 planeUp{ 0.f, 1.f, 0.f };
 
     constexpr const float advance = 2.f / 5.f;
@@ -185,7 +192,7 @@ void DelaunayComputator::triangulate()
     */
 #endif
 
-    DelaunayDetail::QuadHelper quadHelp{ m_pointList, 0.00025f };
+    DelaunayDetail::QuadHelper quadHelp{ m_pointList, Slg3DScanner::THRESHOLD_ABERRANT_TRIANGLE };
 
     DelaunayTriangle tmpUpTriangle{ 0, 0, 0 };
     bool tmpUpValid;

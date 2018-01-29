@@ -11,13 +11,13 @@
 
 #include <experimental/filesystem>
 #include <future>
+#include <fstream>
 
 using namespace Slg3DScanner;
 
 CloudMesh::CloudMesh(const CloudMeshInitializer& cloudMeshInitializer) :
     NamedObject{ cloudMeshInitializer.name },
     Mesh{ cloudMeshInitializer },
-    m_initialized{ false },
     m_cloudTopology{ static_cast<D3D11_PRIMITIVE_TOPOLOGY>(CloudMesh::CURRENT_INDEX_TOPOLOGY) },
     m_version{ CloudMesh::Version::UNKNOWN }
 {
@@ -75,7 +75,7 @@ void CloudMesh::setCloudFile(const std::vector<std::string>& cloudFileName)
 
 void CloudMesh::draw(ID3D11DeviceContext* immediateContext, const PreInitializeCBufferParameterFromRendererSceneManager& preInitShadingCBuffer)
 {
-    if(m_initialized)
+    if(this->isReady())
     {
         D3D11_PRIMITIVE_TOPOLOGY oldPrimitiveTopology;
         immediateContext->IAGetPrimitiveTopology(&oldPrimitiveTopology);
@@ -114,7 +114,7 @@ void CloudMesh::draw(ID3D11DeviceContext* immediateContext, const PreInitializeC
 
 void CloudMesh::readCloudFile()
 {
-    m_initialized = false;
+    m_ready = false;
 
     std::thread
     {
@@ -173,7 +173,7 @@ void CloudMesh::readCloudFile()
 
         this->internalSendDataToGraphicCard();
 
-        m_initialized = true;
+        m_ready = true;
     } }.detach();
 }
 
@@ -226,4 +226,30 @@ void CloudMesh::internalSendDataToGraphicCard()
     }
     
     DXTry(device->CreateBuffer(&bufferDesc, &initData, &m_indexBuffer));
+}
+
+bool CloudMesh::writeToObj(const std::string& objPath)
+{
+    if(std::experimental::filesystem::exists(std::experimental::filesystem::path{ objPath }.parent_path()))
+    {
+        std::ofstream fileStream{ objPath };
+
+        if (fileStream.is_open())
+        {
+            std::for_each(m_cloud.m_vertexes.begin(), m_cloud.m_vertexes.end(), [&fileStream](const CloudMesh::VertexType& vertex)
+            {
+                fileStream << vertex.prettyPrintObjStream();
+            });
+
+            const auto endIter = m_cloud.m_indexes.size();
+            for(auto indexIter = 0; indexIter < endIter; indexIter += 3)
+            {
+                fileStream << "f " << m_cloud.m_indexes[indexIter] + 1 << ' ' << m_cloud.m_indexes[indexIter + 1] + 1 << ' ' << m_cloud.m_indexes[indexIter + 2] + 1 << '\n';
+            }
+
+            return true;
+        }
+    }
+
+    return false;
 }
